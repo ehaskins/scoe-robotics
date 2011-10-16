@@ -1,0 +1,19 @@
+
+**** Build of configuration Debug for project RobotTemplate ****
+
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega2560 RobotTemplate.elf
+AVR Memory Usage
+----------------
+Device: atmega2560
+
+Program:    4644 bytes (1.8% Full)
+(.text + .data + .bootloader)
+
+Data:        852 bytes (10.4% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
