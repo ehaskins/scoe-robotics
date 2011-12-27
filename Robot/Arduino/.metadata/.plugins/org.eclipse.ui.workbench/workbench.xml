@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="21" version="2.0">
+<workbench progressCount="20" version="2.0">
 <workbenchAdvisor/>
-<window height="768" maximized="true" width="1024" x="58" y="58">
+<window height="768" maximized="true" minimized="true" width="1024" x="58" y="58">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
 </perspectiveBar>
 <coolbarLayout locked="0">
 <coolItem id="group.file" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="153" y="30"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="169" y="30"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
 <coolItem id="de.innot.avreclipse.actionset.avrdude" itemType="typeToolBarContribution" x="46" y="30"/>
 <coolItem id="org.eclipse.cdt.ui.CElementCreationActionSet" itemType="typeToolBarContribution" x="167" y="30"/>
@@ -17,7 +17,7 @@
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="99" y="30"/>
 <coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="107" y="30"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="30"/>
+<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
@@ -35,13 +35,15 @@
 <part id="3"/>
 <part id="4"/>
 <part id="5"/>
+<part id="6"/>
+<part id="7"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Main.cpp" partName="Main.cpp" path="C:/Users/ehaskins/Code Local/CARD - 2011/Robot/Arduino/RobotTemplate/Main.cpp" title="Main.cpp" tooltip="RobotTemplate/Main.cpp" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Main.cpp" partName="Main.cpp" path="C:/Users/ehaskins/Code Local/CARD - 2011/Robot/Arduino/RobotTemplate/Main.cpp" title="Main.cpp" tooltip="RobotTemplate/Main.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/RobotTemplate/Main.cpp"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="532" selectionTopPixel="129"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="465" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="NonUserStuff.h" partName="NonUserStuff.h" path="C:/Users/ehaskins/Code Local/CARD - 2011/Robot/Arduino/RobotTemplate/NonUserStuff.h" title="NonUserStuff.h" tooltip="RobotTemplate/NonUserStuff.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/RobotTemplate/NonUserStuff.h"/>
@@ -62,6 +64,14 @@
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="HardwareSerial.cpp" partName="HardwareSerial.cpp" path="C:/Users/ehaskins/Code Local/CARD - 2011/Robot/Arduino/Arduino/HardwareSerial.cpp" title="HardwareSerial.cpp" tooltip="Arduino/HardwareSerial.cpp" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Arduino/HardwareSerial.cpp"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8369" selectionTopPixel="4145"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Configuration.cpp" partName="Configuration.cpp" path="C:/Users/ehaskins/Code Local/CARD - 2011/Robot/Arduino/Arduino/FrcComms/Configuration.cpp" title="Configuration.cpp" tooltip="Arduino/FrcComms/Configuration.cpp" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Arduino/FrcComms/Configuration.cpp"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Configuration.h" partName="Configuration.h" path="C:/Users/ehaskins/Code Local/CARD - 2011/Robot/Arduino/Arduino/FrcComms/Configuration.h" title="Configuration.h" tooltip="Arduino/FrcComms/Configuration.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Arduino/FrcComms/Configuration.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="425"/>
 </editor>
 </editors>
 <views>
@@ -214,6 +224,8 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Arduino/WProgram.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Arduino/HardwareSerial.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Arduino/HardwareSerial.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Arduino/FrcComms/Configuration.cpp"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Arduino/FrcComms/Configuration.h"/>
 </editors>
 <item historyLabel="Main.cpp" index="0">
 <position info="not_deleted" x="330" y="0"/>
@@ -236,8 +248,14 @@
 <item historyLabel="Main.cpp" index="0">
 <position info="not_deleted" x="330" y="0"/>
 </item>
-<item active="true" historyLabel="Main.cpp" index="0">
+<item historyLabel="Main.cpp" index="0">
 <position/>
+</item>
+<item historyLabel="Configuration.cpp" index="6">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="Configuration.h" index="7">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -256,6 +274,12 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Configuration.h" tooltip="Arduino/FrcComms/Configuration.h">
+<persistable path="/Arduino/FrcComms/Configuration.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Configuration.cpp" tooltip="Arduino/FrcComms/Configuration.cpp">
+<persistable path="/Arduino/FrcComms/Configuration.cpp"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="HardwareSerial.cpp" tooltip="Arduino/HardwareSerial.cpp">
 <persistable path="/Arduino/HardwareSerial.cpp"/>
 </file>
