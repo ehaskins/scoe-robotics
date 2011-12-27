@@ -16,10 +16,11 @@ class RobotModel {
 public:
 	RobotModel();
 	void update(unsigned char data[], unsigned int offset, unsigned int length);
-	void getStatusData(unsigned char data[], unsigned int offset, unsigned int &position);
+	void getStatus(unsigned char data[], unsigned int offset, unsigned short *position);
 
-	RobotModelSection Sections[MAX_MODEL_SECTIONS];
-	int SectionCount;
+	RobotModelSection *sections[MAX_MODEL_SECTIONS];
+	bool addSection(RobotModelSection *section);
+	int sectionCount;
 };
 
 #endif /* ROBOTMODEL_H_ */

@@ -11,6 +11,12 @@ Install WinAVR
 Merge C:\arduino-0022\hardware\tools\avr into c:\WinAVR-...
 Copy "C:\WinAVR-20081205\etc\avrdude.conf" to "C:\WinAVR-20081205\bin\avrdude.conf"
 
+Create workspace:
+Open Eclipse with workspace set to [LOCAL_REPO]\src\Arduino\ where [LOCAL_REPO] is the location of the local source tree.
+Close the welcome tab.
+Right click in the project explorer, select Import.
+Click browse, and browse to [LOCAL_REPO]\src\Arduino\
+At least the 'Arduino' and 'RobotTemplate' projects should be found, select any in the list and finish.
 
 Programmer Configuration:
 Open "Robot template" properties

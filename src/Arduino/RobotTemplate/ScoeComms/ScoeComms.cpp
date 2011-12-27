@@ -17,28 +17,28 @@ ScoeComms::ScoeComms() {
 void ScoeComms::poll(){
 	if (checkSerial()){
 		robotModel.update(receiveBuffer, 6, packetDataLength);
-
+		sendStatus();
 	}
 }
 
 void ScoeComms::sendStatus(){
 	unsigned short length;
-	robotModel.getStatusData(transmitBuffer, 0, &length);
+	robotModel.getStatus(transmitBuffer, 0, &length);
 
 	unsigned long packetCrc = crc(transmitBuffer, length);
 	unsigned char headerBytes[8] = {SPC_COMMAND, CMD_NEWPACKET, 0, 0, 0, 0, 0, 0};
-	writeUInt32(headerBytes, crcBytes, 2);
+	writeUInt32(headerBytes, packetCrc, 2);
 	writeUInt16(headerBytes, length, 6);
 
 	for(int i = 0; i < 6; i++){
 		commSerial->write(headerBytes[i]);
 	}
 
-	for(int i = 0; i < length; i++){
+	for(unsigned int i = 0; i < length; i++){
 		unsigned char byte = transmitBuffer[i];
 
 		if (byte > 254){
-			commSerial->write(CMD_ESCAPE);
+			commSerial->write(SPC_ESCAPE);
 		}
 		commSerial->write(byte);
 	}
