@@ -32,7 +32,7 @@ namespace Scoe.Beagle.Shared.Interface.Arduino
         bool isEnabled = false;
         bool isStopped = false;
 
-        public SerialWrapper(string port, Delegate receiveCallback, int baud = 9600)
+        public ArduinoSerialWrapper(string port, Delegate receiveCallback, int baud = 9600)
         {
             serialPort = new SerialPort(port, baud);
             callback = receiveCallback;

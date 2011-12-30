@@ -11,11 +11,30 @@ namespace Scoe.Beagle.MecanumDemoBot
     {
         public static void Main(string[] args)
         {
-            var robot = new MecanumDemoBot(new FrcConnection(6), new ArduinoConnection("COM3"));
-            robot.Run();
+            //var robot = new MecanumDemoBot(new FrcConnection(6), new ArduinoConnection("COM3"));
+            //robot.Run();
         }
     }
-    public class MecanumDemoBot : GroundRobotModel
+    public class IterativeRobotBase
+    {
+        public IterativeRobotBase()
+        {
+
+        }
+
+        public void Run()
+        {
+            //TODO: Implement run
+        }
+
+        public virtual void TeleopInit() { }
+        public virtual void TeleopLoop() { }
+        public virtual void AutonomousInit() { }
+        public virtual void AutonomousLoop() { }
+        public virtual void DisabledInit() { }
+        public virtual void DisabledLoop() { }
+    }
+    public class MecanumDemoBot : IterativeRobotBase
     {
         ulong teleopCount = 0;
         public override void TeleopInit()

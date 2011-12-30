@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 
 namespace EHaskins.Frc.Communication
@@ -7,12 +7,10 @@ namespace EHaskins.Frc.Communication
     {
         public BindableBitField8()
         {
-
         }
         public BindableBitField8(byte value)
             : base(value)
         {
-
         }
 
         public override byte RawValue

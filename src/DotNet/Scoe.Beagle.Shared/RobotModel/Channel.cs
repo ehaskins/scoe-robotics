@@ -7,9 +7,9 @@ namespace Scoe.Beagle.Shared.RobotModel
     public abstract class Channel<TValue> : NotifyObject
     {
         private TValue _Value;
-        private ushort _Pin;
+        private byte _Pin;
 
-        public ushort Pin
+        public byte Pin
         {
             get
             {
