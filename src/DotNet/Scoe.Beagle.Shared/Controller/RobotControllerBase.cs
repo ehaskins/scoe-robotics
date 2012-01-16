@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EHaskins.Utilities;
 
-namespace Scoe.Beagle.Shared.RobotController
+namespace Scoe.Robot.Shared.RobotController
 {
     public abstract class RobotControllerBase<TModel, TInterface> : NotifyObject
         where TModel : RobotModel.RobotModel
-        where TInterface : Interface.RobotInterfaceBase<TModel>
+        where TInterface : Interface.RobotInterfaceBase
     {
 
     }

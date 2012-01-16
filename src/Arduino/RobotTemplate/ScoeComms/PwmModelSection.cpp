@@ -18,7 +18,7 @@ PwmModelSection::PwmModelSection(unsigned int minPulse, unsigned int maxPulse) {
 	}
 }
 
-void PwmModelSection::update(bool robotDisabled, unsigned char data[], unsigned int offset){
+void PwmModelSection::update(unsigned char data[], unsigned int offset){
 	unsigned char count = data[offset++];
 	if (count > MAX_PWMS)
 		count = MAX_PWMS;
@@ -27,14 +27,18 @@ void PwmModelSection::update(bool robotDisabled, unsigned char data[], unsigned 
 		unsigned char pin = data[offset++];
 		unsigned char value = data[offset++];
 
-		pwmDefinitions[i].update(!robotDisabled, pin, value);
+		pwmDefinitions[i].update(pin, value);
 	}
 	if (count < MAX_PWMS){
 		for (int i = count; i < MAX_PWMS; i++){
-			pwmDefinitions[i].update(false, 0, 0);
+			pwmDefinitions[i].update(0, 0);
 		}
 	}
 }
 void PwmModelSection::getStatus(unsigned char data[], unsigned int offset, unsigned short *position){
 	//PWM has no status
+}
+
+void PwmModelSection::disableOutputs(){
+
 }

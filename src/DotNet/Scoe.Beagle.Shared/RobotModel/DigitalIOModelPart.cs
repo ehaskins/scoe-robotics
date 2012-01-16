@@ -4,9 +4,9 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using EHaskins.Utilities.Binary;
 
-namespace Scoe.Beagle.Shared.RobotModel
+namespace Scoe.Robot.Shared.RobotModel
 {
-    public class DigitalIOModelPart : RobotModelPart
+    public class DigitalIOModelPart : RobotModelSection
     {
         public DigitalIOModelPart()
             : base(2)

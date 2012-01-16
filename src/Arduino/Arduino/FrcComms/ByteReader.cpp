@@ -23,7 +23,7 @@ unsigned char readUInt8(unsigned char data[], int *offset){
 	return out;
 }
 unsigned short readUInt16(unsigned char data[], int *offset){
-	unsigned short out = (data[*offset] << 8) + (data[*offset + 1]);
+	unsigned short out = (data[*offset + 1] << 8) + (data[*offset]);
 	/*unsigned char byteCount = 2;
 	for (int i = 0; i < byteCount; i++){
 		out += data[*offset + byteCount - i] << (8 * i);
@@ -33,10 +33,10 @@ unsigned short readUInt16(unsigned char data[], int *offset){
 }
 unsigned long readUInt32(unsigned char data[], int *offset){
 	unsigned long out =
-			((unsigned long)data[*offset] << 24) +
-			((unsigned long)data[*offset + 1] << 16) +
-			((unsigned long)data[*offset + 2] << 8) +
-			((unsigned long)data[*offset + 3]);
+			((unsigned long)data[*offset + 3] << 24) +
+			((unsigned long)data[*offset + 2] << 16) +
+			((unsigned long)data[*offset + 1] << 8) +
+			((unsigned long)data[*offset]);
 	/*unsigned char byteCount = 2;
 	for (int i = 0; i < byteCount; i++){
 		out += data[*offset + byteCount - i] << (8 * i);
@@ -46,14 +46,14 @@ unsigned long readUInt32(unsigned char data[], int *offset){
 }
 unsigned long long readUInt64(unsigned char data[], int *offset){
 	unsigned long long out =
-			((unsigned long long)data[*offset] << 56) +
-			((unsigned long long)data[*offset + 1] << 48) +
-			((unsigned long long)data[*offset + 2] << 40) +
-			((unsigned long long)data[*offset + 3] << 32) +
-			((unsigned long long)data[*offset + 4] << 24) +
-			((unsigned long long)data[*offset + 5] << 16) +
-			((unsigned long long)data[*offset + 6] << 8) +
-			((unsigned long long)data[*offset + 7]);
+			((unsigned long long)data[*offset + 7] << 56) +
+			((unsigned long long)data[*offset + 6] << 48) +
+			((unsigned long long)data[*offset + 5] << 40) +
+			((unsigned long long)data[*offset + 4] << 32) +
+			((unsigned long long)data[*offset + 3] << 24) +
+			((unsigned long long)data[*offset + 2] << 16) +
+			((unsigned long long)data[*offset + 1] << 8) +
+			((unsigned long long)data[*offset + 0]);
 	/*unsigned char byteCount = 2;
 	for (int i = 0; i < byteCount; i++){
 		out += data[*offset + byteCount - i] << (8 * i);

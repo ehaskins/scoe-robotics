@@ -78,9 +78,11 @@
     <Compile Include="Binary\BitField32.cs" />
     <Compile Include="Binary\BitField8.cs" />
     <Compile Include="Crc32.cs" />
+    <Compile Include="Matrix3.cs" />
     <Compile Include="MicroStopwatch.cs" />
     <Compile Include="MicroTimer.cs" />
     <Compile Include="NotificationObject.cs" />
+    <Compile Include="NotifyObject.cs" />
     <Compile Include="NumericExtensions\DoubleExtensions.cs" />
     <Compile Include="IDisposableExtensions.cs" />
     <Compile Include="MagicAttribute.cs" />

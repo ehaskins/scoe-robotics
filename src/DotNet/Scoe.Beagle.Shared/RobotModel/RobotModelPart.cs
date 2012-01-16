@@ -1,25 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EHaskins.Utilities;
 
-namespace Scoe.Beagle.Shared.RobotModel
+namespace Scoe.Robot.Shared.RobotModel
 {
-    public abstract class RobotModelPart : NotifyObject
+    public abstract class RobotModelSection : NotifyObject
     {
-        public RobotModelPart(int sectionId)
+        public RobotModelSection(byte sectionId)
         {
-            ModelSectionId = sectionId;
+            SectionId = sectionId;
         }
-        private int _ModelSectionId;
-        public int ModelSectionId
+        private byte _SectionId;
+        public byte SectionId
         {
-            get { return _ModelSectionId; }
+            get { return _SectionId; }
             set
             {
-                if (_ModelSectionId == value)
+                if (_SectionId == value)
                     return;
-                _ModelSectionId = value;
-                RaisePropertyChanged("ModelSectionId");
+                _SectionId = value;
+                RaisePropertyChanged("SectionId");
             }
         }
 

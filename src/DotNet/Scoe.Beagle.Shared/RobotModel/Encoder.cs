@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EHaskins.Utilities;
 
-namespace Scoe.Beagle.Shared.RobotModel
+namespace Scoe.Robot.Shared.RobotModel
 {
     public class Encoder : NotifyObject
     {

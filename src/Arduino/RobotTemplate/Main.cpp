@@ -1,40 +1,44 @@
 #include <WProgram.h>
 #include "UserCode.h"
 #include "UserConstants.h"
-#include <FrcComms\FRCCommunication.h>
-#include <FrcComms\Configuration.h>
 #include <Ethernet.h>
 #include <FrcComms\CRC32.h>
 #include "ScoeComms\ScoeComms.h"
-//const int interval = 250; //Milliseconds
-Configuration *config;
-FRCCommunication *comm;
-UserRobot robot;
-ScoeComms *beagleComm;
+#include "ScoeComms\RslModelSection.h"
+#include "ScoeComms\PwmModelSection.h"
+
+ScoeComms beagleComm;
 
 int main() {
 	setup();
 	while (true) {
 		loop();
 	}
-	//Unreachable code but it's required by
-	//the compiler
+	//Unreachable code but it's required by the compiler
 	return 0;
 }
 
 void setup() {
 	init();
-	beagleComm = new ScoeComms();
-	beagleComm->commSerial = &Serial;
-	Serial.begin(9600);
 
+	Serial.begin(115200);
+	Serial.println("1.");
+	RslModelSection * rsl = new RslModelSection();
+	PwmModelSection * pwm = new PwmModelSection(1500, 2500);
+	beagleComm.init();
+	Serial.println("2.");
+	beagleComm.robotModel.addSection(rsl);
+	beagleComm.robotModel.addSection(pwm);
+	//beagleComm->commSerial = &Serial;
 	Serial.println("Ready.");
-
 }
 
 unsigned long lastLoopTime = 0;
 unsigned long nextLoopTime = 0;
 unsigned long fixedLoopPeriod = 0;
 void loop() {
-	beagleComm->poll();
+	beagleComm.poll();
+	/*while (Serial.available()){
+		Serial.write(Serial.read());
+	}*/
 }

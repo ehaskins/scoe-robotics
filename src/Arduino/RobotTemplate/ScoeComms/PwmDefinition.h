@@ -17,8 +17,7 @@ public:
 	unsigned int minPulse;
 	unsigned int maxPulse;
 	Servo pwmDriver;
-	void update(bool attach, unsigned char pin, unsigned char value);
-	virtual ~PwmDefinition();
+	void update(unsigned char pin, unsigned char value);
 private:
 	unsigned char lastPin;
 };

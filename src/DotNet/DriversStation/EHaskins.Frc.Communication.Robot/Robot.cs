@@ -1,11 +1,8 @@
 using System;
 using EHaskins.Utilities;
-#if NETMF
-using Microsoft.SPOT;
-#else
 using System.Diagnostics;
 using System.Timers;
-#endif
+
 namespace EHaskins.Frc.Communication.Robot
 {
     public class FrcCommsClient
@@ -114,7 +111,6 @@ namespace EHaskins.Frc.Communication.Robot
                     Connection.TeamNumber = value;
             }
         }
-
 
         private void WatchDogElapsed(object sender, EventArgs e)
         {

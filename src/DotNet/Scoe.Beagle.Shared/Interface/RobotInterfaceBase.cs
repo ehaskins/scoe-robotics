@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EHaskins.Utilities;
 
-namespace Scoe.Beagle.Shared.Interface
+namespace Scoe.Robot.Shared.Interface
 {
-    public abstract class RobotInterfaceBase<TModel> : NotifyObject
-            where TModel : RobotModel.RobotModel
+    public abstract class RobotInterfaceBase: NotifyObject
     {
         public RobotInterfaceBase()
         {
@@ -19,18 +19,18 @@ namespace Scoe.Beagle.Shared.Interface
                 UpdatedRobotModel(this, null);
         }
 
-        private TModel _RobotModel;
-        public TModel RobotModel
+        private RobotModel.RobotModel _Model;
+        public RobotModel.RobotModel Model
         {
             get
             {
-                return _RobotModel;
+                return _Model;
             }
             set
             {
-                if (_RobotModel == value)
+                if (_Model == value)
                     return;
-                _RobotModel = value;
+                _Model = value;
                 RaisePropertyChanged("RobotModel");
             }
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 
-namespace Scoe.Beagle.Shared.RobotModel
+namespace Scoe.Robot.Shared.RobotModel
 {
-    public class AnalogIOModelPart : RobotModelPart
+    public class AnalogIOModelPart : RobotModelSection
     {
         public AnalogIOModelPart()
             : base(3)

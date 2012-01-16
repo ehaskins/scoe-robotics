@@ -9,8 +9,11 @@
 #define SCOECOMMS_H_
 #include <Stream.h>
 #include "RobotModel.h"
-#define RECEIVE_BUFFER_SIZE 512
-#define TRANSMIT_BUFFER_SIZE 512
+#define RECEIVE_BUFFER_SIZE 100
+#define TRANSMIT_BUFFER_SIZE 100
+
+//Time in ms before output is disabled due to no communication.
+#define RECEIVE_SAFTEY_DELAY 500 //TODO: Set back to reasonable level
 
 //Receive states
 #define READ 0
@@ -24,28 +27,22 @@
 //Command chars
 #define CMD_NEWPACKET 255
 
-//PacketStatus
-#define READY 0
-#define READING 1
-#define CORRUPT 2
-
 class ScoeComms {
 public:
-	Stream *commSerial;
 	ScoeComms();
+	void init();
 	void poll();
-	unsigned int corruptPacketCount;
-	unsigned int oversizePacketCount;
-	unsigned int packetCount;
 	RobotModel robotModel;
 private:
 	unsigned char receiveBuffer[RECEIVE_BUFFER_SIZE];
 	unsigned char transmitBuffer[TRANSMIT_BUFFER_SIZE];
 	unsigned int receiveBufferPosition;
-	unsigned char readState;
-	unsigned char packetState;
-	unsigned int packetCrc;
+	unsigned char lastByte;
+	bool isWaiting;
+	unsigned long packetCrc;
 	unsigned short packetDataLength;
+
+	unsigned long lastDataReceived;
 	bool checkSerial();
 	void sendStatus();
 };

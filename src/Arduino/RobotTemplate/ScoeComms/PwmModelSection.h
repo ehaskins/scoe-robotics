@@ -19,8 +19,11 @@ public:
 	PwmDefinition pwmDefinitions[MAX_PWMS];
 	unsigned int minPulse;
 	unsigned int maxPulse;
-	virtual void update(bool robotDisabled, unsigned char data[], unsigned int offset);
+	virtual void update(unsigned char data[], unsigned int offset);
 	virtual void getStatus(unsigned char data[], unsigned int offset, unsigned short *position);
+	virtual void disableOutputs();
+private:
+	bool isOutputEnabled;
 };
 
 #endif /* PWMMODELSECTION_H_ */

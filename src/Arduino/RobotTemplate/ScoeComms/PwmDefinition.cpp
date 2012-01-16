@@ -12,18 +12,18 @@ PwmDefinition::PwmDefinition() {
 
 }
 
-void PwmDefinition::update(bool attach, unsigned char pin, unsigned char value){
-	if (attach && !isAttached)
+void PwmDefinition::update(unsigned char pin, unsigned char value){
+	if (pin != 0 && !isAttached)
 		pwmDriver.attach(pin);
-	else if (!attach && isAttached)
+	else if (pin == 0 && isAttached)
 		pwmDriver.detach();
 
-	if (pin != lastPin && attach){
+	if (pin != lastPin && pin != 0){
 		pwmDriver.detach();
 		pwmDriver.attach(pin);
 	}
 
-	if (attach)
+	if (isAttached)
 		pwmDriver.writeMicroseconds(map(value, 0, 255, minPulse, maxPulse));
 
 	lastPin = pin;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 
-namespace Scoe.Beagle.Shared.RobotModel
+namespace Scoe.Robot.Shared.RobotModel
 {
-    public class PwmModelPart : RobotModelPart
+    public class PwmModelPart : RobotModelSection
     {
         public PwmModelPart()
             : base(1)
@@ -18,7 +18,7 @@ namespace Scoe.Beagle.Shared.RobotModel
             data[offset++] = (byte)PwmOutputs.Count;
             foreach (PwmOutput pwmOutput in PwmOutputs)
             {
-                data[offset++] = pwmOutput.Pin;
+                data[offset++] = pwmOutput.Enabled ? pwmOutput.Pin : (byte)0;
                 data[offset++] = pwmOutput.Value;
             }
         }

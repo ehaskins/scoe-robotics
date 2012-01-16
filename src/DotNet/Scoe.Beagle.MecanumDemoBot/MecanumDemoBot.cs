@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Scoe.Beagle.Shared;
-using Scoe.Beagle.Shared.RobotModel;
+using Scoe.Robot.Shared;
+using Scoe.Robot.Shared.RobotModel;
 
-namespace Scoe.Beagle.MecanumDemoBot
+namespace Scoe.Robot.MecanumDemoBot
 {
     public class Startup
     {

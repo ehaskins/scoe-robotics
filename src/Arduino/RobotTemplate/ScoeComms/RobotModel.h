@@ -15,8 +15,10 @@
 class RobotModel {
 public:
 	RobotModel();
+	void init();
 	void update(unsigned char data[], unsigned int offset, unsigned int length);
 	void getStatus(unsigned char data[], unsigned int offset, unsigned short *position);
+	void loop(bool safteyTripped);
 
 	RobotModelSection *sections[MAX_MODEL_SECTIONS];
 	bool addSection(RobotModelSection *section);
