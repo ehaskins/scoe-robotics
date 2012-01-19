@@ -6,6 +6,8 @@
 #include "ScoeComms\ScoeComms.h"
 #include "ScoeComms\RslModelSection.h"
 #include "ScoeComms\PwmModelSection.h"
+#include "ScoeComms\AnalogIOSection.h"
+#include "ScoeComms\DioSection.h"
 
 ScoeComms beagleComm;
 
@@ -25,10 +27,14 @@ void setup() {
 	Serial.println("1.");
 	RslModelSection * rsl = new RslModelSection();
 	PwmModelSection * pwm = new PwmModelSection(1500, 2500);
+	AnalogIOSection *analog = new AnalogIOSection();
+	DioSection *dio = new DioSection();
 	beagleComm.init();
 	Serial.println("2.");
 	beagleComm.robotModel.addSection(rsl);
 	beagleComm.robotModel.addSection(pwm);
+	beagleComm.robotModel.addSection(analog);
+	beagleComm.robotModel.addSection(dio);
 	//beagleComm->commSerial = &Serial;
 	Serial.println("Ready.");
 }

@@ -8,6 +8,7 @@
 #include "PwmModelSection.h"
 
 PwmModelSection::PwmModelSection(unsigned int minPulse, unsigned int maxPulse) {
+	init();
 	sectionId=1;
 	this->minPulse = minPulse;
 	this->maxPulse = maxPulse;
@@ -35,7 +36,7 @@ void PwmModelSection::update(unsigned char data[], unsigned int offset){
 		}
 	}
 }
-void PwmModelSection::getStatus(unsigned char data[], unsigned int offset, unsigned short *position){
+void PwmModelSection::getStatus(unsigned char data[], unsigned int *offset){
 	//PWM has no status
 }
 

@@ -20,7 +20,7 @@ public:
 	unsigned int minPulse;
 	unsigned int maxPulse;
 	virtual void update(unsigned char data[], unsigned int offset);
-	virtual void getStatus(unsigned char data[], unsigned int offset, unsigned short *position);
+	virtual void getStatus(unsigned char data[], unsigned int *offset);
 	virtual void disableOutputs();
 private:
 	bool isOutputEnabled;

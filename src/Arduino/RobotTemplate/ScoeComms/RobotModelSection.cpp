@@ -8,14 +8,18 @@
 #include "RobotModelSection.h"
 
 RobotModelSection::RobotModelSection() {
-	// TODO Auto-generated constructor stub
+	init();
+}
+
+void RobotModelSection::init(){
 	lastIsSafteyTripped = false;
+	isActive = false;
 }
 
 void RobotModelSection::update(unsigned char data[], unsigned int offset){
 
 }
-void RobotModelSection::getStatus(unsigned char data[], unsigned int offset, unsigned short *position){
+void RobotModelSection::getStatus(unsigned char data[], unsigned int *offset){
 
 }
 

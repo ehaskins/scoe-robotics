@@ -12,13 +12,16 @@ class RobotModelSection {
 public:
 	RobotModelSection();
 	unsigned char sectionId;
+	bool isActive;
 	virtual void update(unsigned char data[], unsigned int offset);
-	virtual void getStatus(unsigned char data[], unsigned int offset, unsigned short *position);
+	virtual void getStatus(unsigned char data[], unsigned int *offset);
 	virtual void loop(bool robotEnabled);
 	virtual void disableOutputs();
 	virtual void enableOutputs();
 private:
 	bool lastIsSafteyTripped;
+protected:
+	void init();
 };
 
 #endif /* ROBOTMODELSECTION_H_ */

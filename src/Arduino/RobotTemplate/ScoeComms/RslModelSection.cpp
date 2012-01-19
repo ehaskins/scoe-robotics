@@ -11,12 +11,13 @@ RslModelSection::RslModelSection() {
 	sectionId = 0;
 	pin = 13;
 	state = 0;
+	isActive = true;
 	pinMode(pin, OUTPUT);
 }
 void RslModelSection::update(unsigned char data[], unsigned int offset){
 	state = data[offset++];
 }
-void RslModelSection::getStatus(unsigned char data[], unsigned int offset, unsigned short *position){
+void RslModelSection::getStatus(unsigned char data[], unsigned int *offset){
 	//RSL has no status
 }
 void RslModelSection::loop(bool safteyTripped){

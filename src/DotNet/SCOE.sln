@@ -5,29 +5,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Robot", "Robot", "{8D15E01C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DriverStation", "DriverStation", "{ECAE8670-4D1E-4093-9FDC-379EF19AF35F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Utilities", "DriversStation\EHaskins.Utilities\EHaskins.Utilities.csproj", "{A0F0A322-5372-4040-9394-EC661859A4F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Utilities", "EHaskins.Utilities\EHaskins.Utilities.csproj", "{A0F0A322-5372-4040-9394-EC661859A4F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Next.RobotConfiguratorCli", "DriversStation\EHaskins.Next.RobotConfiguratorCli\EHaskins.Next.RobotConfiguratorCli.csproj", "{A11BAAEF-2A29-44D3-AB4A-077CF6A200A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Next.RobotConfiguratorCli", "EHaskins.Next.RobotConfiguratorCli\EHaskins.Next.RobotConfiguratorCli.csproj", "{A11BAAEF-2A29-44D3-AB4A-077CF6A200A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.FRC.RobotEmulator", "DriversStation\EHaskins.FRC.RobotEmulator\EHaskins.FRC.RobotEmulator.csproj", "{511555F1-995E-43BD-8C9F-E4C81279DCE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.FRC.RobotEmulator", "EHaskins.FRC.RobotEmulator\EHaskins.FRC.RobotEmulator.csproj", "{511555F1-995E-43BD-8C9F-E4C81279DCE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.LapBot", "DriversStation\EHaskins.Frc.LapBot\EHaskins.Frc.LapBot.csproj", "{E644737C-37E9-4653-B54A-CC14A8B613C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.LapBot", "EHaskins.Frc.LapBot\EHaskins.Frc.LapBot.csproj", "{E644737C-37E9-4653-B54A-CC14A8B613C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.DriverStationCli", "DriversStation\EHaskins.Frc.DriverStationCli\EHaskins.Frc.DriverStationCli.csproj", "{4CB395B8-F3BE-4138-B8C3-5A4DF4372964}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.DriverStationCli", "EHaskins.Frc.DriverStationCli\EHaskins.Frc.DriverStationCli.csproj", "{4CB395B8-F3BE-4138-B8C3-5A4DF4372964}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.DSApp", "DriversStation\EHaskins.Frc.DriverStation\EHaskins.Frc.DSApp.csproj", "{0E74977B-481C-4A10-8DC7-2D3D12B9D408}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.DSApp", "EHaskins.Frc.DriverStation\EHaskins.Frc.DSApp.csproj", "{0E74977B-481C-4A10-8DC7-2D3D12B9D408}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.Shared", "DriversStation\EHaskins.Frc.Communication.Shared\EHaskins.Frc.Communication.Shared.csproj", "{2EC93CB5-6694-4B03-8DCF-BEB31720F2AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.Shared", "EHaskins.Frc.Communication.Shared\EHaskins.Frc.Communication.Shared.csproj", "{2EC93CB5-6694-4B03-8DCF-BEB31720F2AF}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EHaskins.Frc.Communication.SaveState", "DriversStation\EHaskins.Frc.Communication.SaveState\EHaskins.Frc.Communication.SaveState.vbproj", "{C292D979-B546-4CB7-B436-95A63440945F}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EHaskins.Frc.Communication.SaveState", "EHaskins.Frc.Communication.SaveState\EHaskins.Frc.Communication.SaveState.vbproj", "{C292D979-B546-4CB7-B436-95A63440945F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.RobotConfig", "DriversStation\EHaskins.Frc.Communication.RobotConfig\EHaskins.Frc.Communication.RobotConfig.csproj", "{A6995CC8-EF11-4751-8411-D02EB794B7C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.RobotConfig", "EHaskins.Frc.Communication.RobotConfig\EHaskins.Frc.Communication.RobotConfig.csproj", "{A6995CC8-EF11-4751-8411-D02EB794B7C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.Robot", "DriversStation\EHaskins.Frc.Communication.Robot\EHaskins.Frc.Communication.Robot.csproj", "{058334F9-9156-4FFF-858E-3FDB24648368}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.Robot", "EHaskins.Frc.Communication.Robot\EHaskins.Frc.Communication.Robot.csproj", "{058334F9-9156-4FFF-858E-3FDB24648368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.Recording", "DriversStation\EHaskins.Frc.Communication.Recording\EHaskins.Frc.Communication.Recording.csproj", "{3ED848C7-C472-45C7-A402-9580D83B8109}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.Recording", "EHaskins.Frc.Communication.Recording\EHaskins.Frc.Communication.Recording.csproj", "{3ED848C7-C472-45C7-A402-9580D83B8109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.DriverStation", "DriversStation\EHaskins.Frc.Communication.DriverStation\EHaskins.Frc.Communication.DriverStation.csproj", "{1A9DD489-905A-4CED-BA17-CAFACD36604F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EHaskins.Frc.Communication.DriverStation", "EHaskins.Frc.Communication.DriverStation\EHaskins.Frc.Communication.DriverStation.csproj", "{1A9DD489-905A-4CED-BA17-CAFACD36604F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scoe.Robot.Shared", "Scoe.Beagle.Shared\Scoe.Robot.Shared.csproj", "{B5488093-0DFD-4E39-A809-72233A5AB0B5}"
 EndProject

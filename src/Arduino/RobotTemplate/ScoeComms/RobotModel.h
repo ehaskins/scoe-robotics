@@ -17,7 +17,7 @@ public:
 	RobotModel();
 	void init();
 	void update(unsigned char data[], unsigned int offset, unsigned int length);
-	void getStatus(unsigned char data[], unsigned int offset, unsigned short *position);
+	void getStatus(unsigned char data[], unsigned int *offset);
 	void loop(bool safteyTripped);
 
 	RobotModelSection *sections[MAX_MODEL_SECTIONS];

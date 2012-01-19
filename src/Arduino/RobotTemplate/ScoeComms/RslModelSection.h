@@ -22,7 +22,7 @@ class RslModelSection : public RobotModelSection {
 public:
 	RslModelSection();
 	virtual void update(unsigned char data[], unsigned int offset);
-	virtual void getStatus(unsigned char data[], unsigned int offset, unsigned short *position);
+	virtual void getStatus(unsigned char data[], unsigned int *offset);
 	virtual void loop(bool safteyTripped);
 private:
 	unsigned int pin;

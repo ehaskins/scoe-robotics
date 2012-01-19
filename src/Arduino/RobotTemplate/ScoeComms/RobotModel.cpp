@@ -26,31 +26,35 @@ void RobotModel::update(unsigned char data[], unsigned int offset, unsigned int 
 		int temp = (int)offset;
 		unsigned short length = readUInt16(data, &temp); offset+=2;
 		for (int iSection = 0; iSection < sectionCount; iSection++){
-			if (sections[iSection]->sectionId == sectionId)
+			if (sections[iSection]->sectionId == sectionId){
+				sections[iSection]->isActive = true;
 				sections[iSection]->update(data, offset);
+			}
 		}
 		offset += length;
 	}
 
 }
-void RobotModel::getStatus(unsigned char data[], unsigned int offset, unsigned short *position){
-	data[*position] = sectionCount;
+void RobotModel::getStatus(unsigned char data[], unsigned int *offset){
+	data[*offset] = sectionCount;
 	for (int i = 0; i < sectionCount; i++){
-		unsigned short headerPos = *position;
-		unsigned short start = headerPos + 3;
-		(*position) += 2;
-		data[headerPos] = sections[i]->sectionId;
+		unsigned short headerPos = *offset;
+		data[(*offset)++] = sections[i]->sectionId;
+		(*offset) += 2;
+		unsigned short start = *offset;
 
-		sections[i]->getStatus(data, offset, position);
+		if (sections[i]->isActive)
+			sections[i]->getStatus(data, offset);
 		//Write length to header
-		unsigned short length = (*position) - start;
+		unsigned short length = (*offset) - start;
 		writeUInt16(data, length, headerPos + 1);
 	}
 }
 
 void RobotModel::loop(bool safteyTripped){
 	for (int i = 0; i < sectionCount; i++){
-		sections[i]->loop(safteyTripped);
+		if (sections[i]->isActive)
+			sections[i]->loop(safteyTripped);
 	}
 }
 

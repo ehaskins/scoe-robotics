@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,7 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DriversStation\EHaskins.Utilities\EHaskins.Utilities.csproj">
+    <ProjectReference Include="..\EHaskins.Utilities\EHaskins.Utilities.csproj">
       <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
       <Name>EHaskins.Utilities</Name>
     </ProjectReference>
