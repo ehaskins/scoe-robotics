@@ -1,0 +1,51 @@
+﻿<Window x:Class="RobotModelViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:RobotModelViewer"
+        xmlns:ardu="Scoe.Robot.Interface.Arduino;assembly=Scoe.Robot.Interface.Arduino"
+        Title="MainWindow" Height="350" Width="525"
+        Loaded="Window_Loaded" Closed="Window_Closed">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type ardu:RslModelSection}">
+            <GroupBox Header="Robot State">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox IsChecked="{Binding State.IsEnabled}" Content="Is Enabled"/>
+                    <CheckBox IsChecked="{Binding State.IsAutonomous}" Content="Is Autonomous"/>
+                    <CheckBox IsChecked="{Binding State.IsEStopped}" Content="Is Estopped"/>
+                    <CheckBox IsChecked="{Binding State.IsDSConnected}" Content="Is DS Connected"/>
+                    <CheckBox IsChecked="{Binding State.IsIODeviceConnected}" Content="Is IO Connected"/>
+                </StackPanel>
+            </GroupBox>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ardu:AnalogIOModelPart}">
+            <GroupBox Header="Analog Inputs">
+                <ItemsControl ItemsSource="{Binding AnalogInputs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Pin}"/>
+                                <Slider Grid.Column="1" Value="{Binding Value}" Minimum="0" Maximum="1024"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </GroupBox>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            
+        </StackPanel>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Sections}">
+            
+        </ItemsControl>
+    </Grid>
+</Window>

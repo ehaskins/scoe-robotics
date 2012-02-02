@@ -15,10 +15,10 @@ namespace Scoe.Robot.Shared.RobotModel
     {
         public RobotModel()
         {
-            Sections = new ObservableCollection<RobotModelSection>();
+            Sections = new ObservableCollection<ArduinoDataSection>();
         }
-        private ObservableCollection<RobotModelSection> _Sections;
-        public ObservableCollection<RobotModelSection> Sections
+        private ObservableCollection<ArduinoDataSection> _Sections;
+        public ObservableCollection<ArduinoDataSection> Sections
         {
             get { return _Sections; }
             protected set

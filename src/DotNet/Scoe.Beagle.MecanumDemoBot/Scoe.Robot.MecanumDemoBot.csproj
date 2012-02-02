@@ -57,7 +57,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Scoe.Beagle.Shared\Scoe.Robot.Shared.csproj">
       <Project>{B5488093-0DFD-4E39-A809-72233A5AB0B5}</Project>
-      <Name>Scoe.Beagle.Shared</Name>
+      <Name>Scoe.Robot.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

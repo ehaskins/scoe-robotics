@@ -22,7 +22,7 @@ public:
 
 	RobotModelSection *sections[MAX_MODEL_SECTIONS];
 	bool addSection(RobotModelSection *section);
-	int sectionCount;
+	int _sectionCount;
 };
 
 #endif /* ROBOTMODEL_H_ */

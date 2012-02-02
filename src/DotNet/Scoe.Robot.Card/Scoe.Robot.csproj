@@ -2,30 +2,27 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A8F0D923-A1EE-41E6-8542-D5103BBDB2E6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArduinoCommTest</RootNamespace>
-    <AssemblyName>ArduinoCommTest</AssemblyName>
+    <RootNamespace>Scoe.Robot.Card</RootNamespace>
+    <AssemblyName>Scoe.Robot.Card</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,13 +30,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>..\bin\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>bin\Release\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -51,23 +48,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Controller\ControllerBase.cs" />
+    <Compile Include="Controller\IterativeControllerBase.cs" />
+    <Compile Include="Interface\CardInterfaceBase.cs" />
+    <Compile Include="Interface\RobotInterfaceBase.cs" />
+    <Compile Include="Model\AnalogInput.cs" />
+    <Compile Include="Model\CardModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\Channel.cs" />
+    <Compile Include="Model\DigitalIO.cs" />
+    <Compile Include="Model\DigitalIOMode.cs" />
+    <Compile Include="Model\Encoder.cs" />
+    <Compile Include="Model\PwmOutput.cs" />
+    <Compile Include="Model\RobotModel.cs" />
+    <Compile Include="Model\RobotState.cs" />
+    <Compile Include="Model\StandardCardModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EHaskins.Frc.Communication.Robot\EHaskins.Frc.Communication.Robot.csproj">
+      <Project>{058334F9-9156-4FFF-858E-3FDB24648368}</Project>
+      <Name>EHaskins.Frc.Communication.Robot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EHaskins.Frc.Communication.Shared\EHaskins.Frc.Communication.Shared.csproj">
+      <Project>{2EC93CB5-6694-4B03-8DCF-BEB31720F2AF}</Project>
+      <Name>EHaskins.Frc.Communication.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EHaskins.Utilities\EHaskins.Utilities.csproj">
       <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
       <Name>EHaskins.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Robot.csproj">
-      <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
-      <Name>Scoe.Robot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Interface.Arduino\Scoe.Robot.Interface.Arduino.csproj">
-      <Project>{82067870-7EE1-4FFD-B01E-A8102A300A33}</Project>
-      <Name>Scoe.Robot.Interface.Arduino</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Scoe.Robot.Card.Interface.Arduino;
-using Scoe.Robot.Card;
+using Scoe.Robot.Interface.Arduino;
+using Scoe.Robot.Model;
 namespace ArduinoCommTest
 {
     class Program
@@ -11,8 +10,7 @@ namespace ArduinoCommTest
         static void Main(string[] args)
         {
             var arduino = new ArduinoInterface("COM7", 115200, 20);
-            var model = new CardModel(arduino);
-            arduino.Model = model;
+            var model = new CardModelBase();
             arduino.Start();
 
             bool done = false;

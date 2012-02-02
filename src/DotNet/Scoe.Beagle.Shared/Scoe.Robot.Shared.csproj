@@ -54,20 +54,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RobotModel\AnalogIOModelPart.cs" />
     <Compile Include="Interface\RobotInterfaceBase.cs" />
     <Compile Include="RobotModel\AnalogInput.cs" />
     <Compile Include="RobotModel\DigitalIO.cs" />
     <Compile Include="RobotModel\DigitalIOMode.cs" />
-    <Compile Include="RobotModel\DigitalIOModelPart.cs" />
     <Compile Include="RobotModel\Encoder.cs" />
     <Compile Include="RobotModel\Channel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RobotModel\PwmModelPart.cs" />
     <Compile Include="RobotModel\PwmOutput.cs" />
-    <Compile Include="Controller\RobotControllerBase.cs" />
     <Compile Include="RobotModel\RobotModel.cs" />
-    <Compile Include="RobotModel\RobotModelPart.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EHaskins.Frc.Communication.Robot\EHaskins.Frc.Communication.Robot.csproj">

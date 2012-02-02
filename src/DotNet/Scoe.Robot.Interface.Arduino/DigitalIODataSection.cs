@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using EHaskins.Utilities.Binary;
+using Scoe.Robot.Model;
 
-namespace Scoe.Robot.Shared.RobotModel
+namespace Scoe.Robot.Interface.Arduino
 {
-    public class DigitalIOModelPart : RobotModelSection
+    public class DigitalIODataSection : ArduinoDataSection
     {
-        public DigitalIOModelPart()
+        public DigitalIODataSection(ObservableCollection<DigitalIO> digitalInputs)
             : base(2)
         {
-            _DigitalInputs = new ObservableCollection<DigitalIO>();
+            _DigitalInputs = digitalInputs;
         }
 
         public override void GetData(ref byte[] data, ref int offset)

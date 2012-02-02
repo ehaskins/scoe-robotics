@@ -15,7 +15,7 @@ RobotModel::RobotModel() {
 	init();
 }
 void RobotModel::init(){
-	sectionCount = 0;
+	_sectionCount = 0;
 }
 
 void RobotModel::update(unsigned char data[], unsigned int offset, unsigned int length){
@@ -25,7 +25,7 @@ void RobotModel::update(unsigned char data[], unsigned int offset, unsigned int 
 		unsigned char sectionId = data[offset++];
 		int temp = (int)offset;
 		unsigned short length = readUInt16(data, &temp); offset+=2;
-		for (int iSection = 0; iSection < sectionCount; iSection++){
+		for (int iSection = 0; iSection < _sectionCount; iSection++){
 			if (sections[iSection]->sectionId == sectionId){
 				sections[iSection]->isActive = true;
 				sections[iSection]->update(data, offset);
@@ -33,11 +33,10 @@ void RobotModel::update(unsigned char data[], unsigned int offset, unsigned int 
 		}
 		offset += length;
 	}
-
 }
 void RobotModel::getStatus(unsigned char data[], unsigned int *offset){
-	data[*offset] = sectionCount;
-	for (int i = 0; i < sectionCount; i++){
+	data[(*offset)++] = _sectionCount;
+	for (int i = 0; i < _sectionCount; i++){
 		unsigned short headerPos = *offset;
 		data[(*offset)++] = sections[i]->sectionId;
 		(*offset) += 2;
@@ -52,22 +51,25 @@ void RobotModel::getStatus(unsigned char data[], unsigned int *offset){
 }
 
 void RobotModel::loop(bool safteyTripped){
-	for (int i = 0; i < sectionCount; i++){
+	for (int i = 0; i < _sectionCount; i++){
 		if (sections[i]->isActive)
 			sections[i]->loop(safteyTripped);
 	}
 }
 
 bool RobotModel::addSection(RobotModelSection *section){
-	if (sectionCount < MAX_MODEL_SECTIONS){
-		sections[sectionCount++] = section;
-		Serial.println("Added section");
+	if (_sectionCount < MAX_MODEL_SECTIONS){
+		sections[_sectionCount++] = section;
+		Serial.print("Added section:");
+		Serial.println((int)(section->sectionId));
+		Serial.print("Section count:");
+		Serial.println(_sectionCount);
 		return true;
 	}
 	else
 	{
 		Serial.print("Too many sections:");
-		Serial.print(sectionCount);
+		Serial.print(_sectionCount);
 		return false;
 	}
 }

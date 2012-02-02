@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scoe.Robot.Shared.RobotModel;
+using Scoe.Robot.Model;
 
-namespace Scoe.Robot.Card
+namespace Scoe.Robot.Interface.Arduino
 {
-    public class RslModelSection : RobotModelSection
+    public class RslModelSection : ArduinoDataSection
     {
         private RobotState _State;
         public bool _updated = false;

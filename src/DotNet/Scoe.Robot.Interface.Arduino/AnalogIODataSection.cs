@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
+using Scoe.Robot.Model;
 
-namespace Scoe.Robot.Shared.RobotModel
+namespace Scoe.Robot.Interface.Arduino
 {
-    public class AnalogIOModelPart : RobotModelSection
+    public class AnalogIODataSection : ArduinoDataSection
     {
-        public AnalogIOModelPart()
+        public AnalogIODataSection(IList<AnalogInput> analogInputs)
             : base(3)
         {
-            _AnalogInputs = new ObservableCollection<AnalogInput>();
+            _AnalogInputs = analogInputs;
         }
 
         public override void GetData(ref byte[] data, ref int offset)
@@ -24,6 +25,8 @@ namespace Scoe.Robot.Shared.RobotModel
         }
 
         public override void Update(byte[] data, int offset)
+        {
+            if (data.Length > 0)
             {
                 byte count = data[offset++];
                 for (int i = 0; i < count; i++)
@@ -35,10 +38,11 @@ namespace Scoe.Robot.Shared.RobotModel
                     offset += 2;
                 }
             }
+        }
 
 
-        private ObservableCollection<AnalogInput> _AnalogInputs;
-        public ObservableCollection<AnalogInput> AnalogInputs
+        private IList<AnalogInput> _AnalogInputs;
+        public IList<AnalogInput> AnalogInputs
         {
             get
             {

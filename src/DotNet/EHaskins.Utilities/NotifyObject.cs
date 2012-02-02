@@ -6,14 +6,18 @@ using System.Diagnostics;
 
 namespace EHaskins.Utilities
 {
-    public class NotifyObject
+    public class NotifyObject : INotifyPropertyChanged
     {
+        public NotifyObject()
+        {
+            IsINotifyPropertyChangedEnabled = true;
+        }
 
         public bool IsINotifyPropertyChangedEnabled { get; set; }
 #if DEBUG
         List<String> verifiedProperties = new List<string>();
 #endif
-        [DebuggerStepThrough()]
+        //[DebuggerStepThrough()]
         protected void RaisePropertyChanged(string prop)
         {
             if (IsINotifyPropertyChangedEnabled)
@@ -22,11 +26,12 @@ namespace EHaskins.Utilities
                 {
                     //Verify the property actually exists on this object.
 #if DEBUG
-                    if (verifiedProperties.Contains(prop) && this.GetType().GetProperty(prop) != null)
+                    if (!verifiedProperties.Contains(prop) && this.GetType().GetProperty(prop) != null)
                     {
                         verifiedProperties.Add(prop);
                     }
-                    else
+                    
+                    if (!verifiedProperties.Contains(prop))
                         throw new InvalidOperationException(prop + " is not a property on this object.");
 #endif
                     PropertyChanged(this, new PropertyChangedEventArgs(prop));

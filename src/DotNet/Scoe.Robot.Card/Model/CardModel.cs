@@ -1,25 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.ObjectModel;
 using Scoe.Robot.Interface;
-using Scoe.Robot.Model;
 
-namespace Scoe.Robot.Interface
+namespace Scoe.Robot.Model
 {
-    public abstract class CardInterfaceBase : RobotInterfaceBase
+    public class CardModelBase : Scoe.Robot.Model.RobotModel
     {
-        private RobotState _State;
+        public CardModelBase() { State = new RobotState(); }
+
+        private RobotState _state;
         public RobotState State
         {
             get
             {
-                return _State;
+                return _state;
             }
             set
             {
-                if (_State == value)
+                if (_state == value)
                     return;
-                _State = value;
+                _state = value;
                 RaisePropertyChanged("State");
             }
         }

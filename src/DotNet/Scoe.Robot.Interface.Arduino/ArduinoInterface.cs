@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO.Ports;
 using System.Threading;
-using Scoe.Robot.Shared.RobotModel;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Scoe.Robot.Model;
 
-namespace Scoe.Robot.Card.Interface.Arduino
+namespace Scoe.Robot.Interface.Arduino
 {
     public class ArduinoInterface : CardInterfaceBase
     {
         private uint _packetCrc;
         private int _packetDataLength;
+        private Byte[] _contentData;
         public SerialPort serialPort;
         System.Timers.Timer transmitTimer;
         bool isEnabled = false;
@@ -26,10 +29,24 @@ namespace Scoe.Robot.Card.Interface.Arduino
 
         public ArduinoInterface(string port, int baud = 9600, int interval = 20)
         {
+            Sections = new ObservableCollection<ArduinoDataSection>();
             serialPort = new SerialPort(port, baud);
             transmitTimer = new System.Timers.Timer(interval);
             transmitTimer.Elapsed += TransmitTimerElapsed;
         }
+
+        private ObservableCollection<ArduinoDataSection> _Sections;
+        public ObservableCollection<ArduinoDataSection> Sections
+        {
+            get { return _Sections; }
+            protected set
+            {
+                if (_Sections == value)
+                    return;
+                _Sections = value;
+            }
+        }
+
         public override void Start()
         {
             isEnabled = true;
@@ -85,18 +102,31 @@ namespace Scoe.Robot.Card.Interface.Arduino
 
                             var crcData = new byte[_packetDataLength];
                             Array.ConstrainedCopy(_receiveBuffer, 6, crcData, 0, _packetDataLength);
+                            _contentData = crcData;
                             var calculatedCrc = Crc32.Compute(crcData);
                             if (calculatedCrc == _packetCrc)
                             {
                                 return true;
                             }
+                            else
+                            {
+                                Debug.WriteLine("Bad CRC");
+                            }
                         }
+                    }
+                    else
+                    {
+                        _isWaiting = true;
                     }
                 }
                 else if (_lastByte == (byte)SpecialChars.Command && thisByte == (byte)SpecialChars.NewPacket)
                 {
                     _isWaiting = false;
                     _receiveBufferPosition = 0;
+                }
+                else
+                {
+                    Debug.WriteLine((char)thisByte);
                 }
                 _lastByte = thisByte;
             }
@@ -106,30 +136,34 @@ namespace Scoe.Robot.Card.Interface.Arduino
 
         private void ProcessData()
         {
-            byte sectionCount = _receiveBuffer[6];
-            int index = 7;
+            byte sectionCount = _contentData[0];
+            int index = 0;
             for (int i = 0; i < sectionCount; i++)
             {
-                var sectionId = _receiveBuffer[index++];
-                var sectionLength = BitConverter.ToUInt16(_receiveBuffer, index);
+                var sectionId = _contentData[index++];
+                var sectionLength = BitConverter.ToUInt16(_contentData, index);
                 index += 2;
-                var modelSection = (from s in Model.Sections where s.SectionId == sectionId select s).SingleOrDefault();
+                var modelSection = (from s in Sections where s.SectionId == sectionId select s).SingleOrDefault();
                 if (modelSection != null)
                 {
                     var sectionData = new byte[sectionLength];
-                    Array.ConstrainedCopy(_receiveBuffer, index, sectionData, 0, sectionLength);
+                    Array.ConstrainedCopy(_contentData, index, sectionData, 0, sectionLength);
                     modelSection.Update(sectionData, 0);
+                }
+                else
+                {
+                    Debug.WriteLine("No sectionid #" + sectionId);
                 }
                 index += sectionLength;
             }
         }
 
-        public byte[] GetBytes(RobotModel model)
+        public byte[] GetBytes()
         {
             var data = new byte[50];
             int index = 6;
-            data[index++] = (byte)model.Sections.Count;
-            foreach (var section in model.Sections)
+            data[index++] = (byte)Sections.Count;
+            foreach (var section in Sections)
             {
                 data[index++] = section.SectionId;
                 index += 2;
@@ -164,7 +198,7 @@ namespace Scoe.Robot.Card.Interface.Arduino
                     return;
                 isWriting = true;
             }
-            var data = GetBytes(Model);
+            var data = GetBytes();
             Write(data, 0, data.Length);
             isWriting = false;
         }

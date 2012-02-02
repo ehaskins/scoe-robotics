@@ -10,7 +10,7 @@
 #include <FrcComms\ByteWriter.h>
 DioSection::DioSection() {
 	// TODO Auto-generated constructor stub
-
+	sectionId = 2;
 }
 
 void DioSection::update(unsigned char data[], unsigned int offset) {

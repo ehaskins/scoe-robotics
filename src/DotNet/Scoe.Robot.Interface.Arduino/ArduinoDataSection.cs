@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using EHaskins.Utilities;
 
-namespace Scoe.Robot.Shared.RobotModel
+namespace Scoe.Robot.Interface.Arduino
 {
-    public abstract class RobotModelSection : NotifyObject
+    public abstract class ArduinoDataSection : NotifyObject
     {
-        public RobotModelSection(byte sectionId)
+        public ArduinoDataSection(byte sectionId)
         {
             SectionId = sectionId;
         }

@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
+using Scoe.Robot.Model;
 
-namespace Scoe.Robot.Shared.RobotModel
+namespace Scoe.Robot.Interface.Arduino
 {
-    public class PwmModelPart : RobotModelSection
+    public class PwmDataSection : ArduinoDataSection
     {
-        public PwmModelPart()
+        public PwmDataSection(IList<PwmOutput> pwmOutputs)
             : base(1)
         {
-            _PwmOutputs = new ObservableCollection<PwmOutput>();
+            _PwmOutputs = pwmOutputs;
         }
 
         public override void GetData(ref byte[] data, ref int offset)
@@ -28,9 +29,9 @@ namespace Scoe.Robot.Shared.RobotModel
             //Pwm model part doesn't get any updates
         }
 
-        private ObservableCollection<PwmOutput> _PwmOutputs;
+        private IList<PwmOutput> _PwmOutputs;
 
-        public ObservableCollection<PwmOutput> PwmOutputs
+        public IList<PwmOutput> PwmOutputs
         {
             get { return _PwmOutputs; }
             protected set

@@ -13,6 +13,7 @@ public:
 	AnalogIODefinition();
 	unsigned char pin;
 	unsigned int value;
+	bool enabled;
 	void update();
 };
 

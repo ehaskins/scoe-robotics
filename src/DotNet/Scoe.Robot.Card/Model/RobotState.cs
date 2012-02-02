@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scoe.Robot.Shared;
 using EHaskins.Utilities;
 
-namespace Scoe.Robot.Card
+namespace Scoe.Robot.Model
 {
     public class RobotState : NotifyObject
     {
