@@ -137,7 +137,7 @@ namespace Scoe.Robot.Interface.Arduino
         private void ProcessData()
         {
             byte sectionCount = _contentData[0];
-            int index = 0;
+            int index = 1;
             for (int i = 0; i < sectionCount; i++)
             {
                 var sectionId = _contentData[index++];

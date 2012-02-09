@@ -2,33 +2,25 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1B645EDA-166A-4FC1-ADCC-FE44644BDD65}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{9CD54E65-2E6A-4620-BDDA-01C11E10C757}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Scoe.Robot.Controller.MecanumDemoBot</RootNamespace>
-    <AssemblyName>Scoe.Robot.Controller.MecanumDemoBot</AssemblyName>
+    <RootNamespace>Scoe.DSTestConsole</RootNamespace>
+    <AssemblyName>Scoe.DSTestConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -40,7 +32,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller.cs" />
+    <Compile Include="IPEndpoint.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,13 +45,13 @@
       <Project>{CC9AC7D2-B525-4BB9-A75A-1408DA695955}</Project>
       <Name>Scoe.Communication.Udp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Scoe.DriverStation\Scoe.DriverStation.csproj">
+      <Project>{ACE1CE3F-E1A8-408E-BEAA-C5FB41976B93}</Project>
+      <Name>Scoe.DriverStation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Robot.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
       <Name>Scoe.Robot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Interface.Arduino\Scoe.Robot.Interface.Arduino.csproj">
-      <Project>{82067870-7EE1-4FFD-B01E-A8102A300A33}</Project>
-      <Name>Scoe.Robot.Interface.Arduino</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

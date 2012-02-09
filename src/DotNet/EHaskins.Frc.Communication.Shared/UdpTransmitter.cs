@@ -163,18 +163,7 @@ namespace EHaskins.Frc.Communication
             if (_client != null)
                 _client.Close();
             _client = null;
-#if !NETMF
             SpinWait.SpinUntil(() => _isStopped, 100);
-#else
-            var count = 0;
-            while (!_isStopped)
-            {
-                Thread.Sleep(1);
-                count++;
-                if (count > 100)
-                    throw new Exception("Stop timedout");
-            }
-#endif
         }
         protected override void InvalidateConnection()
         {

@@ -108,16 +108,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EHaskins.Frc.Communication.DriverStation\EHaskins.Frc.Communication.DriverStation.csproj">
-      <Project>{1A9DD489-905A-4CED-BA17-CAFACD36604F}</Project>
-      <Name>EHaskins.Frc.Communication.DriverStation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EHaskins.Frc.Communication.Shared\EHaskins.Frc.Communication.Shared.csproj">
-      <Project>{2EC93CB5-6694-4B03-8DCF-BEB31720F2AF}</Project>
-      <Name>EHaskins.Frc.Communication.Shared</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

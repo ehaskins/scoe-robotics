@@ -2,18 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1B645EDA-166A-4FC1-ADCC-FE44644BDD65}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>db35b449-c5fd-4721-8a32-e06f3e320fa8</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Scoe.Robot.Controller.MecanumDemoBot</RootNamespace>
-    <AssemblyName>Scoe.Robot.Controller.MecanumDemoBot</AssemblyName>
+    <RootNamespace>UdpServerTest</RootNamespace>
+    <AssemblyName>UdpServerTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,7 +24,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,26 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EHaskins.Utilities\EHaskins.Utilities.csproj">
-      <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
-      <Name>EHaskins.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scoe.Communication.Udp\Scoe.Communication.Udp.csproj">
-      <Project>{CC9AC7D2-B525-4BB9-A75A-1408DA695955}</Project>
-      <Name>Scoe.Communication.Udp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Robot.csproj">
-      <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
-      <Name>Scoe.Robot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Interface.Arduino\Scoe.Robot.Interface.Arduino.csproj">
-      <Project>{82067870-7EE1-4FFD-B01E-A8102A300A33}</Project>
-      <Name>Scoe.Robot.Interface.Arduino</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

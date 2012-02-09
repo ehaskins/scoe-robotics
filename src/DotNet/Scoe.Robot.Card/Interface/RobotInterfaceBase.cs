@@ -12,13 +12,6 @@ namespace Scoe.Robot.Interface
 
         }
 
-        public event EventHandler UpdatedRobotModel;
-        protected void RaiseUpdatedRobotModel()
-        {
-            if (UpdatedRobotModel != null)
-                UpdatedRobotModel(this, null);
-        }
-
         public abstract void Start();
         public abstract void Stop();
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Scoe.Robot.Interface.Arduino;
 using Scoe.Robot.Model;
+using Scoe.Communication.Udp;
 
 namespace Scoe.Robot.Controller.MecanumDemoBot
 {
@@ -51,8 +52,13 @@ namespace Scoe.Robot.Controller.MecanumDemoBot
             ioInt.Sections.Add(new AnalogIODataSection(Robot.AnalogInputs));
             ioInt.Sections.Add(new PwmDataSection(Robot.PwmOutputs));
 
-            ioInt.Start();
+            var ctrlInt = new UdpServer(1150, 1110);
+            ctrlInt.Sections.Add(new StateSection(Robot.State));
 
+            Robot.State.IsDSConnected = true;
+            Robot.State.IsEnabled = true;
+            ioInt.Start();
+            ctrlInt.Start();
             //Build driver interface
             //var dsInt = new FrcCommInterface(Robot.DSData);
 
@@ -62,11 +68,13 @@ namespace Scoe.Robot.Controller.MecanumDemoBot
         protected override void EnabledLoop()
         {
             //TODO:Impletment drive code here!
+
+            Console.WriteLine("E " + Robot.UltraSonicChannel.Value);
         }
 
         protected override void DisabledLoop()
         {
-            Console.WriteLine(Robot.UltraSonicChannel.Value);
+            Console.WriteLine("D " + Robot.UltraSonicChannel.Value);
         }
     }
 }
