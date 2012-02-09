@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EHaskins.Utilities;
 
-namespace Scoe.Robot.Interface
+namespace Scoe.Shared.Interface
 {
     public abstract class RobotInterfaceBase: NotifyObject
     {

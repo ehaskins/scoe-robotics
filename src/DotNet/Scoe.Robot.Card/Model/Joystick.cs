@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace Scoe.Robot.Model
+namespace Scoe.Shared.Model
 {
     public class Joystick
     {

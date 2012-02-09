@@ -1,5 +1,5 @@
 using System;
-namespace Scoe.Robot.Model
+namespace Scoe.Shared.Model
 {
     public enum Alliance : byte
     {

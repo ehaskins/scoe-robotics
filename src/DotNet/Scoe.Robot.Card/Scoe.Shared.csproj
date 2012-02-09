@@ -55,6 +55,7 @@
     <Compile Include="Model\Alliance.cs" />
     <Compile Include="Model\AnalogInput.cs" />
     <Compile Include="Model\CardModel.cs" />
+    <Compile Include="Model\DSModelBase.cs" />
     <Compile Include="Model\Joystick.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Channel.cs" />

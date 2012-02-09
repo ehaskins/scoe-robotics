@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Scoe.Robot.Model;
 
-namespace Scoe.DriverStation
+namespace Scoe.Shared.Model
 {
     public class DSModelBase : CardModelBase
     {

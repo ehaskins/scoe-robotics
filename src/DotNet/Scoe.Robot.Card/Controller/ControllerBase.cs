@@ -4,7 +4,7 @@ using System.Linq;
 using EHaskins.Utilities;
 using Scoe.Robot.Model;
 
-namespace Scoe.Robot.Controller
+namespace Scoe.Shared.Controller
 {
     public abstract class ControllerBase<T> : NotifyObject
         where T : CardModelBase

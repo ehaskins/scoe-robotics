@@ -5,7 +5,7 @@ using System.Timers;
 using Scoe.Robot.Model;
 using System.Threading;
 
-namespace Scoe.Robot.Controller
+namespace Scoe.Shared.Controller
 {
     public abstract class IterativeControllerBase<T> : ControllerBase<T>
         where T : CardModelBase

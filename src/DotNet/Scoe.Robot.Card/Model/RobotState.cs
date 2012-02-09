@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EHaskins.Utilities;
 
-namespace Scoe.Robot.Model
+namespace Scoe.Shared.Model
 {
     public class RobotState : NotifyObject
     {

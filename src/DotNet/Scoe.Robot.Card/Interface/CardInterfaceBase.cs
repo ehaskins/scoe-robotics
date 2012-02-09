@@ -4,7 +4,7 @@ using System.Linq;
 using Scoe.Robot.Interface;
 using Scoe.Robot.Model;
 
-namespace Scoe.Robot.Interface
+namespace Scoe.Shared.Interface
 {
     public abstract class CardInterfaceBase : RobotInterfaceBase
     {

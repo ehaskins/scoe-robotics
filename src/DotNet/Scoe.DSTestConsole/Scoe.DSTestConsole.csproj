@@ -45,13 +45,9 @@
       <Project>{CC9AC7D2-B525-4BB9-A75A-1408DA695955}</Project>
       <Name>Scoe.Communication.Udp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scoe.DriverStation\Scoe.DriverStation.csproj">
-      <Project>{ACE1CE3F-E1A8-408E-BEAA-C5FB41976B93}</Project>
-      <Name>Scoe.DriverStation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Robot.csproj">
+    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
-      <Name>Scoe.Robot</Name>
+      <Name>Scoe.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Scoe.Robot.Model
+namespace Scoe.Shared.Model
 {
     public class PwmOutput : Channel<byte>
     {
