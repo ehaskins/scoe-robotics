@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scoe.Robot.Interface;
-using Scoe.Robot.Model;
+using Scoe.Shared.Model;
 
 namespace Scoe.Shared.Interface
 {

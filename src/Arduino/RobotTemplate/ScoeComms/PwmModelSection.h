@@ -22,6 +22,9 @@ public:
 	virtual void update(unsigned char data[], unsigned int offset);
 	virtual void getStatus(unsigned char data[], unsigned int *offset);
 	virtual void disableOutputs();
+	virtual void enableOutputs();
+	bool isEnabled;
+	bool newLoop;
 private:
 	bool isOutputEnabled;
 };

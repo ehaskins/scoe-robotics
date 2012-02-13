@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO.Ports;
-using System.Threading;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Scoe.Robot.Model;
 using System.Net;
 using System.Net.Sockets;
 
@@ -18,7 +15,6 @@ namespace Scoe.Communication.Udp
         {
             Sections = new ObservableCollection<UdpDataSection>();
         }
-
 
         private ObservableCollection<UdpDataSection> _Sections;
         public ObservableCollection<UdpDataSection> Sections
@@ -40,9 +36,11 @@ namespace Scoe.Communication.Udp
 
         private byte[] CheckCRC(byte[] data)
         {
-            if (data.Length >= 6){
+            if (data.Length >= 6)
+            {
                 var length = BitConverter.ToUInt16(data, 0);
-                if (data.Length == length + 6){
+                if (data.Length == length + 6)
+                {
                     var packetCrc = BitConverter.ToUInt32(data, 2);
                     var crcData = new byte[length];
                     Array.ConstrainedCopy(data, 6, crcData, 0, length);
@@ -57,32 +55,35 @@ namespace Scoe.Communication.Udp
         }
         protected void ProcessData(byte[] data)
         {
-                byte sectionCount = data[0];
-                int index = 1;
-                for (int i = 0; i < sectionCount; i++)
+            LastPacketIndex = BitConverter.ToUInt16(data, 0);
+            byte sectionCount = data[2];
+            int index = 3;
+            for (int i = 0; i < sectionCount; i++)
+            {
+                var sectionId = data[index++];
+                var sectionLength = BitConverter.ToUInt16(data, index);
+                index += 2;
+                var modelSection = (from s in Sections where s.SectionId == sectionId select s).SingleOrDefault();
+                if (modelSection != null)
                 {
-                    var sectionId = data[index++];
-                    var sectionLength = BitConverter.ToUInt16(data, index);
-                    index += 2;
-                    var modelSection = (from s in Sections where s.SectionId == sectionId select s).SingleOrDefault();
-                    if (modelSection != null)
-                    {
-                        var sectionData = new byte[sectionLength];
-                        Array.ConstrainedCopy(data, index, sectionData, 0, sectionLength);
-                        modelSection.Update(sectionData, 0);
-                    }
-                    else
-                    {
-                        Debug.WriteLine("No sectionid #" + sectionId);
-                    }
-                    index += sectionLength;
+                    var sectionData = new byte[sectionLength];
+                    Array.ConstrainedCopy(data, index, sectionData, 0, sectionLength);
+                    modelSection.Update(sectionData, 0);
                 }
+                else
+                {
+                    Debug.WriteLine("No sectionid #" + sectionId);
+                }
+                index += sectionLength;
+            }
         }
 
-        protected byte[] GetData()
+        protected byte[] GetData(ushort packetIndex)
         {
             var data = new byte[50];
-            int index = 6;
+            int index = 6; //4 bytes crc + 2 bytes length
+            BitConverter.GetBytes(packetIndex).CopyTo(data, index);
+            index += 2;
             data[index++] = (byte)Sections.Count;
             foreach (var section in Sections)
             {
@@ -142,12 +143,13 @@ namespace Scoe.Communication.Udp
             _isStopped = true;
         }
 
-        protected void SendData(IPEndPoint endPoint)
+        protected void SendData(IPEndPoint endPoint, ushort packetIndex)
         {
-            var data = GetData();
+            var data = GetData(packetIndex);
             _client.Send(data, data.Length, endPoint);
         }
 
+        public ushort LastPacketIndex { get; set; }
         protected bool _isStopped = true;
         protected bool _isEnabled = false;
         public bool IsEnabled
@@ -180,7 +182,7 @@ namespace Scoe.Communication.Udp
                     return;
                 foreach (var section in Sections)
                 {
-                    section.ConnectionStateChanged(value);
+                    section.ConnectionStateChanged(this, value);
                 }
                 _isConnected = value;
             }

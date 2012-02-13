@@ -24,13 +24,11 @@ void setup() {
 	init();
 
 	Serial.begin(115200);
-	Serial.println("1.");
 	RslModelSection * rsl = new RslModelSection();
-	PwmModelSection * pwm = new PwmModelSection(1500, 2500);
+	PwmModelSection * pwm = new PwmModelSection(500, 2500);
 	AnalogIOSection *analog = new AnalogIOSection();
 	DioSection *dio = new DioSection();
 	beagleComm.init();
-	Serial.println("2.");
 	beagleComm.robotModel.addSection(rsl);
 	beagleComm.robotModel.addSection(pwm);
 	beagleComm.robotModel.addSection(analog);

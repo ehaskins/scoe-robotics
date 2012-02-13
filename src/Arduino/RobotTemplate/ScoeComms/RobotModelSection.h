@@ -19,6 +19,7 @@ public:
 	virtual void disableOutputs();
 	virtual void enableOutputs();
 private:
+	bool isFirstLoop;
 	bool lastIsSafteyTripped;
 protected:
 	void init();

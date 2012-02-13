@@ -25,10 +25,12 @@ void RobotModelSection::getStatus(unsigned char data[], unsigned int *offset){
 
 void RobotModelSection::loop(bool safteyTripped){
 	if (safteyTripped && !lastIsSafteyTripped)
-		enableOutputs();
-	else if (!safteyTripped && lastIsSafteyTripped){
 		disableOutputs();
+	else if ((!safteyTripped && lastIsSafteyTripped) || isFirstLoop){
+		enableOutputs();
 	}
+	lastIsSafteyTripped = safteyTripped;
+	isFirstLoop = false;
 }
 void RobotModelSection::disableOutputs(){}
 void RobotModelSection::enableOutputs(){}

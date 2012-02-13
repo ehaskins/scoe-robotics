@@ -5,7 +5,7 @@ using System.IO.Ports;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Scoe.Robot.Model;
+using Scoe.Shared.Interface;
 
 namespace Scoe.Robot.Interface.Arduino
 {
@@ -126,7 +126,7 @@ namespace Scoe.Robot.Interface.Arduino
                 }
                 else
                 {
-                    Debug.WriteLine((char)thisByte);
+                    Debug.Write((char)thisByte);
                 }
                 _lastByte = thisByte;
             }

@@ -18,8 +18,11 @@ public:
 	unsigned int maxPulse;
 	Servo pwmDriver;
 	void update(unsigned char pin, unsigned char value);
-private:
 	unsigned char lastPin;
+
+	unsigned char lastValue;
+private:
+
 };
 
 #endif /* PWMDEFINITION_H_ */

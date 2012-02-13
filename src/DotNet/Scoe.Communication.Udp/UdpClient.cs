@@ -10,7 +10,6 @@ namespace Scoe.Communication.Udp
     public class DSUdpClient : UdpInterface
     {
         System.Timers.Timer transmitTimer;
-        ushort _lastPacketId;
         Thread _receieveThread;
 
         public DSUdpClient(IPEndPoint remoteEndpoint, ushort listenPort, int interval = 20)
@@ -45,10 +44,13 @@ namespace Scoe.Communication.Udp
             SpinWait.SpinUntil(() => _isStopped, 100);
         }
 
-
+        public ushort LastTransmitPacketIndex { get; set; }
         private void transmitTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            SendData(RemoteEndpoint);
+            IsConnected = LastPacketIndex == LastTransmitPacketIndex;
+
+            SendData(RemoteEndpoint, LastTransmitPacketIndex++);
+
         }
     }
 }

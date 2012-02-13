@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EHaskins.Utilities;
-using Scoe.Robot.Model;
+using Scoe.Shared.Model;
 
 namespace Scoe.Shared.Controller
 {

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Scoe.Robot.Interface.Arduino;
-using Scoe.Robot.Model;
 using Scoe.Communication.Udp;
+using Scoe.Shared.Model;
+using Scoe.Shared.Controller;
+using EHaskins.Utilities.NumericExtensions;
 
 namespace Scoe.Robot.Controller.MecanumDemoBot
 {
-
     public class MecanumDemoModel : CardModelBase
     {
         public MecanumDemoModel()
@@ -20,14 +21,19 @@ namespace Scoe.Robot.Controller.MecanumDemoBot
 
             UltraSonicChannel = new AnalogInput(0);
 
+            DriverController = new XBoxController();
 
             //Initialize collections
             PwmOutputs = new List<PwmOutput>();
             AnalogInputs = new List<AnalogInput>();
+
             //Add objects to collections
+            Joysticks = new List<Joystick>(new Joystick[] { DriverController });
             PwmOutputs.AddRange(new PwmOutput[] { NWMotor, NEMotor, SWMotor, SEMotor });
             AnalogInputs.Add(UltraSonicChannel);
         }
+
+        public Joystick DriverController { get; private set; }
 
         public PwmOutput NWMotor { get; private set; }
         public PwmOutput NEMotor { get; private set; }
@@ -36,6 +42,7 @@ namespace Scoe.Robot.Controller.MecanumDemoBot
 
         public AnalogInput UltraSonicChannel { get; private set; }
 
+        public List<Joystick> Joysticks { get; private set; }
         public List<AnalogInput> AnalogInputs { get; private set; }
         public List<PwmOutput> PwmOutputs { get; private set; }
     }
@@ -44,30 +51,39 @@ namespace Scoe.Robot.Controller.MecanumDemoBot
     {
         public Controller()
         {
+            //Create robotmodel
             Robot = new MecanumDemoModel();
 
-            //Build IO interface and robot model
+            //Build IO interfaces
             var ioInt = new ArduinoInterface("COM7", 115200, 20);
             ioInt.Sections.Add(new RslModelSection(Robot.State));
             ioInt.Sections.Add(new AnalogIODataSection(Robot.AnalogInputs));
             ioInt.Sections.Add(new PwmDataSection(Robot.PwmOutputs));
 
             var ctrlInt = new UdpServer(1150, 1110);
-            ctrlInt.Sections.Add(new StateSection(Robot.State));
+            ctrlInt.Sections.Add(new StateSection(Robot.State) { PrimaryInterface = ctrlInt });
+            ctrlInt.Sections.Add(new JoystickSection(Robot.Joysticks));
 
-            Robot.State.IsDSConnected = true;
-            Robot.State.IsEnabled = true;
             ioInt.Start();
             ctrlInt.Start();
-            //Build driver interface
-            //var dsInt = new FrcCommInterface(Robot.DSData);
-
         }
 
 
         protected override void EnabledLoop()
         {
-            //TODO:Impletment drive code here!
+            var x = Robot.DriverController.Axes[0];
+            var y = Robot.DriverController.Axes[1];
+            var z = Robot.DriverController.Axes[2];
+
+            var nw = y + x + z;
+            var ne = y - x - z;
+            var sw = y - x + z;
+            var se = y + x - z;
+
+            Robot.NWMotor.Value = (byte)nw.Map(-1, 1, 0, 255);
+            Robot.NEMotor.Value = (byte)ne.Map(-1, 1, 0, 255); ;
+            Robot.SWMotor.Value = (byte)sw.Map(-1, 1, 0, 255); ;
+            Robot.SEMotor.Value = (byte)se.Map(-1, 1, 0, 255); ;
 
             Console.WriteLine("E " + Robot.UltraSonicChannel.Value);
         }

@@ -29,7 +29,7 @@ namespace EHaskins.Utilities.NumericExtensions
             return val;
         }
 
-        public static double Scale(this double val, double inMin, double inMax, double outMin, double outMax)
+        public static double Map(this double val, double inMin, double inMax, double outMin, double outMax)
         {
             if (inMin > inMax)
                 throw new ArgumentOutOfRangeException("inMin must be less than inMax.");

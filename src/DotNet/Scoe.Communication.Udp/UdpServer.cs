@@ -11,7 +11,6 @@ namespace Scoe.Communication.Udp
     public class UdpServer : UdpInterface
     {
         System.Timers.Timer safteyTimer;
-        ushort _lastPacketId;
         Thread _receieveThread;
 
         public UdpServer(ushort listenPort, ushort destinationPort, int safteyTimeout = 100)
@@ -29,8 +28,7 @@ namespace Scoe.Communication.Udp
             _isEnabled = true;
             _client = new UdpClient(ListenPort);
 
-            _receieveThread = new Thread((ThreadStart)this.ReceiveDataSync);
-            _receieveThread.Name = "UDP receive thread";
+            _receieveThread = new Thread((ThreadStart)this.ReceiveDataSync) { Name = "UDP receive thread" };
             _receieveThread.Start();
         }
         public override void Stop()
@@ -44,16 +42,15 @@ namespace Scoe.Communication.Udp
 
         public override void DataProcessed(IPEndPoint endPoint)
         {
-            SendData(endPoint);
-            //_lastPacketId
+            SendData(endPoint, LastPacketIndex);
         }
 
         ushort safteyLastPacketId = 0;
         private void safteyTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (safteyLastPacketId == _lastPacketId)
+            if (safteyLastPacketId == LastPacketIndex)
                 IsConnected = false;
-            safteyLastPacketId = _lastPacketId;
+            safteyLastPacketId = LastPacketIndex;
         }
     }
 }

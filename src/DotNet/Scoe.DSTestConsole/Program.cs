@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Scoe.Communication.Udp;
 using System.Net;
-using Scoe.Robot.Model;
+using Scoe.Shared.Model;
 
 namespace Scoe.DSTestConsole
 {

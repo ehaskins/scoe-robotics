@@ -9,7 +9,7 @@ namespace Scoe.Shared.Model
         public PwmOutput() { }
         public PwmOutput(byte pin) { Pin = pin; }
         private bool _Enabled;
-        public bool Enabled
+        public bool IsEnabled
         {
             get { return _Enabled; }
             set

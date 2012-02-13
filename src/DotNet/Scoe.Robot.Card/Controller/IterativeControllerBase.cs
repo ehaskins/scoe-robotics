@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using Scoe.Robot.Model;
 using System.Threading;
+using Scoe.Shared.Model;
 
 namespace Scoe.Shared.Controller
 {
-    public abstract class IterativeControllerBase<T> : ControllerBase<T>
+    public abstract class IterativeControllerBase<T> :  ControllerBase<T>, IDisposable
         where T : CardModelBase
     {
         private System.Timers.Timer _timer;
@@ -19,6 +19,32 @@ namespace Scoe.Shared.Controller
 
         public IterativeControllerBase()
         {
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_timer != null)
+                {
+                    _timer.Dispose();
+                    _timer = null;
+                }
+                if (sem != null)
+                {
+                    sem.Dispose();
+                    sem = null;
+                }
+            }
+        }
+        ~IterativeControllerBase()
+        {
+            Dispose(false);
         }
 
         public override void Run()

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.ObjectModel;
-using Scoe.Robot.Interface;
 
 namespace Scoe.Shared.Model
 {
-    public class CardModelBase : Scoe.Robot.Model.RobotModel
+    public class CardModelBase : RobotModel
     {
         public CardModelBase() { State = new RobotState(); }
 

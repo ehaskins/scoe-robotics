@@ -6,29 +6,21 @@ namespace Scoe.Shared.Model
 {
     public class Joystick
     {
-        public const int NUM_BYTES = 8;
-        public const int NUM_AXES = 6;
-
         public Joystick()
         {
             Buttons = new ObservableCollection<bool>();
-            for (int i = 0; i < NUM_AXES; i++)
-            {
-                _analogInputs[i] = 0;
-            }
+            Axes = new ObservableCollection<double>();
         }
 
-
-        double[] _analogInputs = new double[NUM_AXES];
-
-        public double[] Axes
+        ObservableCollection<double> _axes;
+        public ObservableCollection<double> Axes
         {
-            get { return _analogInputs; }
-            set
+            get { return _axes; }
+            private set
             {
-                if (_analogInputs == value)
+                if (_axes == value)
                     return;
-                _analogInputs = value;
+                _axes = value;
 
                 RaisePropertyChanged("Axes");
             }

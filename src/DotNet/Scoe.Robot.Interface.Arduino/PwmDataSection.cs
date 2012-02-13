@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.ObjectModel;
-using Scoe.Robot.Model;
+using Scoe.Shared.Model;
 
 namespace Scoe.Robot.Interface.Arduino
 {
@@ -19,7 +18,7 @@ namespace Scoe.Robot.Interface.Arduino
             data[offset++] = (byte)PwmOutputs.Count;
             foreach (PwmOutput pwmOutput in PwmOutputs)
             {
-                data[offset++] = pwmOutput.Enabled ? pwmOutput.Pin : (byte)0;
+                data[offset++] = pwmOutput.IsEnabled ? pwmOutput.Pin : (byte)0;
                 data[offset++] = pwmOutput.Value;
             }
         }
