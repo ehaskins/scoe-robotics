@@ -7,6 +7,22 @@ namespace Scoe.Shared.Model
 {
     public class RobotState : NotifyObject
     {
+        public ControlState PrimaryState
+        {
+            get
+            {
+                if (!IsDSConnected)
+                    return ControlState.NoDriverStation;
+                else if (IsEStopped)
+                    return ControlState.EStopped;
+                else if (!IsEnabled)
+                    return ControlState.Disabled;
+                else if (IsAutonomous)
+                    return ControlState.Autonomous;
+                else
+                    return ControlState.Teleop;
+            }
+        }
         private bool _IsIODeviceConnected;
         private bool _IsDSConnected;
         private bool _IsEStopped;

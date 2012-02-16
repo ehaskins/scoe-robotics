@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Scoe.Shared.Model
 {
-    public class DigitalIO : Channel<bool>
+    public class DigitalIO : Channel<byte, bool>
     {
         private DigitalIOMode _Mode;
         public DigitalIOMode Mode

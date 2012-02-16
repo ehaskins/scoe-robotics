@@ -8,7 +8,7 @@ using System.Net.Sockets;
 
 namespace Scoe.Communication.Udp
 {
-    public class UdpServer : UdpInterface
+    public class UdpServer : UdpInterface, IDisposable
     {
         System.Timers.Timer safteyTimer;
         Thread _receieveThread;
@@ -20,6 +20,25 @@ namespace Scoe.Communication.Udp
             safteyTimer = new System.Timers.Timer(safteyTimeout / 2);
             safteyTimer.Elapsed += safteyTimerElapsed;
         }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+                if (safteyTimer != null)
+                {
+                    safteyTimer.Dispose();
+                    safteyTimer = null;
+                }
+        }
+        ~UdpServer()
+        {
+            Dispose(false);
+        }
+
         public int ListenPort { get; set; }
         public int DestinationPot { get; set; }
 
@@ -30,6 +49,7 @@ namespace Scoe.Communication.Udp
 
             _receieveThread = new Thread((ThreadStart)this.ReceiveDataSync) { Name = "UDP receive thread" };
             _receieveThread.Start();
+            safteyTimer.Start();
         }
         public override void Stop()
         {
@@ -42,6 +62,7 @@ namespace Scoe.Communication.Udp
 
         public override void DataProcessed(IPEndPoint endPoint)
         {
+            IsConnected = true;
             SendData(endPoint, LastPacketIndex);
         }
 

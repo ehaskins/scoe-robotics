@@ -5,12 +5,12 @@ using EHaskins.Utilities;
 
 namespace Scoe.Shared.Model
 {
-    public abstract class Channel<TValue> : NotifyObject
+    public abstract class Channel<TID, TValue> : NotifyObject
     {
         private TValue _Value;
-        private byte _Pin;
+        private TID _Pin;
 
-        public byte Pin
+        public TID ID
         {
             get
             {
@@ -18,10 +18,8 @@ namespace Scoe.Shared.Model
             }
             set
             {
-                if (_Pin == value)
-                    return;
                 _Pin = value;
-                RaisePropertyChanged("Pin");
+                RaisePropertyChanged("ID");
             }
         }
 

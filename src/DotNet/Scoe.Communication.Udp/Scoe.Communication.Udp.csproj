@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JoystickSection.cs" />
     <Compile Include="StateSection.cs" />
     <Compile Include="UdpClient.cs" />
     <Compile Include="UdpDataSection.cs" />

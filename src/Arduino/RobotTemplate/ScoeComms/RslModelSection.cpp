@@ -70,16 +70,22 @@ void RslModelSection::driveNoBeagleComm(){
 		digitalWrite(pin, LOW);
 }
 void RslModelSection::driveNoFrcComm(){
-	if (millis() % 400 < 200)
+	if (millis() % 900 < 100)
 		digitalWrite(pin, HIGH);
 	else
 		digitalWrite(pin, LOW);
 }
 void RslModelSection::driveEnabled(){
-	if (millis() % 1500 < 1400)
-		digitalWrite(pin, HIGH);
-	else
+	unsigned long m = millis();
+	if (m % 1200 < 50)
 		digitalWrite(pin, LOW);
+	else if (m % 1200 < 150)
+		digitalWrite(pin, HIGH);
+	else if (m % 1200 < 200)
+		digitalWrite(pin, LOW);
+	else
+		digitalWrite(pin, HIGH);
+
 }
 void RslModelSection::driveDisabled(){
 	if (millis() % 2000 < 1000)
@@ -88,9 +94,18 @@ void RslModelSection::driveDisabled(){
 		digitalWrite(pin, LOW);
 }
 void RslModelSection::driveAutonomous(){
-	if (millis() % 1500 < 1300)
-		digitalWrite(pin, HIGH);
-	else
+	unsigned long m = millis();
+	if (m % 1200 < 50)
 		digitalWrite(pin, LOW);
+	else if (m % 1200 < 150)
+		digitalWrite(pin, HIGH);
+	else if (m % 1200 < 250)
+		digitalWrite(pin, LOW);
+	else if (m % 1200 < 350)
+		digitalWrite(pin, HIGH);
+	else if (m % 1200 < 400)
+		digitalWrite(pin, LOW);
+	else
+		digitalWrite(pin, HIGH);
 }
 

@@ -23,10 +23,10 @@ namespace Scoe.Robot.Interface.Arduino
 
             foreach (DigitalIO digitalInput in DigitalInputs)
             {
-                enabledBits[digitalInput.Pin] = true;
-                modeBits[digitalInput.Pin] = digitalInput.Mode == DigitalIOMode.Output;
+                enabledBits[digitalInput.ID] = true;
+                modeBits[digitalInput.ID] = digitalInput.Mode == DigitalIOMode.Output;
                 if (digitalInput.Mode == DigitalIOMode.Output)
-                    stateBits[digitalInput.Pin] = digitalInput.Value;
+                    stateBits[digitalInput.ID] = digitalInput.Value;
             }
 
             BitConverter.GetBytes(enabledBits.RawValue).CopyTo(data, offset);
@@ -55,7 +55,7 @@ namespace Scoe.Robot.Interface.Arduino
                 if (enabledBits[i] && !modeBits[i])
                 {
                     var di = (from d in DigitalInputs
-                              where d.Pin == i
+                              where d.ID == i
                               select d).SingleOrDefault();
                     if (di != null)
                         di.Value = stateBits[i];

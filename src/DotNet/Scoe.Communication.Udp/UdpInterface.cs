@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace Scoe.Communication.Udp
 {
@@ -14,6 +15,7 @@ namespace Scoe.Communication.Udp
         public UdpInterface()
         {
             Sections = new ObservableCollection<UdpDataSection>();
+            IsConnected = false;
         }
 
         private ObservableCollection<UdpDataSection> _Sections;
@@ -170,6 +172,7 @@ namespace Scoe.Communication.Udp
             }
         }
         bool _isConnected;
+        object connectedLock = new object();
         public bool IsConnected
         {
             get
@@ -178,14 +181,35 @@ namespace Scoe.Communication.Udp
             }
             set
             {
-                if (_isConnected == value)
-                    return;
+                lock (connectedLock)
+                {
+                    if (_isConnected == value)
+                        return;
+
+                    _isConnected = value;
+                }
+
                 foreach (var section in Sections)
                 {
                     section.ConnectionStateChanged(this, value);
                 }
-                _isConnected = value;
+                if (IsConnected)
+                    RaiseConnected();
+                else
+                    RaiseDisconnected();
             }
+        }
+        public event EventHandler Disconnected;
+        protected void RaiseDisconnected()
+        {
+            if (Disconnected != null)
+                Disconnected(this, null);
+        }
+        public event EventHandler Connected;
+        protected void RaiseConnected()
+        {
+            if (Connected != null)
+                Connected(this, null);
         }
         protected UdpClient _client;
 

@@ -65,6 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DriverStationVM.cs" />
     <Compile Include="SampleData.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -107,6 +108,20 @@
     <Resource Include="compLogo.png" />
     <Resource Include="sponsor.jpg" />
     <Resource Include="teamLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EHaskins.Utilities\EHaskins.Utilities.csproj">
+      <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
+      <Name>EHaskins.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scoe.Communication.Udp\Scoe.Communication.Udp.csproj">
+      <Project>{CC9AC7D2-B525-4BB9-A75A-1408DA695955}</Project>
+      <Name>Scoe.Communication.Udp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
+      <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
+      <Name>Scoe.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

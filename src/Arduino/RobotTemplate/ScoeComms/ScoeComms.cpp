@@ -11,9 +11,10 @@
 #include <FRCComms\ByteWriter.h>
 ScoeComms::ScoeComms() {
 	//commSerial = &Serial;
-	init();
+	init(&Serial);
 }
-void ScoeComms::init() {
+void ScoeComms::init(Stream *stream) {
+	commStream = stream;
 	robotModel.init();
 	lastDataReceived = 0;
 	receiveBufferPosition = 0;
@@ -47,22 +48,22 @@ void ScoeComms::sendStatus() {
 	writeUInt16(headerBytes, offset, 6);
 
 	for (int i = 0; i < 8; i++) {
-		Serial.write(headerBytes[i]);
+		commStream->write(headerBytes[i]);
 	}
 
 	for (unsigned int i = 0; i < offset; i++) {
 		unsigned char byte = transmitBuffer[i];
 
 		if (byte > 254) {
-			Serial.write(SPC_ESCAPE);
+			commStream->write(SPC_ESCAPE);
 		}
-		Serial.write(byte);
+		commStream->write(byte);
 	}
 }
 
 bool ScoeComms::checkSerial() {
-	while (Serial.available() > 0) {
-		unsigned char byte = Serial.read();
+	while (commStream->available() > 0) {
+		unsigned char byte = commStream->read();
 
 		if (!isWaiting) {
 			if (byte == SPC_COMMAND && lastByte != SPC_ESCAPE) {

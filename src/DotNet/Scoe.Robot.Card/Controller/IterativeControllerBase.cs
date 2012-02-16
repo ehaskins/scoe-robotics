@@ -7,8 +7,7 @@ using Scoe.Shared.Model;
 
 namespace Scoe.Shared.Controller
 {
-    public abstract class IterativeControllerBase<T> :  ControllerBase<T>, IDisposable
-        where T : CardModelBase
+    public abstract class IterativeControllerBase :  ControllerBase, IDisposable
     {
         private System.Timers.Timer _timer;
 
@@ -17,8 +16,12 @@ namespace Scoe.Shared.Controller
         bool _initAuto = true;
         Semaphore sem = new Semaphore(0, 1);
 
+
+        public RobotState State { get; private set; }
+
         public IterativeControllerBase()
         {
+            State = new RobotState();
         }
 
         public void Dispose()
@@ -70,50 +73,47 @@ namespace Scoe.Shared.Controller
             catch
             {
                 sem.Release();//Return control flow to managing application. If on robot, appDomain will be recycled, and controller re-initialized.
+                throw;
             }
         }
 
         protected virtual void MainLoop()
         {
-            if (this.Robot != null)
+            if (State.IsEnabled)
             {
-                var state = Robot.State;
-                if (state.IsEnabled)
+                if (State.IsAutonomous)
                 {
-                    if (state.IsAutonomous)
+                    if (_initAuto)
                     {
-                        if (_initAuto)
-                        {
-                            _initAuto = false;
-                            _initDisabled = true;
-                            _initEnabled = true;
-                            AutonomousInit();
-                        }
-                        AutonomousLoop();
+                        _initAuto = false;
+                        _initDisabled = true;
+                        _initEnabled = true;
+                        AutonomousInit();
                     }
-                    else
-                    {
-                        if (_initEnabled)
-                        {
-                            _initAuto = true;
-                            _initDisabled = true;
-                            _initEnabled = false;
-                            EnabledInit();
-                        }
-                        EnabledLoop();
-                    }
+                    AutonomousLoop();
                 }
                 else
                 {
-                    if (_initDisabled)
+                    if (_initEnabled)
                     {
                         _initAuto = true;
-                        _initDisabled = false;
-                        _initEnabled = true;
-                        DisabledInit();
+                        _initDisabled = true;
+                        _initEnabled = false;
+                        EnabledInit();
                     }
-                    DisabledLoop();
+                    EnabledLoop();
                 }
+            }
+            else
+            {
+                if (_initDisabled)
+                {
+                    _initAuto = true;
+                    _initDisabled = false;
+                    _initEnabled = true;
+                    DisabledInit();
+                }
+                DisabledLoop();
             }
         }
 

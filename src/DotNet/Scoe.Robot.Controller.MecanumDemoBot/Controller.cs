@@ -1,96 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scoe.Robot.Interface.Arduino;
 using Scoe.Communication.Udp;
 using Scoe.Shared.Model;
 using Scoe.Shared.Controller;
-using EHaskins.Utilities.NumericExtensions;
+using EHaskins.Utilities.Extensions;
+using Scoe.Robot.Interface.Arduino;
 
-namespace Scoe.Robot.Controller.MecanumDemoBot
+namespace Scoe.Controller.MecanumDemoBot
 {
-    public class MecanumDemoModel : CardModelBase
+    public class Controller : IterativeControllerBase
     {
-        public MecanumDemoModel()
+        public Joystick DriverController;
+
+        public Motor NWMotor;
+        public Motor NEMotor;
+        public Motor SWMotor;
+        public Motor SEMotor;
+
+        public AnalogInput UltraSonicChannel;
+
+        public DutyCyclePwm LedDimmer;
+
+        public List<Joystick> Joysticks;
+        public List<AnalogInput> AnalogInputs;
+        public List<Motor> PwmOutputs;
+        public List<DutyCyclePwm> DutyCyclePwms;
+
+
+        private void SetupModel()
         {
             //Build objects
-            NWMotor = new PwmOutput(1);
-            NEMotor = new PwmOutput(2);
-            SWMotor = new PwmOutput(3);
-            SEMotor = new PwmOutput(4);
+            NWMotor = new Motor(1);
+            NEMotor = new Motor(2);
+            SWMotor = new Motor(3);
+            SEMotor = new Motor(4);
 
             UltraSonicChannel = new AnalogInput(0);
 
-            DriverController = new XBoxController();
+            DriverController = new Joystick();
+
+            LedDimmer = new DutyCyclePwm(12);
 
             //Initialize collections
-            PwmOutputs = new List<PwmOutput>();
-            AnalogInputs = new List<AnalogInput>();
-
-            //Add objects to collections
+            PwmOutputs = new List<Motor>(new Motor[] { NWMotor, NEMotor, SWMotor, SEMotor });
+            AnalogInputs = new List<AnalogInput>(new AnalogInput[] { UltraSonicChannel });
+            DutyCyclePwms = new List<DutyCyclePwm>(new DutyCyclePwm[] { LedDimmer });
             Joysticks = new List<Joystick>(new Joystick[] { DriverController });
-            PwmOutputs.AddRange(new PwmOutput[] { NWMotor, NEMotor, SWMotor, SEMotor });
-            AnalogInputs.Add(UltraSonicChannel);
         }
-
-        public Joystick DriverController { get; private set; }
-
-        public PwmOutput NWMotor { get; private set; }
-        public PwmOutput NEMotor { get; private set; }
-        public PwmOutput SWMotor { get; private set; }
-        public PwmOutput SEMotor { get; private set; }
-
-        public AnalogInput UltraSonicChannel { get; private set; }
-
-        public List<Joystick> Joysticks { get; private set; }
-        public List<AnalogInput> AnalogInputs { get; private set; }
-        public List<PwmOutput> PwmOutputs { get; private set; }
-    }
-
-    public class Controller : IterativeControllerBase<MecanumDemoModel>
-    {
-        public Controller()
+        private void SetupIO()
         {
-            //Create robotmodel
-            Robot = new MecanumDemoModel();
-
             //Build IO interfaces
-            var ioInt = new ArduinoInterface("COM7", 115200, 20);
-            ioInt.Sections.Add(new RslModelSection(Robot.State));
-            ioInt.Sections.Add(new AnalogIODataSection(Robot.AnalogInputs));
-            ioInt.Sections.Add(new PwmDataSection(Robot.PwmOutputs));
+            var ioInt = new ArduinoInterface("COM5", 115200, 20);
+            ioInt.Sections.Add(new RslModelSection(State));
+            ioInt.Sections.Add(new AnalogIODataSection(AnalogInputs));
+            ioInt.Sections.Add(new MotorDataSection(PwmOutputs));
+            ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
 
             var ctrlInt = new UdpServer(1150, 1110);
-            ctrlInt.Sections.Add(new StateSection(Robot.State) { PrimaryInterface = ctrlInt });
-            ctrlInt.Sections.Add(new JoystickSection(Robot.Joysticks));
+            ctrlInt.Connected += (source, e) => State.IsDSConnected = true;
+            ctrlInt.Disconnected += (source, e) => State.IsDSConnected = false;
+
+            ctrlInt.Sections.Add(new StateSection(State));
+            ctrlInt.Sections.Add(new JoystickSection(Joysticks));
 
             ioInt.Start();
             ctrlInt.Start();
+        }
+        public Controller()
+        {
+            SetupModel();
+            SetupIO();
         }
 
 
         protected override void EnabledLoop()
         {
-            var x = Robot.DriverController.Axes[0];
-            var y = Robot.DriverController.Axes[1];
-            var z = Robot.DriverController.Axes[2];
+            if (DriverController.Axes.Count >= 3)
+            {
+                var x = DriverController.Axes[0];
+                var y = DriverController.Axes[1];
+                var z = DriverController.Axes[2];
 
-            var nw = y + x + z;
-            var ne = y - x - z;
-            var sw = y - x + z;
-            var se = y + x - z;
+                var nw = y + x + z;
+                var ne = y - x - z;
+                var sw = y - x + z;
+                var se = y + x - z;
 
-            Robot.NWMotor.Value = (byte)nw.Map(-1, 1, 0, 255);
-            Robot.NEMotor.Value = (byte)ne.Map(-1, 1, 0, 255); ;
-            Robot.SWMotor.Value = (byte)sw.Map(-1, 1, 0, 255); ;
-            Robot.SEMotor.Value = (byte)se.Map(-1, 1, 0, 255); ;
+                NWMotor.Value = (byte)nw.Map(-1, 1, 0, 255);
+                NEMotor.Value = (byte)ne.Map(-1, 1, 0, 255);
+                SWMotor.Value = (byte)sw.Map(-1, 1, 0, 255);
+                SEMotor.Value = (byte)se.Map(-1, 1, 0, 255);
+            }
 
-            Console.WriteLine("E " + Robot.UltraSonicChannel.Value);
+            Console.WriteLine(State.PrimaryState.ToString() + UltraSonicChannel.Value);
         }
 
+        double dimmerDir = 0.01;
+        double dimmerMin = 0;
+        double dimmerMax = 1;
+        double dimmerPos = 0;
         protected override void DisabledLoop()
         {
-            Console.WriteLine("D " + Robot.UltraSonicChannel.Value);
+
+            if (dimmerPos > dimmerMax || dimmerPos < dimmerMin)
+                dimmerDir *= -1;
+
+            dimmerPos += dimmerDir;
+
+            LedDimmer.Value = dimmerPos;
+            Console.WriteLine(State.PrimaryState.ToString() + dimmerPos);
         }
     }
 }

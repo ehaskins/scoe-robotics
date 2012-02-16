@@ -19,16 +19,26 @@
             <ColumnDefinition Width="Auto" MinWidth="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-		
+        
         <Border BorderBrush="#FFBCBCBC" BorderThickness="1" CornerRadius="5" Margin="3,3,3,0">
-            <StackPanel Orientation="Vertical">
-            	
-				<Image Source="TeamLogo.png" Height="75"/>
-                <ToggleButton Foreground="#FFF94D4D" FontSize="26.667" Margin="5" Content="Enable" HorizontalAlignment="Stretch"/>
-                <Button FontSize="26.667" Margin="5" Content="Teleop" HorizontalAlignment="Stretch"/>
-				<TextBlock Text="Connecting to &quot;Pimpbot&quot;..."/>
-				
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical">
+
+                    <Image Source="TeamLogo.png" Height="75"/>
+                    <ToggleButton Foreground="#FFF94D4D" FontSize="26.667" Margin="5" Content="Enable" HorizontalAlignment="Stretch"/>
+                    <Button FontSize="26.667" Margin="5" Content="Teleop" HorizontalAlignment="Stretch"/>
+                    <TextBlock Text="Connecting to &quot;Pimpbot&quot;..."/>
+
+                </StackPanel>
+                <ListBox Grid.Row="1">
+                    <ListBoxItem Content="XBox 360" />
+                    <ListBoxItem Content="Generic HID" />
+                </ListBox>
+            </Grid>
         </Border>
         <ItemsControl ItemsSource="{StaticResource ResourceKey=SampleTelem}" Grid.Column="1">
             <ItemsControl.ItemsPanel>

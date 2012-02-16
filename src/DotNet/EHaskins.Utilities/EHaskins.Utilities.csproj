@@ -79,16 +79,17 @@
     <Compile Include="Binary\BitField32.cs" />
     <Compile Include="Binary\BitField8.cs" />
     <Compile Include="Crc32.cs" />
+    <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Matrix3.cs" />
     <Compile Include="MicroStopwatch.cs" />
     <Compile Include="MicroTimer.cs" />
     <Compile Include="NotificationObject.cs" />
     <Compile Include="NotifyObject.cs" />
-    <Compile Include="NumericExtensions\DoubleExtensions.cs" />
+    <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="IDisposableExtensions.cs" />
     <Compile Include="MagicAttribute.cs" />
     <Compile Include="MicroTimerEventArgs.cs" />
-    <Compile Include="NumericExtensions\MacAddressExtensions.cs" />
+    <Compile Include="Extensions\MacAddressExtensions.cs" />
     <Compile Include="WPF\DispatchingCollection.cs">
       <SubType>Code</SubType>
     </Compile>

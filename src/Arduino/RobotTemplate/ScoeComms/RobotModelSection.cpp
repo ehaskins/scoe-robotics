@@ -13,6 +13,7 @@ RobotModelSection::RobotModelSection() {
 
 void RobotModelSection::init(){
 	lastIsSafteyTripped = false;
+	isFirstLoop = true;
 	isActive = false;
 }
 

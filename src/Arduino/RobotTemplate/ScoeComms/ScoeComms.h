@@ -30,10 +30,11 @@
 class ScoeComms {
 public:
 	ScoeComms();
-	void init();
+	void init(Stream * commStream);
 	void poll();
 	RobotModel robotModel;
 private:
+	Stream *commStream;
 	unsigned char receiveBuffer[RECEIVE_BUFFER_SIZE];
 	unsigned char transmitBuffer[TRANSMIT_BUFFER_SIZE];
 	unsigned int receiveBufferPosition;

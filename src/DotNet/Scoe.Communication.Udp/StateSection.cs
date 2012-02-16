@@ -10,23 +10,23 @@ namespace Scoe.Communication.Udp
     {
         RobotState _state;
         UdpInterface _primaryInterface;
-        public StateSection(RobotState state)
+        public StateSection(RobotState state, bool isDsLink = true)
             : base(0)
         {
+            _IsDSLink = isDsLink;
             _state = state;
         }
 
-        public UdpInterface PrimaryInterface
+        private bool _IsDSLink;
+        public bool IsDSLink
         {
-            get
-            {
-                return _primaryInterface;
-            }
+            get { return _IsDSLink; }
             set
             {
-                if (_primaryInterface == value)
+                if (_IsDSLink == value)
                     return;
-                _primaryInterface = value;
+                _IsDSLink = value;
+                RaisePropertyChanged("IsDSLink");
             }
         }
         public override void GetData(ref byte[] data, ref int offset)
@@ -43,7 +43,8 @@ namespace Scoe.Communication.Udp
         {
             var bits = new BitField8(data[offset++]);
             _state.IsEStopped = bits[0];
-            _state.IsDSConnected = bits[1];
+            if (!IsDSLink)//Don't apply DS state when communicating over the DS link. 
+                _state.IsDSConnected = bits[1];
             _state.IsEnabled = bits[2];
             _state.IsAutonomous = bits[3];
             _state.IsIODeviceConnected = bits[4];

@@ -4,26 +4,27 @@ using System.Linq;
 using Scoe.Robot.Interface.Arduino;
 using Scoe.Shared.Model;
 using System.Threading;
+using Scoe.Shared.Controller;
 
 namespace ArduinoCommTest
 {
     class Program
     {
-        private static List<PwmOutput> _Pwms;
+        private static List<Motor> _Pwms;
         static void Main(string[] args)
         {
+            var state = new RobotState();
             var arduino = new ArduinoInterface("COM7", 115200, 20);
-            var model = new CardModelBase();
-            _Pwms = new List<PwmOutput>();
-            _Pwms.Add(new PwmOutput(6));
-            _Pwms.Add(new PwmOutput(9));
-            _Pwms.Add(new PwmOutput(10));
-            _Pwms.Add(new PwmOutput(11));
+            _Pwms = new List<Motor>();
+            _Pwms.Add(new Motor(6));
+            _Pwms.Add(new Motor(9));
+            _Pwms.Add(new Motor(10));
+            _Pwms.Add(new Motor(11));
 
             var thread = new Thread(UpdatePwm);
             thread.Start();
-            arduino.Sections.Add(new PwmDataSection(_Pwms));
-            arduino.Sections.Add(new RslModelSection(model.State));
+            arduino.Sections.Add(new MotorDataSection(_Pwms));
+            arduino.Sections.Add(new RslModelSection(state));
             arduino.Start();
 
             foreach (var pwm in _Pwms)
@@ -39,20 +40,20 @@ namespace ArduinoCommTest
                 switch (key.Key)
                 {
                     case ConsoleKey.E:
-                        model.State.IsEStopped = !model.State.IsEStopped;
-                        Console.WriteLine("IsEStopped:" + model.State.IsEStopped);
+                        state.IsEStopped = !state.IsEStopped;
+                        Console.WriteLine("IsEStopped:" + state.IsEStopped);
                         break;
                     case ConsoleKey.D:
-                        model.State.IsEnabled = !model.State.IsEnabled;
-                        Console.WriteLine("IsEnabled:" + model.State.IsEnabled);
+                        state.IsEnabled = !state.IsEnabled;
+                        Console.WriteLine("IsEnabled:" + state.IsEnabled);
                         break;
                     case ConsoleKey.A:
-                        model.State.IsAutonomous = !model.State.IsAutonomous;
-                        Console.WriteLine("IsAutonomous:" + model.State.IsAutonomous);
+                        state.IsAutonomous = !state.IsAutonomous;
+                        Console.WriteLine("IsAutonomous:" + state.IsAutonomous);
                         break;
                     case ConsoleKey.C:
-                        model.State.IsDSConnected = !model.State.IsDSConnected;
-                        Console.WriteLine("IsDSConnected:" + model.State.IsDSConnected);
+                        state.IsDSConnected = !state.IsDSConnected;
+                        Console.WriteLine("IsDSConnected:" + state.IsDSConnected);
                         break;
                     case ConsoleKey.X:
                         done = true;

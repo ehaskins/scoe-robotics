@@ -9,7 +9,7 @@ using Scoe.Shared.Interface;
 
 namespace Scoe.Robot.Interface.Arduino
 {
-    public class ArduinoInterface : CardInterfaceBase
+    public class ArduinoInterface : CardInterfaceBase, IDisposable
     {
         private uint _packetCrc;
         private int _packetDataLength;
@@ -89,7 +89,6 @@ namespace Scoe.Robot.Interface.Arduino
                         }
                         else if (_receiveBufferPosition == 6)
                         {
-                            int position = 4;
                             _packetDataLength = BitConverter.ToUInt16(_receiveBuffer, 4);
                             if (_packetDataLength > (_receiveBuffer.Length - 6))
                             {
@@ -237,6 +236,31 @@ namespace Scoe.Robot.Interface.Arduino
             Command = 0xff,
             Escape = 0xfe,
             NewPacket = 0xff
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (serialPort != null)
+                {
+                    serialPort.Dispose();
+                    serialPort = null;
+                }
+                if (transmitTimer != null)
+                {
+                    transmitTimer.Dispose();
+                    transmitTimer = null;
+                }
+            }
+        }
+        ~ArduinoInterface()
+        {
+            Dispose(false);
         }
     }
 

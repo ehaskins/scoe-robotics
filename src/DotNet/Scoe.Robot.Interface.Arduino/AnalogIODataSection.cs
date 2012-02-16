@@ -18,7 +18,7 @@ namespace Scoe.Robot.Interface.Arduino
             data[offset++] = (byte)AnalogInputs.Count;
             foreach (AnalogInput analogInput in AnalogInputs)
             {
-                data[offset++] = analogInput.Pin;
+                data[offset++] = analogInput.ID;
                 data[offset++] = 1; //TODO: Implement sample averaging
             }
         }
@@ -31,7 +31,7 @@ namespace Scoe.Robot.Interface.Arduino
                 for (int i = 0; i < count; i++)
                 {
                     byte pin = data[offset++];
-                    var ai = (from a in AnalogInputs where a.Pin == pin select a).SingleOrDefault();
+                    var ai = (from a in AnalogInputs where a.ID == pin select a).SingleOrDefault();
                     if (ai != null)
                         ai.Value = BitConverter.ToUInt16(data, offset);
                     offset += 2;

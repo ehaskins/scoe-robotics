@@ -6,8 +6,7 @@ using Scoe.Shared.Model;
 
 namespace Scoe.Shared.Controller
 {
-    public abstract class ControllerBase<T> : NotifyObject
-        where T : CardModelBase
+    public abstract class ControllerBase : NotifyObject
     {
         public abstract void Run();
         public abstract void Stop();
@@ -16,7 +15,5 @@ namespace Scoe.Shared.Controller
         {
             //TODO: Implement me!
         }
-
-        public T Robot { get; set; }
     }
 }
