@@ -21,6 +21,7 @@ namespace Scoe.Controller.MecanumDemoBot
         public AnalogInput UltraSonicChannel;
 
         public DutyCyclePwm LedDimmer;
+        public DutyCyclePwm JSDimmer;
 
         public List<Joystick> Joysticks;
         public List<AnalogInput> AnalogInputs;
@@ -40,12 +41,13 @@ namespace Scoe.Controller.MecanumDemoBot
 
             DriverController = new Joystick();
 
+            JSDimmer = new DutyCyclePwm(11);
             LedDimmer = new DutyCyclePwm(12);
 
             //Initialize collections
             PwmOutputs = new List<Motor>(new Motor[] { NWMotor, NEMotor, SWMotor, SEMotor });
             AnalogInputs = new List<AnalogInput>(new AnalogInput[] { UltraSonicChannel });
-            DutyCyclePwms = new List<DutyCyclePwm>(new DutyCyclePwm[] { LedDimmer });
+            DutyCyclePwms = new List<DutyCyclePwm>(new DutyCyclePwm[] { LedDimmer, JSDimmer });
             Joysticks = new List<Joystick>(new Joystick[] { DriverController });
         }
         private void SetupIO()
@@ -107,8 +109,10 @@ namespace Scoe.Controller.MecanumDemoBot
                 dimmerDir *= -1;
 
             dimmerPos += dimmerDir;
-
             LedDimmer.Value = dimmerPos;
+
+            if (DriverController.Axes.Count >= 1)
+                JSDimmer.Value = DriverController.Axes[0];
             Console.WriteLine(State.PrimaryState.ToString() + dimmerPos);
         }
     }

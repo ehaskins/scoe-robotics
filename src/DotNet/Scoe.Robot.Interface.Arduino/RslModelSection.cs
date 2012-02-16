@@ -37,10 +37,10 @@ namespace Scoe.Robot.Interface.Arduino
                 state = RslMode.EStopped;
             else if (!State.IsDSConnected)
                 state = RslMode.NoFrcCommunication;
-            else if (State.IsAutonomous)
-                state = RslMode.Autonomous;
             else if (!State.IsEnabled)
                 state = RslMode.Disabled;
+            else if (State.IsAutonomous)
+                state = RslMode.Autonomous;
             else
                 state = RslMode.Enabled;
 

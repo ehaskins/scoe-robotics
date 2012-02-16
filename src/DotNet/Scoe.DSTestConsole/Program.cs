@@ -12,10 +12,14 @@ namespace Scoe.DSTestConsole
         static void Main(string[] args)
         {
             var state = new RobotState();
+            var stick = new Joystick();
+            stick.Axes.Add(0.0);
+
             var ep = new IPEndPoint(IPAddress.Loopback, 1150);
             var udp = new DSUdpClient(ep, 1110);
 
             udp.Sections.Add(new StateSection(state));
+            udp.Sections.Add(new JoystickSection(new List<Joystick>(new Joystick[] { stick })));
             udp.Start();
             bool done = false;
             while (!done)
@@ -42,6 +46,15 @@ namespace Scoe.DSTestConsole
                     case ConsoleKey.X:
                         done = true;
                         break;
+                    case ConsoleKey.UpArrow:
+                        stick.Axes[0] += 0.2;
+                        Console.WriteLine("Stick up:" + stick.Axes[0]);
+                        break;
+                    case ConsoleKey.DownArrow:
+                        stick.Axes[0] -= 0.2;
+                        Console.WriteLine("Stick down:" + stick.Axes[0]);
+                        break;
+
                 }
             }
         }
