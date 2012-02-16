@@ -6,6 +6,6 @@ underscore solid, 200ms each
 No master comms ................
 No DS comms        .   .   .   .
 Disbabled	_____     _____    
-Tele            .-.-.-.-.-.-.-.-
-Auto            ___________________
+Tele           	_____._____._____.__
+Auto            ____..____..____..__
 
