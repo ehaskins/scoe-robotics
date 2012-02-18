@@ -5,7 +5,7 @@ using Scoe.Shared.Model;
 using EHaskins.Utilities.Extensions;
 namespace Scoe.Communication.Arduino
 {
-    public class MotorDataSection : ArduinoDataSection
+    public class MotorDataSection : DataSection
     {
         public MotorDataSection(IList<Motor> pwmOutputs)
             : base(1)

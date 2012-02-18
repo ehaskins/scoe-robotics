@@ -6,7 +6,7 @@ using EHaskins.Utilities.Extensions;
 
 namespace Scoe.Communication.Arduino
 {
-    public class DutyCycleSection : ArduinoDataSection
+    public class DutyCycleSection : DataSection
     {
         public DutyCycleSection(IList<DutyCyclePwm> pwms)
             : base(4)

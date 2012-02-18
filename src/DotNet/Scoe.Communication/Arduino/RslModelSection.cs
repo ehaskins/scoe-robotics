@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Scoe.Shared.Model;
+using Scoe.Communication.Udp;
 
 namespace Scoe.Communication.Arduino
 {
-    public class RslModelSection : ArduinoDataSection
+    public class RslModelSection : Scoe.Communication.DataSection
     {
         private RobotState _State;
         public bool _updated = false;

@@ -5,7 +5,7 @@ using Scoe.Shared.Model;
 
 namespace Scoe.Communication.Arduino
 {
-    public class AnalogIODataSection : ArduinoDataSection
+    public class AnalogIODataSection : DataSection
     {
         public AnalogIODataSection(IList<AnalogInput> analogInputs)
             : base(3)

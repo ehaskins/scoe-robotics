@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scoe.Robot.Interface.Arduino;
 using Scoe.Shared.Model;
 using System.Threading;
-using Scoe.Shared.Controller;
+using Scoe.Communication.Arduino;
 
 namespace ArduinoCommTest
 {

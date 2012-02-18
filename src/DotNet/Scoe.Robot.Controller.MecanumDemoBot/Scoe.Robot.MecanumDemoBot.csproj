@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C24888C3-125A-4CE8-841E-90EB2CA1D67E}</ProjectGuid>
+    <ProjectGuid>{1B645EDA-166A-4FC1-ADCC-FE44644BDD65}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Scoe.DriverStation.Input</RootNamespace>
-    <AssemblyName>Scoe.DriverStation.Input</AssemblyName>
+    <RootNamespace>Scoe.Robot.Controller.MecanumDemoBot</RootNamespace>
+    <AssemblyName>Scoe.Robot.Controller.MecanumDemoBot</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\SlimDX SDK (January 2012)\Bin\net40\x64\SlimDX.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,8 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JoystickManager.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EHaskins.Utilities\EHaskins.Utilities.csproj">
+      <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
+      <Name>EHaskins.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scoe.Communication\Scoe.Communication.csproj">
+      <Project>{7D6A46F0-8432-4851-8F98-18A058F50069}</Project>
+      <Name>Scoe.Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
+      <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
+      <Name>Scoe.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1B645EDA-166A-4FC1-ADCC-FE44644BDD65}</ProjectGuid>
+    <ProjectGuid>{7D6A46F0-8432-4851-8F98-18A058F50069}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Scoe.Robot.Controller.MecanumDemoBot</RootNamespace>
-    <AssemblyName>Scoe.Robot.Controller.MecanumDemoBot</AssemblyName>
+    <RootNamespace>Scoe.Communication</RootNamespace>
+    <AssemblyName>Scoe.Communication</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,25 +40,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller.cs" />
+    <Compile Include="Arduino\AnalogIODataSection.cs" />
+    <Compile Include="Arduino\ArduinoInterface.cs" />
+    <Compile Include="Arduino\DigitalIODataSection.cs" />
+    <Compile Include="Arduino\DutyCycleSection.cs" />
+    <Compile Include="Arduino\MotorDataSection.cs" />
+    <Compile Include="Arduino\RslModelSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Udp\JoystickSection.cs" />
+    <Compile Include="Udp\StateSection.cs" />
+    <Compile Include="Udp\UdpClient.cs" />
+    <Compile Include="DataSection.cs" />
+    <Compile Include="Interface.cs" />
+    <Compile Include="Udp\UdpServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EHaskins.Utilities\EHaskins.Utilities.csproj">
       <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
       <Name>EHaskins.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scoe.Communication.Udp\Scoe.Communication.Udp.csproj">
-      <Project>{CC9AC7D2-B525-4BB9-A75A-1408DA695955}</Project>
-      <Name>Scoe.Communication.Udp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
       <Name>Scoe.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Interface.Arduino\Scoe.Robot.Interface.Arduino.csproj">
-      <Project>{82067870-7EE1-4FFD-B01E-A8102A300A33}</Project>
-      <Name>Scoe.Robot.Interface.Arduino</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

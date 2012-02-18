@@ -7,7 +7,7 @@ using Scoe.Shared.Model;
 
 namespace Scoe.Communication.Arduino
 {
-    public class DigitalIODataSection : ArduinoDataSection
+    public class DigitalIODataSection : DataSection
     {
         public DigitalIODataSection(ObservableCollection<DigitalIO> digitalInputs)
             : base(2)

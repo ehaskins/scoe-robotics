@@ -29,14 +29,14 @@ namespace Scoe.Communication.Arduino
 
         public ArduinoInterface(string port, int baud = 9600, int interval = 20)
         {
-            Sections = new ObservableCollection<ArduinoDataSection>();
+            Sections = new ObservableCollection<DataSection>();
             serialPort = new SerialPort(port, baud);
             transmitTimer = new System.Timers.Timer(interval);
             transmitTimer.Elapsed += TransmitTimerElapsed;
         }
 
-        private ObservableCollection<ArduinoDataSection> _Sections;
-        public ObservableCollection<ArduinoDataSection> Sections
+        private ObservableCollection<DataSection> _Sections;
+        public ObservableCollection<DataSection> Sections
         {
             get { return _Sections; }
             protected set

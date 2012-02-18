@@ -5,9 +5,9 @@ using Scoe.Communication.Udp;
 using Scoe.Shared.Model;
 using Scoe.Shared.Controller;
 using EHaskins.Utilities.Extensions;
-using Scoe.Robot.Interface.Arduino;
+using Scoe.Communication.Arduino;
 
-namespace Scoe.Controller.MecanumDemoBot
+namespace Scoe.Robot.MecanumDemoBot
 {
     public class Controller : IterativeControllerBase
     {
@@ -98,9 +98,9 @@ namespace Scoe.Controller.MecanumDemoBot
             Console.WriteLine(State.PrimaryState.ToString() + UltraSonicChannel.Value);
         }
 
-        double dimmerDir = 0.01;
+        double dimmerDir = 0.005;
         double dimmerMin = 0;
-        double dimmerMax = 1;
+        double dimmerMax = 0.5;
         double dimmerPos = 0;
         protected override void DisabledLoop()
         {

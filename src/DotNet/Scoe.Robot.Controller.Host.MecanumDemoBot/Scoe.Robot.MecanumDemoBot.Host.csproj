@@ -63,9 +63,9 @@
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
       <Name>Scoe.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Controller.MecanumDemoBot\Scoe.Robot.Controller.MecanumDemoBot.csproj">
+    <ProjectReference Include="..\Scoe.Robot.Controller.MecanumDemoBot\Scoe.Robot.MecanumDemoBot.csproj">
       <Project>{1B645EDA-166A-4FC1-ADCC-FE44644BDD65}</Project>
-      <Name>Scoe.Robot.Controller.MecanumDemoBot</Name>
+      <Name>Scoe.Robot.MecanumDemoBot</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

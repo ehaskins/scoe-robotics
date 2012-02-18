@@ -59,13 +59,13 @@
       <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
       <Name>EHaskins.Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Scoe.Communication\Scoe.Communication.csproj">
+      <Project>{7D6A46F0-8432-4851-8F98-18A058F50069}</Project>
+      <Name>Scoe.Communication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
       <Name>Scoe.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Interface.Arduino\Scoe.Robot.Interface.Arduino.csproj">
-      <Project>{82067870-7EE1-4FFD-B01E-A8102A300A33}</Project>
-      <Name>Scoe.Robot.Interface.Arduino</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

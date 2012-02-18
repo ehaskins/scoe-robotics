@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using EHaskins.Utilities;
 
-namespace Scoe.Communication.Arduino
-
+namespace Scoe.Communication
 {
-    public abstract class ArduinoDataSection : NotifyObject
+    using Scoe.Communication.Udp;
+    public abstract class DataSection : NotifyObject
     {
-        public ArduinoDataSection(byte sectionId)
+        public DataSection(byte sectionId)
         {
             SectionId = sectionId;
         }
@@ -25,6 +25,7 @@ namespace Scoe.Communication.Arduino
             }
         }
 
+        public virtual void ConnectionStateChanged(Scoe.Communication.Interface sender, bool isConnected) { }
         public abstract void GetData(ref byte[] data, ref int offset);
         public abstract void Update(byte[] data, int offset);
     }
