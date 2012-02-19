@@ -25,17 +25,17 @@ namespace Scoe.Robot.MecanumDemoBot
 
         public List<Joystick> Joysticks;
         public List<AnalogInput> AnalogInputs;
-        public List<Motor> PwmOutputs;
+        public List<Motor> Motors;
         public List<DutyCyclePwm> DutyCyclePwms;
 
 
         private void SetupModel()
         {
             //Build objects
-            NWMotor = new Motor(1);
-            NEMotor = new Motor(2);
-            SWMotor = new Motor(3);
-            SEMotor = new Motor(4);
+            NWMotor = new Motor(2);
+            NEMotor = new Motor(3, true);
+            SWMotor = new Motor(4);
+            SEMotor = new Motor(5, true);
 
             UltraSonicChannel = new AnalogInput(0);
 
@@ -45,7 +45,7 @@ namespace Scoe.Robot.MecanumDemoBot
             LedDimmer = new DutyCyclePwm(12);
 
             //Initialize collections
-            PwmOutputs = new List<Motor>(new Motor[] { NWMotor, NEMotor, SWMotor, SEMotor });
+            Motors = new List<Motor>(new Motor[] { NWMotor, NEMotor, SWMotor, SEMotor });
             AnalogInputs = new List<AnalogInput>(new AnalogInput[] { UltraSonicChannel });
             DutyCyclePwms = new List<DutyCyclePwm>(new DutyCyclePwm[] { LedDimmer, JSDimmer });
             Joysticks = new List<Joystick>(new Joystick[] { DriverController });
@@ -56,7 +56,7 @@ namespace Scoe.Robot.MecanumDemoBot
             var ioInt = new ArduinoInterface("COM5", 115200, 20);
             ioInt.Sections.Add(new RslModelSection(State));
             ioInt.Sections.Add(new AnalogIODataSection(AnalogInputs));
-            ioInt.Sections.Add(new MotorDataSection(PwmOutputs));
+            ioInt.Sections.Add(new MotorDataSection(Motors));
             ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
 
             var ctrlInt = new UdpServer(1150, 1110);
@@ -80,24 +80,40 @@ namespace Scoe.Robot.MecanumDemoBot
         {
             if (DriverController.Axes.Count >= 3)
             {
-                var x = DriverController.Axes[0];
-                var y = DriverController.Axes[1];
-                var z = DriverController.Axes[2];
+                var x = DriverController.Axes[0].Deadband(0.0, 1.0, 0.1);
+                var y = -DriverController.Axes[1].Deadband(0.0, 1.0, 0.1);
+                var z = DriverController.Axes[3].Deadband(0.0, 1.0, 0.1);
+
+
+                Console.WriteLine(String.Format("Mecanum Drive x:{0:f2} y:{1:f2} z:{2:f2}", x, y, z));
 
                 var nw = y + x + z;
                 var ne = y - x - z;
                 var sw = y - x + z;
                 var se = y + x - z;
 
-                NWMotor.Value = (byte)nw.Map(-1, 1, 0, 255);
-                NEMotor.Value = (byte)ne.Map(-1, 1, 0, 255);
-                SWMotor.Value = (byte)sw.Map(-1, 1, 0, 255);
-                SEMotor.Value = (byte)se.Map(-1, 1, 0, 255);
+                var scale = 0.3;
+                ne *= scale;
+                nw *= scale;
+                sw *= scale;
+                se *= scale;
+
+                NWMotor.Value = nw;
+                NEMotor.Value = ne;
+                SWMotor.Value = sw;
+                SEMotor.Value = se;
             }
 
             Console.WriteLine(State.PrimaryState.ToString() + UltraSonicChannel.Value);
         }
 
+        protected override void DisabledInit()
+        {
+            foreach (Motor motor in Motors)
+            {
+                motor.Value = 0;
+            }
+        }
         double dimmerDir = 0.005;
         double dimmerMin = 0;
         double dimmerMax = 0.5;
@@ -112,8 +128,10 @@ namespace Scoe.Robot.MecanumDemoBot
             LedDimmer.Value = dimmerPos;
 
             if (DriverController.Axes.Count >= 1)
+            {
                 JSDimmer.Value = DriverController.Axes[0];
-            Console.WriteLine(State.PrimaryState.ToString() + dimmerPos);
+                Console.WriteLine(State.PrimaryState.ToString() + DriverController.Axes[0]);
+            }
         }
     }
 }

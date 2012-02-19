@@ -70,7 +70,7 @@ namespace Scoe.Shared.Controller
             {
                 MainLoop();
             }
-            catch
+            catch (Exception ex)
             {
                 sem.Release();//Return control flow to managing application. If on robot, appDomain will be recycled, and controller re-initialized.
                 throw;

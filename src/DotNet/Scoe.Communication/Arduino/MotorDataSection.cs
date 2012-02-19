@@ -21,10 +21,12 @@ namespace Scoe.Communication.Arduino
                 data[offset++] = motor.IsEnabled ? motor.ID : (byte)0;
 
                 //Scale motor value from -1 to 1, or 0 to 1, reversible or not, respectively.
-                var normalized = (motor.Value / motor.Scale);
-                normalized = motor.Reversible ? normalized.Limit(-1, 1) : normalized.Limit(0, 1);
+                var normalized = motor.GetNormalized();
 
-                data[offset++] = (byte)(normalized * (motor.Reversible ? 127 : 255));
+                if (motor.IsReversible)
+                    normalized = (normalized + 1) / 2;
+
+                data[offset++] = (byte)(normalized * 255);
             }
         }
 

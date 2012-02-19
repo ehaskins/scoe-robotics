@@ -66,9 +66,7 @@ bool ScoeComms::checkSerial() {
 		unsigned char byte = commStream->read();
 
 		if (!isWaiting) {
-			if (byte == SPC_COMMAND && lastByte != SPC_ESCAPE) {
-				isWaiting = true;
-			} else if (byte == SPC_ESCAPE && lastByte != SPC_ESCAPE) {
+			if (byte == SPC_ESCAPE && lastByte != SPC_ESCAPE) {
 				//Wait until next loop
 			} else if (receiveBufferPosition < RECEIVE_BUFFER_SIZE - 6) {
 				receiveBuffer[receiveBufferPosition++] = byte;
@@ -92,10 +90,12 @@ bool ScoeComms::checkSerial() {
 					}
 				}
 			}
-		} else if (byte == CMD_NEWPACKET && lastByte == SPC_COMMAND) {
+		}
+		if (byte == CMD_NEWPACKET && lastByte == SPC_COMMAND) {
 			isWaiting = false;
 			receiveBufferPosition = 0;
 		}
+
 		lastByte = byte;
 	}
 	return false;

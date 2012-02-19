@@ -135,7 +135,7 @@ namespace Scoe.Communication
                     if (ex.ErrorCode != 10054 && IsEnabled)
                         Stop();
                 }
-                catch
+                catch(Exception e)
                 {
                     if (IsEnabled)
                         Stop();
@@ -146,6 +146,7 @@ namespace Scoe.Communication
 
         protected void SendData(IPEndPoint endPoint, ushort packetIndex)
         {
+            RaiseSending();
             var data = GetData(packetIndex);
             _client.Send(data, data.Length, endPoint);
         }
@@ -209,6 +210,12 @@ namespace Scoe.Communication
         {
             if (Connected != null)
                 Connected(this, null);
+        }
+        public event EventHandler Sending;
+        protected void RaiseSending()
+        {
+            if (Sending != null)
+                Sending(this, null);
         }
         protected UdpClient _client;
 

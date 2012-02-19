@@ -4,6 +4,7 @@ using System.Linq;
 using Scoe.Communication.Udp;
 using System.Net;
 using Scoe.Shared.Model;
+using Scoe.DriverStation.Input;
 
 namespace Scoe.DSTestConsole
 {
@@ -12,14 +13,16 @@ namespace Scoe.DSTestConsole
         static void Main(string[] args)
         {
             var state = new RobotState();
-            var stick = new Joystick();
-            stick.Axes.Add(0.0);
+            Joystick stick = new Joystick();
+            var stickUpdater = new JoystickUpdater(stick, JoystickManager.GetSticks()[0]);
+            //stick.Axes.Add(0.0);
 
             var ep = new IPEndPoint(IPAddress.Loopback, 1150);
             var udp = new DSUdpClient(ep, 1110);
 
             udp.Sections.Add(new StateSection(state));
-            udp.Sections.Add(new JoystickSection(new List<Joystick>(new Joystick[] { stick })));
+            udp.Sections.Add(new JoystickSection(new List<Joystick>(new Joystick[] { stick }), true));
+            udp.Sending += ((o, e) => stickUpdater.Update());
             udp.Start();
             bool done = false;
             while (!done)

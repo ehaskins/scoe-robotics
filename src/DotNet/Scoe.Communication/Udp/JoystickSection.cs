@@ -7,50 +7,61 @@ namespace Scoe.Communication.Udp
 {
     public class JoystickSection : Scoe.Communication.DataSection
     {
-        public JoystickSection(IList<Joystick> joysticks) : base(101)
+        public JoystickSection(IList<Joystick> joysticks, bool isSource = false) : base(101)
         {
             Joysticks = joysticks;
+            IsSource = isSource;
         }
+        public bool IsSource { get; set; }
         public IList<Joystick> Joysticks { get; set; }
         public override void GetData(ref byte[] data, ref int offset)
         {
-            var count = Joysticks.Count.Limit(0, byte.MaxValue);
-
-            data[offset++] = (byte)count;
-            for (int i = 0; i < count; i++)
+            if (IsSource)
             {
-                var stick = Joysticks[i];
-                int axisCount = stick.Axes.Count.Limit(0, byte.MaxValue);
-                data[offset++] = (byte)axisCount;
-                for (int iAxis = 0; iAxis < axisCount; iAxis++)
+                var count = Joysticks.Count.Limit(0, byte.MaxValue);
+
+                data[offset++] = (byte)count;
+                for (int i = 0; i < count; i++)
                 {
-                    data[offset++] = (byte)(((stick.Axes[iAxis] + 1) * 127).Limit(0, byte.MaxValue));
+                    var stick = Joysticks[i];
+                    int axisCount = stick.Axes.Count.Limit(0, byte.MaxValue);
+                    data[offset++] = (byte)axisCount;
+                    for (int iAxis = 0; iAxis < axisCount; iAxis++)
+                    {
+                        var scaled = (stick.Axes[iAxis] + 1) * 127;
+                        var limited = scaled.Limit(0, byte.MaxValue);
+                        data[offset++] = (byte)limited;
+                    }
                 }
             }
         }
 
         public override void Update(byte[] data, int offset)
         {
-            var count = data[offset++];
-            for (int i = 0; i < count; i++)
+            if (!IsSource && data.Length >= 1)
             {
-                Joystick stick;
-                if (Joysticks.Count < i+1){
-                    stick = new Joystick();
-                    Joysticks.Add(stick);
-                }
-                else
-                    stick = Joysticks[i];
-
-                var axes = data[offset++];
-                for (int iAxis = 0; iAxis < axes; iAxis++)
+                var count = data[offset++];
+                for (int i = 0; i < count; i++)
                 {
-                    var value = (data[offset++] / 127.0) - 1.0;
-                    if (stick.Axes.Count < iAxis + 1)
+                    Joystick stick;
+                    if (Joysticks.Count < i + 1)
                     {
-                        stick.Axes.Add(value);
+                        stick = new Joystick();
+                        Joysticks.Add(stick);
                     }
-                    stick.Axes[i] = value;
+                    else
+                        stick = Joysticks[i];
+
+                    var axes = data[offset++];
+                    for (int iAxis = 0; iAxis < axes; iAxis++)
+                    {
+                        var value = (data[offset++] / 127.0) - 1.0;
+                        if (stick.Axes.Count < iAxis + 1)
+                        {
+                            stick.Axes.Add(value);
+                        }
+                        stick.Axes[iAxis] = value;
+                    }
                 }
             }
         }

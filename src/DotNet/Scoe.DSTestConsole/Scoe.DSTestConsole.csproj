@@ -23,6 +23,7 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +44,10 @@
     <ProjectReference Include="..\Scoe.Communication\Scoe.Communication.csproj">
       <Project>{7D6A46F0-8432-4851-8F98-18A058F50069}</Project>
       <Name>Scoe.Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scoe.DriverStation.Input\Scoe.DriverStation.Input.csproj">
+      <Project>{C24888C3-125A-4CE8-841E-90EB2CA1D67E}</Project>
+      <Name>Scoe.DriverStation.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
