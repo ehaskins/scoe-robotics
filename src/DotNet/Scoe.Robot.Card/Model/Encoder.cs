@@ -7,13 +7,22 @@ namespace Scoe.Shared.Model
 {
     public class Encoder : NotifyObject
     {
+        public Encoder(byte pinA, byte pinB)
+        {
+            ChannelAPin = pinA;
+            ChannelBPin = pinB;
+        }
+        public void Update(int ticks)
+        {
+            Ticks = ticks;
+        }
         private bool _Stalled;
         private float _Velocity;
-        private long _Position;
-        private short _TicksPerRotation;
-        private ushort _ChannelBPin;
-        private ushort _ChannelAPin;
-        public ushort ChannelAPin
+        private long _Ticks;
+        private short _TicksPerMeter;
+        private byte _ChannelBPin;
+        private byte _ChannelAPin;
+        public byte ChannelAPin
         {
             get
             {
@@ -27,7 +36,7 @@ namespace Scoe.Shared.Model
                 RaisePropertyChanged("ChannelAPin");
             }
         }
-        public ushort ChannelBPin
+        public byte ChannelBPin
         {
             get
             {
@@ -41,32 +50,32 @@ namespace Scoe.Shared.Model
                 RaisePropertyChanged("ChannelBPin");
             }
         }
-        public short TicksPerRotation
+        public short TicksPerMeter
         {
             get
             {
-                return _TicksPerRotation;
+                return _TicksPerMeter;
             }
             set
             {
-                if (_TicksPerRotation == value)
+                if (_TicksPerMeter == value)
                     return;
-                _TicksPerRotation = value;
-                RaisePropertyChanged("TicksPerRotation");
+                _TicksPerMeter = value;
+                RaisePropertyChanged("TicksPerMeter");
             }
         }
-        public long Position
+        public long Ticks
         {
             get
             {
-                return _Position;
+                return _Ticks;
             }
             set
             {
-                if (_Position == value)
+                if (_Ticks == value)
                     return;
-                _Position = value;
-                RaisePropertyChanged("Position");
+                _Ticks = value;
+                RaisePropertyChanged("Ticks");
             }
         }
         public float Velocity

@@ -43,7 +43,9 @@
     <Compile Include="Arduino\AnalogIODataSection.cs" />
     <Compile Include="Arduino\ArduinoInterface.cs" />
     <Compile Include="Arduino\DigitalIODataSection.cs" />
+    <Compile Include="Arduino\DummySection.cs" />
     <Compile Include="Arduino\DutyCycleSection.cs" />
+    <Compile Include="Arduino\EncoderDataSection.cs" />
     <Compile Include="Arduino\MotorDataSection.cs" />
     <Compile Include="Arduino\RslModelSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

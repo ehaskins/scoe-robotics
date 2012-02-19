@@ -18,6 +18,11 @@ namespace Scoe.Robot.MecanumDemoBot
         public Motor SWMotor;
         public Motor SEMotor;
 
+        public Encoder NWEncoder;
+        public Encoder NEEncoder;
+        public Encoder SWEncoder;
+        public Encoder SEEncoder;
+
         public AnalogInput UltraSonicChannel;
 
         public DutyCyclePwm LedDimmer;
@@ -27,7 +32,7 @@ namespace Scoe.Robot.MecanumDemoBot
         public List<AnalogInput> AnalogInputs;
         public List<Motor> Motors;
         public List<DutyCyclePwm> DutyCyclePwms;
-
+        public List<Encoder> Encoders;
 
         private void SetupModel()
         {
@@ -36,6 +41,11 @@ namespace Scoe.Robot.MecanumDemoBot
             NEMotor = new Motor(3, true);
             SWMotor = new Motor(4);
             SEMotor = new Motor(5, true);
+
+            NWEncoder = new Encoder(18, 14);
+            NEEncoder = new Encoder(19, 15);
+            SWEncoder = new Encoder(20, 16);
+            SEEncoder = new Encoder(21, 17);
 
             UltraSonicChannel = new AnalogInput(0);
 
@@ -49,6 +59,7 @@ namespace Scoe.Robot.MecanumDemoBot
             AnalogInputs = new List<AnalogInput>(new AnalogInput[] { UltraSonicChannel });
             DutyCyclePwms = new List<DutyCyclePwm>(new DutyCyclePwm[] { LedDimmer, JSDimmer });
             Joysticks = new List<Joystick>(new Joystick[] { DriverController });
+            Encoders = new List<Encoder>(new Encoder[] { NWEncoder, NEEncoder, SWEncoder, SEEncoder });
         }
         private void SetupIO()
         {
@@ -58,6 +69,8 @@ namespace Scoe.Robot.MecanumDemoBot
             ioInt.Sections.Add(new AnalogIODataSection(AnalogInputs));
             ioInt.Sections.Add(new MotorDataSection(Motors));
             ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
+            ioInt.Sections.Add(new EncoderDataSection(Encoders));
+            //ioInt.Sections.Add(new DummySection(30));
 
             var ctrlInt = new UdpServer(1150, 1110);
             ctrlInt.Connected += (source, e) => State.IsDSConnected = true;
@@ -87,8 +100,8 @@ namespace Scoe.Robot.MecanumDemoBot
 
                 Console.WriteLine(String.Format("Mecanum Drive x:{0:f2} y:{1:f2} z:{2:f2}", x, y, z));
 
-                var nw = y + x + z;
-                var ne = y - x - z;
+                var nw = -y + x + z;
+                var ne = -y - x - z;
                 var sw = y - x + z;
                 var se = y + x - z;
 
@@ -131,6 +144,11 @@ namespace Scoe.Robot.MecanumDemoBot
             {
                 JSDimmer.Value = DriverController.Axes[0];
                 Console.WriteLine(State.PrimaryState.ToString() + DriverController.Axes[0]);
+            }
+
+            for (int i = 0; i < Encoders.Count; i++)
+            {
+                Console.WriteLine(String.Format("Encoder {0} : {1}", i, Encoders[i].Ticks));
             }
         }
     }
