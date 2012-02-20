@@ -2,24 +2,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EHaskins.Utilities;
+using System.Diagnostics;
 
 namespace Scoe.Shared.Model
 {
     public class Encoder : NotifyObject
     {
-        public Encoder(byte pinA, byte pinB)
+        Stopwatch stopwatch = new Stopwatch();
+        double lastElapsed = 0;
+        public Encoder(byte pinA, byte pinB, int ticksPerMeter)
         {
             ChannelAPin = pinA;
             ChannelBPin = pinB;
+            stopwatch.Start();
         }
         public void Update(int ticks)
         {
+            var elapsed = (double)stopwatch.ElapsedTicks / Stopwatch.Frequency;
+            var diff = elapsed - lastElapsed;
+
+            var ticksPerSec = ticks / diff;
+
+            Velocity = ticksPerSec / TicksPerMeter;
             Ticks = ticks;
         }
-        private bool _Stalled;
-        private float _Velocity;
+        private double _Velocity;
         private long _Ticks;
-        private short _TicksPerMeter;
+        private int _TicksPerMeter;
         private byte _ChannelBPin;
         private byte _ChannelAPin;
         public byte ChannelAPin
@@ -50,7 +59,7 @@ namespace Scoe.Shared.Model
                 RaisePropertyChanged("ChannelBPin");
             }
         }
-        public short TicksPerMeter
+        public int TicksPerMeter
         {
             get
             {
@@ -78,7 +87,7 @@ namespace Scoe.Shared.Model
                 RaisePropertyChanged("Ticks");
             }
         }
-        public float Velocity
+        public double Velocity
         {
             get
             {

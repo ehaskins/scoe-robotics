@@ -9,6 +9,26 @@ using Scoe.Communication.Arduino;
 
 namespace Scoe.Robot.MecanumDemoBot
 {
+    public class PidController : Motor
+    {
+        public Encoder Encoder { get; private set; }
+        public double P { get; set; }
+        public double I { get; set; }
+        public double D { get; set; }
+
+        public override double Value
+        {
+            get
+            {
+                //TODO: Implement PID logic
+                return base.Value;
+            }
+            set
+            {
+                base.Value = value;
+            }
+        }
+    }
     public class Controller : IterativeControllerBase
     {
         public Joystick DriverController;
@@ -42,10 +62,10 @@ namespace Scoe.Robot.MecanumDemoBot
             SWMotor = new Motor(4);
             SEMotor = new Motor(5, true);
 
-            NWEncoder = new Encoder(18, 14);
-            NEEncoder = new Encoder(19, 15);
-            SWEncoder = new Encoder(20, 16);
-            SEEncoder = new Encoder(21, 17);
+            NWEncoder = new Encoder(18, 14, 1125);
+            NEEncoder = new Encoder(19, 15, 1125);
+            SWEncoder = new Encoder(20, 16, 1125);
+            SEEncoder = new Encoder(21, 17, 1125);
 
             UltraSonicChannel = new AnalogInput(0);
 

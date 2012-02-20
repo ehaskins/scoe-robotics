@@ -23,7 +23,7 @@ namespace Scoe.Shared.Model
             }
         }
 
-        public TValue Value
+        public virtual TValue Value
         {
             get
             {
