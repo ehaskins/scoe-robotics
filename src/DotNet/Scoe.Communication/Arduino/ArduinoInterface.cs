@@ -25,6 +25,7 @@ namespace Scoe.Communication.Arduino
         bool _isWaiting = true;
         byte _lastByte = 0;
         byte[] _receiveBuffer = new byte[100];
+        List<byte> _debugBuffer = new List<byte>();
         int _receiveBufferPosition = 0;
 
         public ArduinoInterface(string port, int baud = 9600, int interval = 20)
@@ -70,13 +71,11 @@ namespace Scoe.Communication.Arduino
             while (serialPort.BytesToRead > 0)
             {
                 var thisByte = (byte)serialPort.ReadByte();
+                _debugBuffer.Add(thisByte);
+
                 if (!_isWaiting)
                 {
-                    if (thisByte == (byte)SpecialChars.Command && _lastByte != (byte)SpecialChars.Escape)
-                    {
-                        _isWaiting = true;
-                    }
-                    else if (thisByte == (byte)SpecialChars.Escape && _lastByte != (byte)SpecialChars.Escape)
+                    if (thisByte == (byte)SpecialChars.Escape && _lastByte != (byte)SpecialChars.Escape)
                     {
                         //Wait until next loop
                     }
@@ -118,15 +117,15 @@ namespace Scoe.Communication.Arduino
                         _isWaiting = true;
                     }
                 }
-                else if (_lastByte == (byte)SpecialChars.Command && thisByte == (byte)SpecialChars.NewPacket)
+                
+                if (_lastByte == (byte)SpecialChars.Command && thisByte == (byte)SpecialChars.NewPacket)
                 {
                     _isWaiting = false;
                     _receiveBufferPosition = 0;
+
+                    _debugBuffer.Clear();
                 }
-                else
-                {
-                    Debug.Write((char)thisByte);
-                }
+
                 _lastByte = thisByte;
             }
 
@@ -208,7 +207,7 @@ namespace Scoe.Communication.Arduino
 
             for (int i = offset; i < length; i++)
             {
-                if (data[i] > 254)
+                if (data[i] >= 254)
                     outData.Add((byte)SpecialChars.Escape);
                 outData.Add(data[i]);
             }

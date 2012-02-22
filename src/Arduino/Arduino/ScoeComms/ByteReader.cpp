@@ -7,22 +7,13 @@
 
 #include "ByteReader.h"
 #include "../Arduino.h"
-/*
-void ReadBytes(unsigned char data[], int *offset, int count, unsigned char out[]) {
-	for (int i = 0; i < count; i++){
-		out[i] = data[*offset];
-		*offset++;
-	}
-	Serial.print("ReadBytes: Offset:");
-	Serial.println(*offset);
-}*/
 
-unsigned char readUInt8(unsigned char data[], int *offset){
+unsigned char readUInt8(uint8_t data[], uint16_t *offset){
 	unsigned char out = data[*offset];
 	*offset += 1;
 	return out;
 }
-unsigned short readUInt16(unsigned char data[], int *offset){
+unsigned short readUInt16(uint8_t data[], uint16_t *offset){
 	unsigned short out = (data[*offset + 1] << 8) + (data[*offset]);
 	/*unsigned char byteCount = 2;
 	for (int i = 0; i < byteCount; i++){
@@ -31,7 +22,7 @@ unsigned short readUInt16(unsigned char data[], int *offset){
 	*offset += 2;
 	return out;
 }
-unsigned long readUInt32(unsigned char data[], int *offset){
+unsigned long readUInt32(uint8_t data[], uint16_t *offset){
 	unsigned long out =
 			((unsigned long)data[*offset + 3] << 24) +
 			((unsigned long)data[*offset + 2] << 16) +
@@ -44,7 +35,7 @@ unsigned long readUInt32(unsigned char data[], int *offset){
 	*offset += 4;
 	return out;
 }
-unsigned long long readUInt64(unsigned char data[], int *offset){
+unsigned long long readUInt64(uint8_t data[], uint16_t *offset){
 	unsigned long long out =
 			((unsigned long long)data[*offset + 7] << 56) +
 			((unsigned long long)data[*offset + 6] << 48) +
@@ -61,8 +52,8 @@ unsigned long long readUInt64(unsigned char data[], int *offset){
 	*offset += 8;
 	return out;
 }
-void readBytes(unsigned char data[], unsigned char out[], int count, int *offset){
-	for (int i = 0; i < count; i++){
+void readBytes(uint8_t data[], uint8_t out[], uint16_t count, uint16_t *offset){
+	for (uint16_t i = 0; i < count; i++){
 		out[i] = data[i + *offset];
 	}
 	*offset += count;

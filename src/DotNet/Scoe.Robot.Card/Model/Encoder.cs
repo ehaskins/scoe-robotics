@@ -8,23 +8,47 @@ namespace Scoe.Shared.Model
 {
     public class Encoder : NotifyObject
     {
+        private bool _IsInverted;
         Stopwatch stopwatch = new Stopwatch();
         double lastElapsed = 0;
-        public Encoder(byte pinA, byte pinB, int ticksPerMeter)
+        long lastTicks = 0;
+        public Encoder(byte pinA, byte pinB, int ticksPerMeter = 1, bool invert = false)
         {
             ChannelAPin = pinA;
             ChannelBPin = pinB;
+            TicksPerMeter = ticksPerMeter;
+            IsInverted = invert;
             stopwatch.Start();
         }
         public void Update(int ticks)
         {
             var elapsed = (double)stopwatch.ElapsedTicks / Stopwatch.Frequency;
-            var diff = elapsed - lastElapsed;
+            var diffElapsed = elapsed - lastElapsed;
 
-            var ticksPerSec = ticks / diff;
+            if (IsInverted)
+                ticks *= -1;
+
+            var diffTicks = ticks - lastTicks;
+            var ticksPerSec = diffTicks / diffElapsed;
 
             Velocity = ticksPerSec / TicksPerMeter;
             Ticks = ticks;
+            lastElapsed = elapsed;
+            lastTicks = ticks;
+        }
+        public bool IsInverted
+        {
+            get
+            {
+                return _IsInverted;
+            }
+            set
+            {
+                if (_IsInverted == value)
+                    return;
+                _IsInverted = value;
+                RaisePropertyChanged("IsInverted");
+            }
         }
         private double _Velocity;
         private long _Ticks;
