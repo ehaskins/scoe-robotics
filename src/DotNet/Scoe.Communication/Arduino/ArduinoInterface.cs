@@ -158,7 +158,7 @@ namespace Scoe.Communication.Arduino
 
         public byte[] GetBytes()
         {
-            var data = new byte[100];
+            var data = new byte[200];
             int index = 6;
             data[index++] = (byte)Sections.Count;
             foreach (var section in Sections)

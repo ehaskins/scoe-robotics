@@ -80,6 +80,7 @@ namespace Scoe.Robot.MecanumDemoBot
             ioInt.Sections.Add(new MotorDataSection(Motors));
             ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
             ioInt.Sections.Add(new EncoderDataSection(Encoders));
+            ioInt.Sections.Add(new DummySection(50));
             //ioInt.Sections.Add(new DummySection(30));
 
             var ctrlInt = new UdpServer(1150, 1110);

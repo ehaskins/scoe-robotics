@@ -10,6 +10,9 @@
 #include "ByteReader.h"
 #include "ByteWriter.h"
 
+EchoSection::EchoSection(){
+	sectionId = 255;
+}
 void EchoSection::update(unsigned char data[], unsigned int offset){
 	length = readUInt16(data, &offset);
 	for(uint16_t i= 0; i < length; i++){

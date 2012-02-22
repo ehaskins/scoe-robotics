@@ -9,8 +9,8 @@
 #define SCOECOMMS_H_
 #include <Stream.h>
 #include "RobotModel.h"
-#define RECEIVE_BUFFER_SIZE 100
-#define TRANSMIT_BUFFER_SIZE 100
+#define RECEIVE_BUFFER_SIZE 200
+#define TRANSMIT_BUFFER_SIZE 200
 
 //Time in ms before output is disabled due to no communication.
 #define RECEIVE_SAFTEY_DELAY 500 //TODO: Set back to reasonable level
