@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EHaskins.Utilities;
+using Scoe.Shared.Model.Pid;
 
 namespace Scoe.Shared.Model
 {
@@ -32,8 +33,12 @@ namespace Scoe.Shared.Model
             set
             {
                 _Value = value;
+                OnUpdated();
                 RaisePropertyChanged("Value");
             }
+        }
+        protected virtual void OnUpdated()
+        {
         }
     }
 }

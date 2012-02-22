@@ -2,16 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EHaskins.Utilities.Extensions;
+using Scoe.Shared.Model.Pid;
 namespace Scoe.Shared.Model
 {
-    public class Motor : DisableableChannel<byte, double>
+    public class Motor : DisableableChannel<byte, double>, IPidOutput
     {
+        public event PidSourceUpdatedEventHandler Updated;
+        protected void RaiseUpdated()
+        {
+            if (Updated != null)
+                Updated(this, new PidSourceUpdatedEventArgs(Value));
+        }
+
         public Motor()
         {
             IsEnabled = true;
             Scale = 1;
             IsReversible = true;
         }
+
         public Motor(byte id, bool isInverted = false, double scale = 1.0, bool isReversible = true)
             : this()
         {
@@ -19,6 +28,11 @@ namespace Scoe.Shared.Model
             IsInverted = isInverted;
             IsReversible = isReversible;
             Scale = scale;
+        }
+
+        protected override void OnUpdated()
+        {
+            RaiseUpdated();
         }
 
         private bool _IsInverted;

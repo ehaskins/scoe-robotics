@@ -24,10 +24,10 @@ namespace Scoe.Robot.MecanumDemoBot
         public Motor SWMotor;
         public Motor SEMotor;
 
-        public Encoder NWEncoder;
-        public Encoder NEEncoder;
-        public Encoder SWEncoder;
-        public Encoder SEEncoder;
+        public WheelEncoder NWEncoder;
+        public WheelEncoder NEEncoder;
+        public WheelEncoder SWEncoder;
+        public WheelEncoder SEEncoder;
 
         public AnalogInput UltraSonicChannel;
 
@@ -52,10 +52,10 @@ namespace Scoe.Robot.MecanumDemoBot
             int ticks360 = (int)((360*4) / (Math.PI * wheelDia));
             int ticks250 = (int)((250*4) / (Math.PI * wheelDia));
 
-            NWEncoder = new Encoder(18, 14, ticks360);
-            NEEncoder = new Encoder(19, 15, ticks250, true);
-            SWEncoder = new Encoder(20, 16, ticks360);
-            SEEncoder = new Encoder(21, 17, ticks250, true);
+            NWEncoder = new WheelEncoder(18, 14, ticks360);
+            NEEncoder = new WheelEncoder(19, 15, ticks250, true);
+            SWEncoder = new WheelEncoder(20, 16, ticks360);
+            SEEncoder = new WheelEncoder(21, 17, ticks250, true);
 
             UltraSonicChannel = new AnalogInput(0);
 
@@ -97,7 +97,8 @@ namespace Scoe.Robot.MecanumDemoBot
         {
             for (int i = 0; i < Encoders.Count; i++)
             {
-                Console.WriteLine(String.Format("Encoder {0:f0} : {1:f2}", i, Encoders[i].Velocity));
+                var enc = Encoders[i] as WheelEncoder;
+                Console.WriteLine(String.Format("Encoder {0:f0} : {1:f2}", i, enc.Velocity));
             }
         }
     }

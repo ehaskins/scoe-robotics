@@ -9,7 +9,6 @@ namespace Scoe.Communication.Udp
     public class StateSection : Scoe.Communication.DataSection
     {
         RobotState _state;
-        Scoe.Communication.Interface _primaryInterface;
         public StateSection(RobotState state, bool isDsLink = true)
             : base(100)
         {
@@ -48,12 +47,6 @@ namespace Scoe.Communication.Udp
             _state.IsEnabled = bits[2];
             _state.IsAutonomous = bits[3];
             _state.IsIODeviceConnected = bits[4];
-        }
-
-        public override void ConnectionStateChanged(Scoe.Communication.Interface sender, bool isConnected)
-        {
-            if (_primaryInterface != null && sender == _primaryInterface)
-                _state.IsDSConnected = isConnected;
         }
     }
 }

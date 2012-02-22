@@ -8,7 +8,7 @@
     <ProjectGuid>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Scoe.Robot.Card</RootNamespace>
+    <RootNamespace>Scoe.Shared</RootNamespace>
     <AssemblyName>Scoe.Robot.Card</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -58,6 +58,11 @@
     <Compile Include="Model\DisableableChannel.cs" />
     <Compile Include="Model\DutyCyclePwm.cs" />
     <Compile Include="Model\Joystick.cs" />
+    <Compile Include="Model\Pid\IPidOutput.cs" />
+    <Compile Include="Model\Pid\IPidSource.cs" />
+    <Compile Include="Model\Pid\PidSourceUpdatedEventArgs.cs" />
+    <Compile Include="Model\Pid\PidSourceUpdatedEventHandler.cs" />
+    <Compile Include="Model\WheelEncoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Channel.cs" />
     <Compile Include="Model\DigitalIO.cs" />

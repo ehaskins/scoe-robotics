@@ -7,7 +7,7 @@ namespace Scoe.Communication.Arduino
 {
     public class EncoderDataSection : DataSection
     {
-        public EncoderDataSection(IList<Encoder> encoders)
+        public EncoderDataSection(List<Encoder> encoders)
             : base(5)
         {
             Encoders = encoders;
