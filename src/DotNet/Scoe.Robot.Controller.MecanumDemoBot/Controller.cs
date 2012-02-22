@@ -14,7 +14,7 @@ namespace Scoe.Robot.MecanumDemoBot
         MecanumModel model;
         public Controller()
         {
-            model = new MecanumModel(State, "COM5", 115200);
+            model = new MecanumModel(State, "COM10", 115200);
         }
 
         protected override void EnabledLoop()

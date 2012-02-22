@@ -10,6 +10,7 @@
 #include <ScoeComms\ByteReader.h>
 #include <ScoeComms\ByteWriter.h>
 ScoeComms::ScoeComms() {
+	//commSerial = &Serial;
 	init(&Serial);
 }
 void ScoeComms::init(Stream *stream) {
@@ -70,10 +71,10 @@ bool ScoeComms::checkSerial() {
 			} else if (receiveBufferPosition < RECEIVE_BUFFER_SIZE - 6) {
 				receiveBuffer[receiveBufferPosition++] = byte;
 				if (receiveBufferPosition == 4) {
-					uint16_t position = 0;
+					int position = 0;
 					packetCrc = readUInt32(receiveBuffer, &position);
 				} else if (receiveBufferPosition == 6) {
-					uint16_t position = 4;
+					int position = 4;
 					packetDataLength = readUInt16(receiveBuffer, &position);
 					if (packetDataLength > (RECEIVE_BUFFER_SIZE - 6)) {
 						isWaiting = true;

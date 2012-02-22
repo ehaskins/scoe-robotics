@@ -7,10 +7,10 @@
 
 #ifndef BYTEWRITER_H_
 #define BYTEWRITER_H_
-#include <stdint.h>
-int writeByte(uint8_t data[], uint8_t val, uint16_t offset);
-int writeUInt16(uint8_t data[], uint16_t val, uint16_t offset);
-int writeUInt32(uint8_t data[], uint32_t val, uint16_t offset);
-int writeUInt32ForCrc(uint8_t data[], uint32_t val, uint16_t offset);
-int writeBytes(uint8_t data[], uint16_t dataOffset, uint8_t val[], uint16_t count, uint16_t valOffset);
+
+int writeByte(unsigned char data[], unsigned char val, int offset);
+int writeUInt16(unsigned char data[], unsigned short val, int offset);
+int writeUInt32(unsigned char data[], unsigned long val, int offset);
+int writeUInt32ForCrc(unsigned char data[], unsigned long val, int offset);
+int writeBytes(unsigned char data[], int dataOffset, unsigned char val[], int count, int valOffset);
 #endif /* BYTEWRITER_H_ */

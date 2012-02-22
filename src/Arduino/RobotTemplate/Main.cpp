@@ -7,7 +7,6 @@
 #include <ScoeComms\DioSection.h>
 #include <ScoeComms\DutyCycleModelSection.h>
 #include <ScoeComms\EncoderModelSection.h>
-#include <ScoeComms\EchoSection.h>
 
 ScoeComms beagleComm;
 
@@ -25,14 +24,12 @@ void setup() {
 
 	Serial.begin(115200);
 	//Serial.begin(1000000);
-
 	RslModelSection * rsl = new RslModelSection();
 	PwmModelSection * pwm = new PwmModelSection(500, 2500);
 	AnalogIOSection *analog = new AnalogIOSection();
 	DutyCycleModelSection * dutyCycle = new DutyCycleModelSection();
 	DioSection *dio = new DioSection();
 	EncoderModelSection *enc = new EncoderModelSection();
-	EchoSection *echo = new EchoSection();
 
 	beagleComm.init(&Serial);
 	beagleComm.robotModel.addSection(rsl);
@@ -41,7 +38,6 @@ void setup() {
 	beagleComm.robotModel.addSection(dio);
 	beagleComm.robotModel.addSection(dutyCycle);
 	beagleComm.robotModel.addSection(enc);
-	beagleComm.robotModel.addSection(echo);
 
 	Serial.println("Ready.");
 }

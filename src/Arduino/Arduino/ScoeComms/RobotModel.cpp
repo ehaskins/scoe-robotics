@@ -18,12 +18,13 @@ void RobotModel::init(){
 	_sectionCount = 0;
 }
 
-void RobotModel::update(uint8_t data[], uint16_t offset, uint16_t length){
-	uint8_t sectionCount = data[offset++];
+void RobotModel::update(unsigned char data[], unsigned int offset, unsigned int length){
+	unsigned char sectionCount = data[offset++];
 
 	for (int i = 0; i < sectionCount; i++){
-		uint8_t sectionId = data[offset++];
-		uint16_t length = readUInt16(data, &offset); offset+=2;
+		unsigned char sectionId = data[offset++];
+		int temp = (int)offset;
+		unsigned short length = readUInt16(data, &temp); offset+=2;
 		for (int iSection = 0; iSection < _sectionCount; iSection++){
 			if (sections[iSection]->sectionId == sectionId){
 				sections[iSection]->isActive = true;
@@ -33,18 +34,18 @@ void RobotModel::update(uint8_t data[], uint16_t offset, uint16_t length){
 		offset += length;
 	}
 }
-void RobotModel::getStatus(uint8_t data[], uint16_t *offset){
+void RobotModel::getStatus(unsigned char data[], unsigned int *offset){
 	data[(*offset)++] = _sectionCount;
 	for (int i = 0; i < _sectionCount; i++){
-		uint16_t headerPos = *offset;
+		unsigned short headerPos = *offset;
 		data[(*offset)++] = sections[i]->sectionId;
-		(*offset) += 2; //Leave space for length
-		uint16_t start = *offset;
+		(*offset) += 2;
+		unsigned short start = *offset;
 
 		if (sections[i]->isActive)
 			sections[i]->getStatus(data, offset);
 		//Write length to header
-		uint16_t length = (*offset) - start;
+		unsigned short length = (*offset) - start;
 		writeUInt16(data, length, headerPos + 1);
 	}
 }
