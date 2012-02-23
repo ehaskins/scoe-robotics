@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using EHaskins.Utilities.Binary;
 using Scoe.Shared.Model;
+using System.IO;
 
 namespace Scoe.Communication.Arduino
 {
@@ -15,30 +16,36 @@ namespace Scoe.Communication.Arduino
             _DigitalInputs = digitalInputs;
         }
 
-        public override void GetData(ref byte[] data, ref int offset)
+        public override DataSectionData GetData()
         {
-            var enabledBits = new BitField32();
-            var modeBits = new BitField32();
-            var stateBits = new BitField32();
-
-            foreach (DigitalIO digitalInput in DigitalInputs)
+            using (var stream = new MemoryStream())
+            using (var writer = new BinaryWriter(stream))
             {
-                enabledBits[digitalInput.ID] = true;
-                modeBits[digitalInput.ID] = digitalInput.Mode == DigitalIOMode.Output;
-                if (digitalInput.Mode == DigitalIOMode.Output)
-                    stateBits[digitalInput.ID] = digitalInput.Value;
-            }
+                var enabledBits = new BitField32();
+                var modeBits = new BitField32();
+                var stateBits = new BitField32();
 
-            BitConverter.GetBytes(enabledBits.RawValue).CopyTo(data, offset);
-            offset += 4;
-            BitConverter.GetBytes(modeBits.RawValue).CopyTo(data, offset);
-            offset += 4;
-            BitConverter.GetBytes(stateBits.RawValue).CopyTo(data, offset);
-            offset += 4;
+                foreach (DigitalIO digitalInput in DigitalInputs)
+                {
+                    enabledBits[digitalInput.ID] = true;
+                    modeBits[digitalInput.ID] = digitalInput.Mode == DigitalIOMode.Output;
+                    if (digitalInput.Mode == DigitalIOMode.Output)
+                        stateBits[digitalInput.ID] = digitalInput.Value;
+                }
+
+                writer.Write(enabledBits.RawValue);
+                writer.Write(modeBits.RawValue);
+                writer.Write(stateBits.RawValue);
+
+                return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
+            }
         }
 
-        public override void Update(byte[] data, int offset)
+        public override void Update(DataSectionData sectionData)
         {
+            var data = sectionData.Data;
+            var offset = 0;
+
             var enabledBits = new BitField32();
             var modeBits = new BitField32();
             var stateBits = new BitField32();

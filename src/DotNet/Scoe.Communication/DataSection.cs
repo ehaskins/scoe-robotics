@@ -25,8 +25,8 @@ namespace Scoe.Communication
             }
         }
 
-        public virtual void ConnectionStateChanged(Scoe.Communication.Interface sender, bool isConnected) { }
-        public abstract void GetData(ref byte[] data, ref int offset);
-        public abstract void Update(byte[] data, int offset);
+        public virtual void ConnectionStateChanged(object sender, bool isConnected) { }
+        public abstract DataSectionData GetData();
+        public virtual void Update(DataSectionData data) { }
     }
 }

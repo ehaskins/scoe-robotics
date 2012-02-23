@@ -4,7 +4,7 @@ using System.Linq;
 using EHaskins.Utilities.Binary;
 using Scoe.Shared.Model;
 
-namespace Scoe.Communication.Udp
+namespace Scoe.Communication.DataSections
 {
     public class StateSection : Scoe.Communication.DataSection
     {
@@ -28,7 +28,7 @@ namespace Scoe.Communication.Udp
                 RaisePropertyChanged("IsDSLink");
             }
         }
-        public override void GetData(ref byte[] data, ref int offset)
+        public override DataSectionData GetData()
         {
             var bits = new BitField8();
             bits[0] = _state.IsEStopped;
@@ -36,10 +36,14 @@ namespace Scoe.Communication.Udp
             bits[2] = _state.IsEnabled;
             bits[3] = _state.IsAutonomous;
             bits[4] = _state.IsIODeviceConnected;
-            data[offset++] = bits.RawValue;
+            return new DataSectionData() { SectionId = SectionId, Data = new byte[] { bits.RawValue } };
         }
-        public override void Update(byte[] data, int offset)
+
+        public override void Update(DataSectionData sectionData)
         {
+            var data = sectionData.Data;
+            var offset = 0;
+
             var bits = new BitField8(data[offset++]);
             _state.IsEStopped = bits[0];
             if (!IsDSLink)//Don't apply DS state when communicating over the DS link. 

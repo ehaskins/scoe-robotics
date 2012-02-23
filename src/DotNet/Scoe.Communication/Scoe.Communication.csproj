@@ -40,21 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arduino\AnalogIODataSection.cs" />
-    <Compile Include="Arduino\ArduinoInterface.cs" />
-    <Compile Include="Arduino\DigitalIODataSection.cs" />
-    <Compile Include="Arduino\DummySection.cs" />
-    <Compile Include="Arduino\DutyCycleSection.cs" />
-    <Compile Include="Arduino\EncoderDataSection.cs" />
-    <Compile Include="Arduino\MotorDataSection.cs" />
-    <Compile Include="Arduino\RslModelSection.cs" />
+    <Compile Include="Arduino\ArduinoProtocol.cs" />
+    <Compile Include="Arduino\DataSections\AnalogIODataSection.cs" />
+    <Compile Include="Arduino\DataSections\DigitalIODataSection.cs" />
+    <Compile Include="Arduino\DataSections\DummySection.cs" />
+    <Compile Include="Arduino\DataSections\DutyCycleSection.cs" />
+    <Compile Include="Arduino\DataSections\EncoderDataSection.cs" />
+    <Compile Include="Arduino\DataSections\MotorDataSection.cs" />
+    <Compile Include="Arduino\DataSections\RslModelSection.cs" />
+    <Compile Include="ClientInterface.cs" />
+    <Compile Include="InterfaceMode.cs" />
+    <Compile Include="Packet.cs" />
+    <Compile Include="PacketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Udp\JoystickSection.cs" />
-    <Compile Include="Udp\StateSection.cs" />
-    <Compile Include="Udp\UdpClient.cs" />
+    <Compile Include="Protocol.cs" />
+    <Compile Include="ServerInterface.cs" />
+    <Compile Include="Udp\UdpProtocol.cs" />
+    <Compile Include="DataSections\JoystickSection.cs" />
+    <Compile Include="DataSections\StateSection.cs" />
     <Compile Include="DataSection.cs" />
     <Compile Include="Interface.cs" />
-    <Compile Include="Udp\UdpServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EHaskins.Utilities\EHaskins.Utilities.csproj">

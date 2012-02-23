@@ -6,6 +6,8 @@ using Scoe.Shared.Model;
 using EHaskins.Utilities;
 using Scoe.Communication.Udp;
 using System.Net;
+using Scoe.Communication.DataSections;
+using Scoe.Communication;
 
 namespace Scoe.DriverStation
 {
@@ -14,7 +16,7 @@ namespace Scoe.DriverStation
         ObservableCollection<Joystick> _joysticks;
         RobotState _state;
 
-        DSUdpClient _client;
+        ServerInterface _client;
 
         public DriverStationVM()
         {

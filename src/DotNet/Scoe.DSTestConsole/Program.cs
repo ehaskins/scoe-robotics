@@ -5,6 +5,8 @@ using Scoe.Communication.Udp;
 using System.Net;
 using Scoe.Shared.Model;
 using Scoe.DriverStation.Input;
+using Scoe.Communication.DataSections;
+using Scoe.Communication;
 
 namespace Scoe.DSTestConsole
 {
@@ -17,8 +19,7 @@ namespace Scoe.DSTestConsole
             //var stickUpdater = new JoystickUpdater(stick, JoystickManager.GetSticks()[0]);
             //stick.Axes.Add(0.0);
 
-            var ep = new IPEndPoint(IPAddress.Loopback, 1150);
-            var udp = new DSUdpClient(ep, 1110);
+            var udp = new ClientInterface(new UdpProtocol(1110, 1150, IPAddress.Loopback));
 
             udp.Sections.Add(new StateSection(state));
             udp.Sections.Add(new JoystickSection(new List<Joystick>(new Joystick[] { stick }), true));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Scoe.Shared.Model;
 using EHaskins.Utilities.Extensions;
+using System.IO;
 namespace Scoe.Communication.Arduino
 {
     public class MotorDataSection : DataSection
@@ -13,24 +14,31 @@ namespace Scoe.Communication.Arduino
             _PwmOutputs = pwmOutputs;
         }
 
-        public override void GetData(ref byte[] data, ref int offset)
+        public override DataSectionData GetData()
         {
-            data[offset++] = (byte)Motors.Count;
-            foreach (Motor motor in Motors)
+            using (var stream = new MemoryStream())
             {
-                data[offset++] = motor.IsEnabled ? motor.ID : (byte)0;
 
-                //Scale motor value from -1 to 1, or 0 to 1, reversible or not, respectively.
-                var normalized = motor.GetNormalized();
+                stream.WriteByte((byte)Motors.Count);
+                foreach (Motor motor in Motors)
+                {
+                    stream.WriteByte(motor.IsEnabled ? motor.ID : (byte)0);
 
-                if (motor.IsReversible)
-                    normalized = (normalized + 1) / 2;
+                    //Scale motor value from -1 to 1, or 0 to 1, reversible or not, respectively.
+                    var normalized = motor.GetNormalized();
 
-                data[offset++] = (byte)(normalized * 255);
+                    if (motor.IsReversible)
+                        normalized = (normalized + 1) / 2;
+
+                    stream.WriteByte((byte)(normalized * 255));
+                }
+
+                return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
             }
+
         }
 
-        public override void Update(byte[] data, int offset)
+        public override void Update(DataSectionData sectionData)
         {
             //Pwm model part doesn't get any updates
         }

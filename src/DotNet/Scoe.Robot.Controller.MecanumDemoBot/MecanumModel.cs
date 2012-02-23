@@ -4,6 +4,8 @@ using System.Linq;
 using Scoe.Communication.Udp;
 using Scoe.Shared.Model;
 using Scoe.Communication.Arduino;
+using Scoe.Communication;
+using Scoe.Communication.DataSections;
 
 namespace Scoe.Robot.MecanumDemoBot
 {
@@ -73,24 +75,25 @@ namespace Scoe.Robot.MecanumDemoBot
         }
         private void SetupIO(string port, int baudRate)
         {
-            //Build IO interfaces
-            var ioInt = new ArduinoInterface(port, baudRate, 20);
-            ioInt.Sections.Add(new RslModelSection(State));
-            ioInt.Sections.Add(new AnalogIODataSection(AnalogInputs));
-            ioInt.Sections.Add(new MotorDataSection(Motors));
-            ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
-            ioInt.Sections.Add(new EncoderDataSection(Encoders));
-            ioInt.Sections.Add(new DummySection(50));
-            //ioInt.Sections.Add(new DummySection(30));
+            ////Build IO interfaces
+            //var ioInt = new ArduinoInterface(port, baudRate, 20);
+            //ioInt.Sections.Add(new RslModelSection(State));
+            //ioInt.Sections.Add(new AnalogIODataSection(AnalogInputs));
+            //ioInt.Sections.Add(new MotorDataSection(Motors));
+            //ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
+            //ioInt.Sections.Add(new EncoderDataSection(Encoders));
+            //ioInt.Sections.Add(new DummySection(50));
 
-            var ctrlInt = new UdpServer(1150, 1110);
+
+            //ioInt.Start();
+
+            var ctrlInt = new ServerInterface(new UdpProtocol(1150, 1110, null));
             ctrlInt.Connected += (source, e) => State.IsDSConnected = true;
             ctrlInt.Disconnected += (source, e) => State.IsDSConnected = false;
 
             ctrlInt.Sections.Add(new StateSection(State));
             ctrlInt.Sections.Add(new JoystickSection(Joysticks));
 
-            ioInt.Start();
             ctrlInt.Start();
         }
         public void WriteVelocities()

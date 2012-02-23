@@ -9,7 +9,6 @@ namespace Scoe.Communication.Arduino
     public class RslModelSection : Scoe.Communication.DataSection
     {
         private RobotState _State;
-        public bool _updated = false;
         public RslModelSection(RobotState state)
             : base(0)
         {
@@ -30,7 +29,7 @@ namespace Scoe.Communication.Arduino
             }
         }
 
-        public override void GetData(ref byte[] data, ref int offset)
+        public override DataSectionData GetData()
         {
             RslMode state = 0;
 
@@ -45,11 +44,7 @@ namespace Scoe.Communication.Arduino
             else
                 state = RslMode.Enabled;
 
-            data[offset++] = (byte)state;
-        }
-        public override void Update(byte[] data, int offset)
-        {
-            _updated = true;
+            return new DataSectionData() { SectionId = SectionId, Data = new byte[] { (byte)state} };
         }
 
         private enum RslMode : byte

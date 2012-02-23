@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Scoe.Shared.Model;
+using System.IO;
 
 namespace Scoe.Communication.Arduino
 {
@@ -13,18 +14,27 @@ namespace Scoe.Communication.Arduino
             _AnalogInputs = analogInputs;
         }
 
-        public override void GetData(ref byte[] data, ref int offset)
+        public override DataSectionData GetData()
         {
-            data[offset++] = (byte)AnalogInputs.Count;
-            foreach (AnalogInput analogInput in AnalogInputs)
+            using (var stream = new MemoryStream())
             {
-                data[offset++] = analogInput.ID;
-                data[offset++] = 1; //TODO: Implement sample averaging
+
+                stream.WriteByte((byte)AnalogInputs.Count);
+                foreach (AnalogInput analogInput in AnalogInputs)
+                {
+                    stream.WriteByte(analogInput.ID);
+                    stream.WriteByte(1); //TODO: Implement sample averaging
+                }
+
+                return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
             }
         }
 
-        public override void Update(byte[] data, int offset)
+        public override void Update(DataSectionData sectionData)
         {
+            var data = sectionData.Data;
+            var offset = 0;
+
             if (data.Length > 0)
             {
                 byte count = data[offset++];
