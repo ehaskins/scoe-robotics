@@ -69,7 +69,7 @@ public class Crc32 : HashAlgorithm
         for (int i = start; i < size; i++)
             unchecked
             {
-                crc = (crc >> 8) ^ table[buffer[i] ^ crc & 0xff];
+                crc = (crc >> 8) ^ table[(buffer[i] ^ crc) & 0xff];
             }
         return crc;
     }

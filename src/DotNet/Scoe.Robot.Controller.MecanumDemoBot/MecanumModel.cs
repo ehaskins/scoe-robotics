@@ -75,17 +75,17 @@ namespace Scoe.Robot.MecanumDemoBot
         }
         private void SetupIO(string port, int baudRate)
         {
-            ////Build IO interfaces
-            //var ioInt = new ArduinoInterface(port, baudRate, 20);
-            //ioInt.Sections.Add(new RslModelSection(State));
-            //ioInt.Sections.Add(new AnalogIODataSection(AnalogInputs));
-            //ioInt.Sections.Add(new MotorDataSection(Motors));
-            //ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
-            //ioInt.Sections.Add(new EncoderDataSection(Encoders));
+            //Build IO interfaces
+            var ioInt = new ClientInterface(new ArduinoProtocol(port, baudRate));
+            ioInt.Sections.Add(new RslModelSection(State));
+            ioInt.Sections.Add(new AnalogIODataSection(AnalogInputs));
+            ioInt.Sections.Add(new MotorDataSection(Motors));
+            ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
+            ioInt.Sections.Add(new EncoderDataSection(Encoders));
             //ioInt.Sections.Add(new DummySection(50));
 
 
-            //ioInt.Start();
+            ioInt.Start();
 
             var ctrlInt = new ServerInterface(new UdpProtocol(1150, 1110, null));
             ctrlInt.Connected += (source, e) => State.IsDSConnected = true;

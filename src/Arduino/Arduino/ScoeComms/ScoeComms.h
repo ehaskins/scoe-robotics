@@ -20,6 +20,12 @@
 #define COMMAND 1
 #define ESCAPE 2
 #define WAIT 3
+
+//Packet Types
+#define PT_PROBE 0
+#define PT_ECHO 1
+#define PT_COMMAND 2
+#define PT_STATUS 3
 //Special chars
 #define SPC_COMMAND 255
 #define SPC_ESCAPE 254
@@ -35,17 +41,24 @@ public:
 	RobotModel robotModel;
 private:
 	Stream *commStream;
-	unsigned char receiveBuffer[RECEIVE_BUFFER_SIZE];
+	uint8_t receiveBuffer[RECEIVE_BUFFER_SIZE];
+	uint8_t sizeBuffer[2];
+	uint8_t sizeBufferPosition;
+	uint8_t lastPacketType;
+	uint16_t lastPacketIndex;
 	unsigned char transmitBuffer[TRANSMIT_BUFFER_SIZE];
 	unsigned int receiveBufferPosition;
 	unsigned char lastByte;
-	bool isWaiting;
+	bool isReceiving;
 	unsigned long packetCrc;
-	unsigned short packetDataLength;
+	unsigned short packetLength;
 
 	unsigned long lastDataReceived;
 	bool checkSerial();
 	void sendStatus();
+	void parsePacket();
+	void parseContent(int contentOffset, uint16_t contentLength);
+	void writeByte(uint8_t byte);
 };
 
 #endif /* SCOECOMMS_H_ */

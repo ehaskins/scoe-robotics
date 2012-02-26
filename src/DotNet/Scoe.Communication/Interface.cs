@@ -129,20 +129,20 @@ namespace Scoe.Communication
                     section.ConnectionStateChanged(this, value);
                 }
                 if (IsConnected)
-                    RaiseConnected();
+                    OnConnected();
                 else
-                    RaiseDisconnected();
+                    OnDisconnected();
             }
         }
 
         public event EventHandler Disconnected;
-        protected void RaiseDisconnected()
+        protected virtual void OnDisconnected()
         {
             if (Disconnected != null)
                 Disconnected(this, null);
         }
         public event EventHandler Connected;
-        protected void RaiseConnected()
+        protected virtual void OnConnected()
         {
             if (Connected != null)
                 Connected(this, null);

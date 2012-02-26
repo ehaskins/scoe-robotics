@@ -10,26 +10,24 @@
 #include <ScoeComms\ByteReader.h>
 #include <ScoeComms\ByteWriter.h>
 ScoeComms::ScoeComms() {
-	//commSerial = &Serial;
 	init(&Serial);
 }
 void ScoeComms::init(Stream *stream) {
-	commStream = stream;
 	robotModel.init();
 	lastDataReceived = 0;
 	receiveBufferPosition = 0;
-	isWaiting = true;
+	isReceiving = false;
 	lastByte = 0;
 }
 void ScoeComms::poll() {
 	unsigned long now = millis();
-	//Handle rollover, shouldn't happen, but...
+	//Handle overflow, shouldn't happen, but...
 	if (now < lastDataReceived) {
 		lastDataReceived = 0;
 	}
 	if (checkSerial()) {
+		parsePacket();
 		lastDataReceived = now;
-		robotModel.update(receiveBuffer, 6, packetDataLength);
 		sendStatus();
 	}
 	unsigned long safeTime = lastDataReceived + RECEIVE_SAFTEY_DELAY;
@@ -38,65 +36,124 @@ void ScoeComms::poll() {
 }
 
 void ScoeComms::sendStatus() {
-	unsigned int offset = 0;
-	robotModel.getStatus(transmitBuffer, &offset);
+	unsigned int transmitOffset = 0;
+	transmitBuffer[transmitOffset++] = lastPacketType == PT_COMMAND ? PT_STATUS : PT_ECHO;
+	if (lastPacketType == PT_COMMAND)
+		robotModel.getStatus(transmitBuffer, &transmitOffset);
 
-	unsigned long packetCrc = crc(transmitBuffer, offset);
-	unsigned char headerBytes[8] = { SPC_COMMAND, CMD_NEWPACKET, 0, 0, 0, 0, 0,
-			0 };
-	writeUInt32(headerBytes, packetCrc, 2);
-	writeUInt16(headerBytes, offset, 6);
+	unsigned long packetCrc = crc(transmitBuffer, transmitOffset);
 
-	for (int i = 0; i < 8; i++) {
-		commStream->write(headerBytes[i]);
+	//2 total length, 4 crc, 1 version,
+	unsigned char headerBytes[11];
+	int headerOffset = 0;
+	headerOffset = writeUInt16(headerBytes, transmitOffset + 9, headerOffset);
+	headerOffset = writeUInt32(headerBytes, packetCrc, headerOffset);
+	headerBytes[headerOffset++] = 3; //version
+	headerOffset = writeUInt16(headerBytes, lastPacketIndex, headerOffset);
+	headerOffset = writeUInt16(headerBytes, transmitOffset, headerOffset);
+
+	commStream->write(SPC_COMMAND);
+	commStream->write(CMD_NEWPACKET);
+	for (int i = 0; i < 11; i++) {
+		writeByte(headerBytes[i]);
 	}
 
-	for (unsigned int i = 0; i < offset; i++) {
-		unsigned char byte = transmitBuffer[i];
-
-		if (byte >= 254) {
-			commStream->write(SPC_ESCAPE);
-		}
-		commStream->write(byte);
+	for (unsigned int i = 0; i < transmitOffset; i++) {
+		writeByte(transmitBuffer[i]);
 	}
 }
 
+void ScoeComms::writeByte(uint8_t byte){
+	if (byte >= 254) {
+		commStream->write(SPC_ESCAPE);
+	}
+	commStream->write(byte);
+}
+
 bool ScoeComms::checkSerial() {
-	while (commStream->available() > 0) {
+	/*while (commStream->available() > 0) {
 		unsigned char byte = commStream->read();
 
 		if (!isWaiting) {
 			if (byte == SPC_ESCAPE && lastByte != SPC_ESCAPE) {
 				//Wait until next loop
-			} else if (receiveBufferPosition < RECEIVE_BUFFER_SIZE - 6) {
+			} else if (sizeBufferPosition < 2) {
+				sizeBuffer[sizeBufferPosition++] = byte;
+				if (sizeBufferPosition == 2){
+					int offset = 0;
+					packetLength = readUInt16(sizeBuffer, &offset);
+				}
+			} else if (receiveBufferPosition < packetLength) {
 				receiveBuffer[receiveBufferPosition++] = byte;
-				if (receiveBufferPosition == 4) {
-					int position = 0;
-					packetCrc = readUInt32(receiveBuffer, &position);
-				} else if (receiveBufferPosition == 6) {
-					int position = 4;
-					packetDataLength = readUInt16(receiveBuffer, &position);
-					if (packetDataLength > (RECEIVE_BUFFER_SIZE - 6)) {
-						isWaiting = true;
-					}
-				} else if (receiveBufferPosition == packetDataLength + 6) {
+				if (receiveBufferPosition == packetLength) {
 					isWaiting = true;
-
-					unsigned char *bptr = receiveBuffer;
-					unsigned long calculatedCrc = crc(bptr + 6,
-							packetDataLength);
-					if (calculatedCrc == packetCrc) {
-						return true;
-					}
+					return true;
 				}
 			}
 		}
 		if (byte == CMD_NEWPACKET && lastByte == SPC_COMMAND) {
 			isWaiting = false;
 			receiveBufferPosition = 0;
+			sizeBufferPosition = 0;
 		}
 
 		lastByte = byte;
+	}*/
+
+	while (commStream->available() > 0){
+		uint8_t thisByte = commStream->read();
+		if (isReceiving){
+			if (thisByte >= 254 && lastByte != SPC_ESCAPE){}
+			else if (sizeBufferPosition < 2){
+				sizeBuffer[sizeBufferPosition++] = thisByte;
+				if (sizeBufferPosition == 2){
+					packetLength = readUInt16(sizeBuffer, 0);
+					if (packetLength > RECEIVE_BUFFER_SIZE)
+						isReceiving = false;
+				}
+			}
+			else if (receiveBufferPosition < packetLength){
+				receiveBuffer[receiveBufferPosition++] = thisByte;
+				if (receiveBufferPosition == packetLength){
+					return true;
+				}
+			}
+		}
+
+		if (lastByte == SPC_COMMAND && thisByte == CMD_NEWPACKET){
+			isReceiving = true;
+			receiveBufferPosition = 0;
+			sizeBufferPosition = 0;
+		}
+
+			lastByte = thisByte;
 	}
 	return false;
+}
+
+void ScoeComms::parsePacket() {
+	int offset = 0;
+	uint32_t packetCrc = readUInt32(receiveBuffer, offset); offset += 4;
+	uint8_t version = receiveBuffer[offset++];
+	lastPacketIndex = readUInt16(receiveBuffer, offset); offset += 4;
+	uint16_t contentLength = readUInt16(receiveBuffer, offset); offset += 4;
+	int contentOffset = offset;
+
+	unsigned char *contentPtr = receiveBuffer;
+	contentPtr += contentOffset;
+
+	uint32_t calcCrc = crc(contentPtr, contentLength);
+
+
+	if (version == 3 && packetCrc == calcCrc)
+		parseContent(contentOffset, contentLength);
+
+}
+
+void ScoeComms::parseContent(int contentOffset, uint16_t contentLength){
+	int offset = contentOffset;
+	lastPacketType = receiveBuffer[offset++];
+
+	if (lastPacketType == PT_COMMAND)
+		robotModel.update(receiveBuffer, offset, contentLength);
 }

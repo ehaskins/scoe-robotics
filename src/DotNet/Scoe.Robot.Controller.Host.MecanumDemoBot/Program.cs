@@ -10,8 +10,8 @@ namespace Scoe.Robot.MecanumDemoBot.Host
         static void Main(string[] args)
         {
            (new Scoe.Robot.MecanumDemoBot.Controller()).Run();
-            var controllerDomain = AppDomain.CreateDomain("ControllerDomain");
-            controllerDomain.UnhandledException += controllerCrashHandler;
+            //var controllerDomain = AppDomain.CreateDomain("ControllerDomain");
+            //controllerDomain.UnhandledException += controllerCrashHandler;
 
         }
         private static void controllerCrashHandler(object sender, UnhandledExceptionEventArgs e)

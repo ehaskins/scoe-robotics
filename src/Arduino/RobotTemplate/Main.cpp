@@ -23,7 +23,35 @@ void setup() {
 	init();
 
 	Serial.begin(115200);
-	//Serial.begin(1000000);
+
+	/*uint8_t testData[45];
+	testData[0] = 3;
+	testData[1] = 179;
+	testData[4] = 17;
+	testData[5] = 1;
+	testData[8] = 3;
+	testData[9] = 4;
+	testData[10] = 7;
+	testData[11] = 1;
+	testData[13] = 100;
+	testData[14] = 1;
+	testData[15] = 2;
+	testData[18] = 4;
+	testData[21] = 2;
+	testData[22] = 21;
+	testData[24] = 5;
+	testData[30] = 1;
+	testData[40] = 3;
+
+	uint32_t testCrc = crc(testData, 45);
+
+	Serial.print("Calculated:");
+	Serial.println(testCrc);
+	Serial.print("Old sent:");
+	Serial.println(631359595);
+	Serial.print("correct:");
+	Serial.println(4086425666);*/
+
 	RslModelSection * rsl = new RslModelSection();
 	PwmModelSection * pwm = new PwmModelSection(500, 2500);
 	AnalogIOSection *analog = new AnalogIOSection();
@@ -47,7 +75,4 @@ unsigned long nextLoopTime = 0;
 unsigned long fixedLoopPeriod = 0;
 void loop() {
 	beagleComm.poll();
-	/*while (Serial.available()){
-		Serial.write(Serial.read());
-	}*/
 }

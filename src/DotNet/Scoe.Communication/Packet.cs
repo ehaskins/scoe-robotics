@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 
 namespace Scoe.Communication
 {
@@ -82,10 +83,13 @@ namespace Scoe.Communication
                 var content = reader.ReadBytes(contentLength);
 
                 var calcCrc = Crc32.Compute(content);
-                if (crc != calcCrc)
+                if (crc == calcCrc)
+                    ParseContent(content);
+                else
+                {
                     throw new InvalidOperationException("Invalid CRC"); //TODO: use custom exception.
-
-                ParseContent(content);
+                }
+              
             }
         }
         public void ParseContent(byte[] data)

@@ -23,8 +23,7 @@ void RobotModel::update(unsigned char data[], unsigned int offset, unsigned int 
 
 	for (int i = 0; i < sectionCount; i++){
 		unsigned char sectionId = data[offset++];
-		int temp = (int)offset;
-		unsigned short length = readUInt16(data, &temp); offset+=2;
+		unsigned short length = readUInt16(data, offset); offset+=2;
 		for (int iSection = 0; iSection < _sectionCount; iSection++){
 			if (sections[iSection]->sectionId == sectionId){
 				sections[iSection]->isActive = true;
