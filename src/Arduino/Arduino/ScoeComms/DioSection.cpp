@@ -6,8 +6,8 @@
  */
 
 #include "DioSection.h"
-#include <ScoeComms\ByteReader.h>
-#include <ScoeComms\ByteWriter.h>
+#include "ByteReader.h"
+#include "ByteWriter.h"
 DioSection::DioSection() {
 	// TODO Auto-generated constructor stub
 	sectionId = 2;

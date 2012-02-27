@@ -6,7 +6,7 @@
  */
 
 #include "AnalogIOSection.h"
-#include <ScoeComms\ByteWriter.h>
+#include "ByteWriter.h"
 AnalogIOSection::AnalogIOSection() {
 	// TODO Auto-generated constructor stub
 	sectionId = 3;

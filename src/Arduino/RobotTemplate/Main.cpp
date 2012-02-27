@@ -24,7 +24,7 @@ void setup() {
 
 	Serial.begin(115200);
 
-	/*uint8_t testData[45];
+	uint8_t testData[45];
 	testData[0] = 3;
 	testData[1] = 179;
 	testData[4] = 17;
@@ -50,9 +50,9 @@ void setup() {
 	Serial.print("Old sent:");
 	Serial.println(631359595);
 	Serial.print("correct:");
-	Serial.println(4086425666);*/
+	Serial.println(4086425666);
 
-	RslModelSection * rsl = new RslModelSection();
+	/*RslModelSection * rsl = new RslModelSection();
 	PwmModelSection * pwm = new PwmModelSection(500, 2500);
 	AnalogIOSection *analog = new AnalogIOSection();
 	DutyCycleModelSection * dutyCycle = new DutyCycleModelSection();
@@ -65,7 +65,7 @@ void setup() {
 	beagleComm.robotModel.addSection(analog);
 	beagleComm.robotModel.addSection(dio);
 	beagleComm.robotModel.addSection(dutyCycle);
-	beagleComm.robotModel.addSection(enc);
+	beagleComm.robotModel.addSection(enc);*/
 
 	Serial.println("Ready.");
 }
@@ -74,5 +74,5 @@ unsigned long lastLoopTime = 0;
 unsigned long nextLoopTime = 0;
 unsigned long fixedLoopPeriod = 0;
 void loop() {
-	beagleComm.poll();
+	//beagleComm.poll();
 }

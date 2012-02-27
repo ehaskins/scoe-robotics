@@ -8,7 +8,7 @@
 #ifndef PWMDEFINITION_H_
 #define PWMDEFINITION_H_
 
-#include <Servo\Servo.h>
+#include "..\Servo\Servo.h"
 
 class PwmDefinition {
 public:

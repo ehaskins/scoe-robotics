@@ -4,11 +4,12 @@
  *  Created on: Dec 26, 2011
  *      Author: EHaskins
  */
-#include <Arduino.h>
-#include <ScoeComms\ScoeComms.h>
-#include <ScoeComms\CRC32.h>
-#include <ScoeComms\ByteReader.h>
-#include <ScoeComms\ByteWriter.h>
+#include "..\Arduino.h"
+#include "ScoeComms.h"
+#include "CRC32.h"
+#include "ByteReader.h"
+#include "ByteWriter.h"
+
 ScoeComms::ScoeComms() {
 	init(&Serial);
 }

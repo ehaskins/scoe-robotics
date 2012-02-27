@@ -6,7 +6,7 @@
  */
 
 #include "PwmDefinition.h"
-#include <Arduino.h>
+#include "..\Arduino.h"
 PwmDefinition::PwmDefinition() {
 	// TODO Auto-generated constructor stub
 

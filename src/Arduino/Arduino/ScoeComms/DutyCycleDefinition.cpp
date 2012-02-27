@@ -6,7 +6,7 @@
  */
 
 #include "DutyCycleDefinition.h"
-#include <Arduino.h>
+#include "..\Arduino.h"
 
 DutyCycleDefinition::DutyCycleDefinition() {
 	// TODO Auto-generated constructor stub

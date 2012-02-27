@@ -7,8 +7,10 @@
 
 #ifndef SCOECOMMS_H_
 #define SCOECOMMS_H_
-#include <Stream.h>
+
+#include "..\Stream.h"
 #include "RobotModel.h"
+
 #define RECEIVE_BUFFER_SIZE 200
 #define TRANSMIT_BUFFER_SIZE 200
 

@@ -7,7 +7,7 @@
 
 #include "DutyCycleModelSection.h"
 
-#include <Arduino.h>
+#include "..\Arduino.h"
 DutyCycleModelSection::DutyCycleModelSection() {
 	init();
 	sectionId = 4;

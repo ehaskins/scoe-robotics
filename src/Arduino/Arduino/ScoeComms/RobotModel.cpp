@@ -6,9 +6,9 @@
  */
 
 #include "RobotModel.h"
-#include <Arduino.h>
-#include <ScoeComms\ByteReader.h>
-#include <ScoeComms\ByteWriter.h>
+#include "..\Arduino.h"
+#include "..\ScoeComms\ByteReader.h"
+#include "..\ScoeComms\ByteWriter.h"
 
 RobotModel::RobotModel() {
 	// TODO Auto-generated constructor stub

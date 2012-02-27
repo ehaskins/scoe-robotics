@@ -9,7 +9,7 @@
 #define DIOSECTION_H_
 
 #include "RobotModelSection.h"
-#include <Arduino.h>
+#include "..\Arduino.h"
 
 class DioSection : public RobotModelSection{
 public:
