@@ -24,12 +24,22 @@ namespace Scoe.Communication
 
             if (_transmitTimer != null)
                 _transmitTimer.Dispose();
-            _transmitTimer = new Timer(50 / TransmitFrequency);
+            _transmitTimer = new Timer(1000 / (TransmitFrequency / 10));
             _transmitTimer.Elapsed += TransmitTimerElapsed;
             _transmitTimer.Start();
         }
         public double TransmitFrequency { get; private set; }
 
+        protected override void OnConnected()
+        {
+            _transmitTimer.Interval = 1000 / TransmitFrequency;
+            base.OnConnected();
+        }
+        protected override void OnDisconnected()
+        {
+            _transmitTimer.Interval = 1000 / (TransmitFrequency / 10);
+            base.OnDisconnected();
+        }
 
         public void Dispose()
         {

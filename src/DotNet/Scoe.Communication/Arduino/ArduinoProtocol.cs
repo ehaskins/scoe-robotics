@@ -5,10 +5,11 @@ using System.Text;
 using System.IO.Ports;
 using System.Threading;
 using System.IO;
+using System.Diagnostics;
 
 namespace Scoe.Communication.Arduino
 {
-    public class ArduinoProtocol : Protocol
+    public class ArduinoProtocol : Protocol, IDisposable
     {
 
         public SerialPort serialPort;
@@ -61,13 +62,14 @@ namespace Scoe.Communication.Arduino
         byte[] _sizeBuffer = new byte[2];
         int _receiveBufferOffset = 0;
         byte[] _receiveBuffer;
-
+        List<byte> debugBuffer = new List<byte>();
         private bool ParseData()
         {
             while (serialPort.BytesToRead > 0)
             {
                 var thisByte = (byte)serialPort.ReadByte();
-
+                debugBuffer.Add(thisByte);
+                //Debug.Write((char)thisByte);
                 if (!_isWaiting)
                 {
                     if (thisByte == (byte)SpecialChars.Escape && _lastByte != (byte)SpecialChars.Escape)
@@ -83,11 +85,32 @@ namespace Scoe.Communication.Arduino
                             _receiveBuffer = new byte[_length];
                         }
                     }
-                    else if (_receiveBufferOffset < _length)
+                    else if (_receiveBufferOffset < _length && _length > 12)
                     {
-                        _receiveBuffer[_receiveBufferOffset] = thisByte;
+                        _receiveBuffer[_receiveBufferOffset++] = thisByte;
                         if (_receiveBufferOffset == _length)
-                            Transmit(new Packet(_receiveBuffer));
+                        {
+                            try
+                            {
+                                Received(new Packet(_receiveBuffer));
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex.Message);
+
+                                var builder = new StringBuilder();
+                                for (int i = 9; i < _receiveBuffer.Length; i++)
+                                {
+                                    if (_receiveBuffer[i] != 0)
+                                        builder.AppendFormat("testData[{0}] = {1};", i - 9, _receiveBuffer[i]);
+                                }
+                                Debug.WriteLine(builder.ToString());
+                            }
+                            finally
+                            {
+                                debugBuffer.Clear();
+                            }
+                        }
                     }
                     else
                     {
@@ -97,6 +120,8 @@ namespace Scoe.Communication.Arduino
 
                 if (_lastByte == (byte)SpecialChars.Command && thisByte == (byte)SpecialChars.NewPacket)
                 {
+                    _sizeBufferOffset = 0;
+                    _receiveBufferOffset = 0;
                     _isWaiting = false;
                 }
 
@@ -108,16 +133,22 @@ namespace Scoe.Communication.Arduino
 
         private void Write(byte[] data, int offset, int length)
         {
-            var outData = new List<byte>();
-            outData.AddRange(new byte[] { (byte)SpecialChars.Command, (byte)SpecialChars.NewPacket });
-
+            var writer = new BinaryWriter(serialPort.BaseStream);
+            writer.Write(new byte[] { (byte)SpecialChars.Command, (byte)SpecialChars.NewPacket });
+            var sizeBytes = BitConverter.GetBytes((ushort)data.Length);
+            for (int i = 0; i < sizeBytes.Length; i++)
+            {
+                if (sizeBytes[i] >= 254)
+                    writer.Write((byte)SpecialChars.Escape);
+                writer.Write(sizeBytes[i]);
+            }
             for (int i = offset; i < length; i++)
             {
                 if (data[i] >= 254)
-                    outData.Add((byte)SpecialChars.Escape);
-                outData.Add(data[i]);
+                    writer.Write((byte)SpecialChars.Escape);
+                writer.Write(data[i]);
             }
-            serialPort.Write(outData.ToArray(), 0, outData.Count);
+            writer.Flush();
         }
 
         private void ReadWorker()
@@ -139,6 +170,25 @@ namespace Scoe.Communication.Arduino
             Command = 0xff,
             Escape = 0xfe,
             NewPacket = 0xff
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+                if (serialPort != null)
+                {
+                    serialPort.Dispose();
+                    serialPort = null;
+                }
+        }
+        ~ArduinoProtocol()
+        {
+            Dispose(false);
         }
     }
 }
