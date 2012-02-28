@@ -11,7 +11,6 @@ namespace Scoe.Communication.Arduino
 {
     public class ArduinoProtocol : Protocol, IDisposable
     {
-
         public SerialPort serialPort;
 
         bool isStopped = false;
@@ -43,7 +42,7 @@ namespace Scoe.Communication.Arduino
             serialPort.Close();
         }
 
-        public override void Transmit(Packet packet)
+        public override void Transmit(PacketV3 packet)
         {
             lock (isWritingSemaphore)
             {
@@ -92,7 +91,7 @@ namespace Scoe.Communication.Arduino
                         {
                             try
                             {
-                                Received(new Packet(_receiveBuffer));
+                                Received(new PacketV3(_receiveBuffer));
                             }
                             catch (Exception ex)
                             {

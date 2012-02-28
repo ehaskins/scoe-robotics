@@ -44,8 +44,8 @@ void ScoeComms::sendStatus() {
 	unsigned long packetCrc = crc(transmitBuffer, offset);
 	unsigned char headerBytes[8] = { SPC_COMMAND, CMD_NEWPACKET, 0, 0, 0, 0, 0,
 			0 };
-	writeUInt32(headerBytes, packetCrc, 2);
-	writeUInt16(headerBytes, offset, 6);
+	writeUInt16(headerBytes, offset, 2);
+	writeUInt32(headerBytes, packetCrc, 4);
 
 	for (int i = 0; i < 8; i++) {
 		commStream->write(headerBytes[i]);
@@ -70,15 +70,15 @@ bool ScoeComms::checkSerial() {
 				//Wait until next loop
 			} else if (receiveBufferPosition < RECEIVE_BUFFER_SIZE - 6) {
 				receiveBuffer[receiveBufferPosition++] = byte;
-				if (receiveBufferPosition == 4) {
+				if (receiveBufferPosition == 2) {
 					int position = 0;
-					packetCrc = readUInt32(receiveBuffer, &position);
-				} else if (receiveBufferPosition == 6) {
-					int position = 4;
 					packetDataLength = readUInt16(receiveBuffer, &position);
 					if (packetDataLength > (RECEIVE_BUFFER_SIZE - 6)) {
 						isWaiting = true;
 					}
+				} else if (receiveBufferPosition == 6) {
+					int position = 2;
+					packetCrc = readUInt32(receiveBuffer, &position);
 				} else if (receiveBufferPosition == packetDataLength + 6) {
 					isWaiting = true;
 

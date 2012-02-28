@@ -32,7 +32,7 @@ namespace Scoe.Communication
         protected InterfaceMode Mode { get; set; }
         protected void Transmit()
         {
-            var packet = new Packet();
+            var packet = new PacketV3();
             if (Mode == InterfaceMode.Client)
                 LastPacketIndex++;
             packet.PacketIndex = LastPacketIndex;

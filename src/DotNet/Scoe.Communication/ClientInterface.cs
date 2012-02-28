@@ -5,6 +5,7 @@ using System.Timers;
 
 namespace Scoe.Communication
 {
+
     public class ClientInterface : Interface, IDisposable
     {
         Timer _transmitTimer;
@@ -24,7 +25,7 @@ namespace Scoe.Communication
 
             if (_transmitTimer != null)
                 _transmitTimer.Dispose();
-            _transmitTimer = new Timer(1000 / (TransmitFrequency / 10));
+            _transmitTimer = new Timer(1000 / (TransmitFrequency));
             _transmitTimer.Elapsed += TransmitTimerElapsed;
             _transmitTimer.Start();
         }
