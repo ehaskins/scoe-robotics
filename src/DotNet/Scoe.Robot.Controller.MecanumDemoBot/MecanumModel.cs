@@ -78,10 +78,10 @@ namespace Scoe.Robot.MecanumDemoBot
             //Build IO interfaces
             var ioInt = new ArduinoInterface(port, baudRate, 20);
             ioInt.Sections.Add(new RslModelSection(State));
-            ioInt.Sections.Add(new AnalogIODataSection(AnalogInputs));
-            ioInt.Sections.Add(new MotorDataSection(Motors));
+            ioInt.Sections.Add(new AnalogInputSection(AnalogInputs));
+            ioInt.Sections.Add(new MotorSection(Motors));
             ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
-            ioInt.Sections.Add(new EncoderDataSection(Encoders));
+            ioInt.Sections.Add(new EncoderSection(Encoders));
             ioInt.Sections.Add(new DummySection(50));
 
 

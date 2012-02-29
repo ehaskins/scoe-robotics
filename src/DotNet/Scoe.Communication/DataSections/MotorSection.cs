@@ -2,19 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Scoe.Shared.Model;
-using EHaskins.Utilities.Extensions;
 using System.IO;
-namespace Scoe.Communication.Arduino
+namespace Scoe.Communication.DataSections
 {
-    public class MotorDataSection : DataSection
+    public class MotorSection : DataSection
     {
-        public MotorDataSection(IList<Motor> pwmOutputs)
+        public MotorSection(IList<Motor> pwmOutputs)
             : base(1)
         {
             _PwmOutputs = pwmOutputs;
         }
 
-        public override DataSectionData GetData()
+        public override DataSectionData GetCommandData()
         {
             using (var stream = new MemoryStream())
             {
@@ -35,12 +34,37 @@ namespace Scoe.Communication.Arduino
 
                 return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
             }
-
         }
 
-        public override void Update(DataSectionData sectionData)
+        public override void ParseCommand(DataSectionData data)
         {
-            //Pwm model part doesn't get any updates
+
+            using (var stream = new MemoryStream())
+            using (var reader = new BinaryReader(stream))
+            {
+                var count = reader.ReadByte();
+                for (int i = 0; i < count; i++)
+                {
+                    if (Motors.Count <= count)
+                        Motors.Add(new Motor(){IsReversible = false});
+
+                    var id = reader.ReadByte();
+                    if (id != 0)
+                    {
+                        Motors[i].ID = id;
+                        Motors[i].IsEnabled = true;
+                    }
+                    else
+                        Motors[i].IsEnabled = false;
+
+                    Motors[i].Value = (double)reader.ReadByte() / 255;
+                }
+
+                for (int i = count; i < Motors.Count; i++)
+                {
+                    Motors[i].IsEnabled = false;
+                }
+            }
         }
 
         private IList<Motor> _PwmOutputs;

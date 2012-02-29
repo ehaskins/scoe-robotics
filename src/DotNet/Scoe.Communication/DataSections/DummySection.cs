@@ -15,7 +15,15 @@ namespace Scoe.Communication.Arduino
             Length = length;
         }
 
-        public override DataSectionData GetData()
+        public override DataSectionData GetCommandData()
+        {
+            return GetData();
+        }
+        public override DataSectionData GetStatusData()
+        {
+            return GetData();
+        }
+        public DataSectionData GetData()
         {
             using (var stream = new MemoryStream())
             {
@@ -28,10 +36,6 @@ namespace Scoe.Communication.Arduino
 
                 return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
             }
-        }
-        public override void Update(DataSectionData data)
-        {
-           
         }
     }
 }

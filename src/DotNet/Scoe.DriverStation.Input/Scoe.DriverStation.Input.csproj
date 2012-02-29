@@ -52,7 +52,7 @@
       <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
       <Name>EHaskins.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
+    <ProjectReference Include="..\Scoe.Shared\Scoe.Shared.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
       <Name>Scoe.Shared</Name>
     </ProjectReference>

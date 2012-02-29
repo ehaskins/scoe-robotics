@@ -29,7 +29,7 @@ namespace Scoe.Communication.Arduino
             }
         }
 
-        public override DataSectionData GetData()
+        public override DataSectionData GetCommandData()
         {
             RslMode state = 0;
 

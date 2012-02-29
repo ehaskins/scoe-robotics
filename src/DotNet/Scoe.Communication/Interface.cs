@@ -32,6 +32,7 @@ namespace Scoe.Communication
         protected InterfaceMode Mode { get; set; }
         protected void Transmit()
         {
+            RaiseSending();
             var packet = new PacketV3();
             if (Mode == InterfaceMode.Client)
                 LastPacketIndex++;
@@ -42,7 +43,7 @@ namespace Scoe.Communication
 
                 foreach (var section in Sections)
                 {
-                    packet.Sections.Add(section.GetData());
+                    packet.Sections.Add(packet.Type == PacketType.Command ? section.GetCommandData() : section.GetStatusData());
                 }
             }
             else
@@ -67,7 +68,10 @@ namespace Scoe.Communication
                         var section = (from s in Sections where s.SectionId == sectionData.SectionId select s).SingleOrDefault();
                         if (section != null)
                         {
-                            section.Update(sectionData);
+                            if (packet.Type == PacketType.Command)
+                                section.ParseCommand(sectionData);
+                            else
+                                section.ParseStatus(sectionData);
                         }
                     }
                 }

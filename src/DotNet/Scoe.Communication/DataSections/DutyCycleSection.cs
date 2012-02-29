@@ -5,7 +5,7 @@ using Scoe.Shared.Model;
 using EHaskins.Utilities.Extensions;
 using System.IO;
 
-namespace Scoe.Communication.Arduino
+namespace Scoe.Communication.DataSections
 {
     public class DutyCycleSection : DataSection
     {
@@ -17,7 +17,7 @@ namespace Scoe.Communication.Arduino
 
         public IList<DutyCyclePwm> Pwms { get; private set; }
 
-        public override DataSectionData GetData()
+        public override DataSectionData GetCommandData()
         {
             using (var stream = new MemoryStream())
             {
@@ -30,11 +30,6 @@ namespace Scoe.Communication.Arduino
 
                 return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
             }
-        }
-
-        public override void Update(DataSectionData data)
-        {
-            //Pwm model part doesn't get any updates
         }
 
     }

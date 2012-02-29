@@ -16,40 +16,42 @@ namespace Scoe.Communication.DataSections
         }
         public bool IsSource { get; set; }
         public IList<Joystick> Joysticks { get; set; }
-        public override DataSectionData GetData()
+
+        public override DataSectionData GetCommandData()
         {
-            if (IsSource)
+            using (var stream = new MemoryStream())
             {
-                using (var stream = new MemoryStream())
+                var count = Joysticks.Count.Limit(0, byte.MaxValue);
+
+                stream.WriteByte((byte)count);
+                for (int i = 0; i < count; i++)
                 {
-                    var count = Joysticks.Count.Limit(0, byte.MaxValue);
-
-                    stream.WriteByte((byte)count);
-                    for (int i = 0; i < count; i++)
+                    var stick = Joysticks[i];
+                    int axisCount = stick.Axes.Count.Limit(0, byte.MaxValue);
+                    stream.WriteByte((byte)axisCount);
+                    for (int iAxis = 0; iAxis < axisCount; iAxis++)
                     {
-                        var stick = Joysticks[i];
-                        int axisCount = stick.Axes.Count.Limit(0, byte.MaxValue);
-                        stream.WriteByte((byte)axisCount);
-                        for (int iAxis = 0; iAxis < axisCount; iAxis++)
-                        {
-                            var scaled = (stick.Axes[iAxis] + 1) * 127;
-                            var limited = scaled.Limit(0, byte.MaxValue);
-                            stream.WriteByte((byte)limited);
-                        }
+                        var scaled = (stick.Axes[iAxis] + 1) * 127;
+                        var limited = scaled.Limit(0, byte.MaxValue);
+                        stream.WriteByte((byte)limited);
                     }
-
-                    return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
                 }
+
+                return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
             }
-            return new DataSectionData(){SectionId = SectionId};
         }
 
-        public override void Update(DataSectionData sectionData)
+        public override DataSectionData GetStatusData()
+        {
+            return new DataSectionData() { SectionId = SectionId };
+        }
+
+        public override void ParseStatus(DataSectionData sectionData)
         {
             var data = sectionData.Data;
             var offset = 0;
 
-            if (!IsSource && data.Length >= 1)
+            if (data.Length >= 1)
             {
                 var count = data[offset++];
                 for (int i = 0; i < count; i++)

@@ -9,6 +9,11 @@ namespace Scoe.Communication
 {
     public class DataSectionData
     {
+        public DataSectionData(byte sectionId, Byte[] data)
+        {
+            SectionId = sectionId;
+            Data = data;
+        }
         public DataSectionData()
         {
         }

@@ -42,12 +42,12 @@
   <ItemGroup>
     <Compile Include="Arduino\ArduinoInterface.cs" />
     <Compile Include="Arduino\ArduinoProtocol.cs" />
-    <Compile Include="Arduino\DataSections\AnalogIODataSection.cs" />
-    <Compile Include="Arduino\DataSections\DigitalIODataSection.cs" />
-    <Compile Include="Arduino\DataSections\DummySection.cs" />
-    <Compile Include="Arduino\DataSections\DutyCycleSection.cs" />
-    <Compile Include="Arduino\DataSections\EncoderDataSection.cs" />
-    <Compile Include="Arduino\DataSections\MotorDataSection.cs" />
+    <Compile Include="DataSections\AnalogIOSection.cs" />
+    <Compile Include="DataSections\DigitalIOSection.cs" />
+    <Compile Include="DataSections\DummySection.cs" />
+    <Compile Include="DataSections\DutyCycleSection.cs" />
+    <Compile Include="DataSections\EncoderSection.cs" />
+    <Compile Include="DataSections\MotorSection.cs" />
     <Compile Include="Arduino\DataSections\RslModelSection.cs" />
     <Compile Include="ClientInterface.cs" />
     <Compile Include="InterfaceMode.cs" />
@@ -68,7 +68,7 @@
       <Project>{A0F0A322-5372-4040-9394-EC661859A4F1}</Project>
       <Name>EHaskins.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
+    <ProjectReference Include="..\Scoe.Shared\Scoe.Shared.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
       <Name>Scoe.Shared</Name>
     </ProjectReference>

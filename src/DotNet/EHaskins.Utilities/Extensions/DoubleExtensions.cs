@@ -7,7 +7,7 @@ namespace EHaskins.Utilities.Extensions
         public static double Deadband(this double val, double center, double range, double deadband)
         {
             if (deadband > range)
-                throw new ArgumentOutOfRangeException("Deadband must be greater than range.");
+                throw new ArgumentOutOfRangeException("Deadband must be less than range.");
             val = val.Limit(center - range, center + range);
 
             double factor = range/(range - deadband);
@@ -17,6 +17,27 @@ namespace EHaskins.Utilities.Extensions
                 val = (val + deadband) * factor;
             else
                 val = 0;
+            return val;
+        }
+
+        public static double ShrinkDeadband(this double val, double deadband, double newDeadband, double range, double center)
+        {
+            if (deadband > range)
+                throw new ArgumentOutOfRangeException("Deadband must be less than range.");
+            val = val.Limit(center - range, center + range);
+            double factor = (range - deadband - newDeadband) / range;
+            if (val < center - newDeadband)
+            {
+                val = (val + deadband - newDeadband) * factor;
+            }
+            else if (val > center + newDeadband)
+            {
+                val = (val - deadband + newDeadband) * factor;
+            }
+            else
+            {
+                val = 0.0;
+            }
             return val;
         }
 

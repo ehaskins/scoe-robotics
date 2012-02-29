@@ -26,7 +26,9 @@ namespace Scoe.Communication
         }
 
         public virtual void ConnectionStateChanged(object sender, bool isConnected) { }
-        public abstract DataSectionData GetData();
-        public virtual void Update(DataSectionData data) { }
+        public virtual DataSectionData GetCommandData() { return new DataSectionData() { SectionId = SectionId }; }
+        public virtual DataSectionData GetStatusData() { return new DataSectionData() { SectionId = SectionId }; }
+        public virtual void ParseCommand(DataSectionData data) { }
+        public virtual void ParseStatus(DataSectionData data) { }
     }
 }

@@ -6,17 +6,27 @@ using EHaskins.Utilities.Binary;
 using Scoe.Shared.Model;
 using System.IO;
 
-namespace Scoe.Communication.Arduino
+namespace Scoe.Communication.DataSections
 {
-    public class DigitalIODataSection : DataSection
+    public class DigitalIOSection : DataSection
     {
-        public DigitalIODataSection(ObservableCollection<DigitalIO> digitalInputs)
+        public DigitalIOSection(ObservableCollection<DigitalIO> digitalInputs)
             : base(2)
         {
             _DigitalInputs = digitalInputs;
         }
 
-        public override DataSectionData GetData()
+        public override DataSectionData GetCommandData()
+        {
+            return GetData(DigitalIOMode.Output);
+        }
+
+        public override DataSectionData GetStatusData()
+        {
+            return GetData(DigitalIOMode.Input);
+        }
+
+        private DataSectionData GetData(DigitalIOMode stateType)
         {
             using (var stream = new MemoryStream())
             using (var writer = new BinaryWriter(stream))
@@ -29,19 +39,19 @@ namespace Scoe.Communication.Arduino
                 {
                     enabledBits[digitalInput.ID] = true;
                     modeBits[digitalInput.ID] = digitalInput.Mode == DigitalIOMode.Output;
-                    if (digitalInput.Mode == DigitalIOMode.Output)
+                    if (digitalInput.Mode == stateType)
                         stateBits[digitalInput.ID] = digitalInput.Value;
                 }
-
-                writer.Write(enabledBits.RawValue);
-                writer.Write(modeBits.RawValue);
-                writer.Write(stateBits.RawValue);
 
                 return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
             }
         }
 
-        public override void Update(DataSectionData sectionData)
+        public override void ParseCommand(DataSectionData data)
+        {
+            throw new NotImplementedException();
+        }
+        public override void ParseStatus(DataSectionData sectionData)
         {
             var data = sectionData.Data;
             var offset = 0;
@@ -69,7 +79,6 @@ namespace Scoe.Communication.Arduino
                 }
             }
         }
-
 
         private ObservableCollection<DigitalIO> _DigitalInputs;
 

@@ -8,27 +8,24 @@ namespace Scoe.Communication.DataSections
 {
     public class StateSection : Scoe.Communication.DataSection
     {
+        public bool IsDSConnectedUpdated { get; set; }
         RobotState _state;
-        public StateSection(RobotState state, bool isDsLink = true)
+        public StateSection(RobotState state, bool updateDSConnected = false)
             : base(100)
         {
-            _IsDSLink = isDsLink;
             _state = state;
+            IsDSConnectedUpdated = updateDSConnected;
         }
 
-        private bool _IsDSLink;
-        public bool IsDSLink
+        public override DataSectionData GetCommandData()
         {
-            get { return _IsDSLink; }
-            set
-            {
-                if (_IsDSLink == value)
-                    return;
-                _IsDSLink = value;
-                RaisePropertyChanged("IsDSLink");
-            }
+            return GetData();
         }
-        public override DataSectionData GetData()
+        public override DataSectionData GetStatusData()
+        {
+            return GetData();
+        }
+        private DataSectionData GetData()
         {
             var bits = new BitField8();
             bits[0] = _state.IsEStopped;
@@ -38,15 +35,22 @@ namespace Scoe.Communication.DataSections
             bits[4] = _state.IsIODeviceConnected;
             return new DataSectionData() { SectionId = SectionId, Data = new byte[] { bits.RawValue } };
         }
-
-        public override void Update(DataSectionData sectionData)
+        public override void ParseStatus(DataSectionData sectionData)
+        {
+            Parse(sectionData);
+        }
+        public override void ParseCommand(DataSectionData sectionData)
+        {
+            Parse(sectionData);
+        }
+        private void Parse(DataSectionData sectionData)
         {
             var data = sectionData.Data;
             var offset = 0;
 
             var bits = new BitField8(data[offset++]);
             _state.IsEStopped = bits[0];
-            if (!IsDSLink)//Don't apply DS state when communicating over the DS link. 
+            if (IsDSConnectedUpdated)
                 _state.IsDSConnected = bits[1];
             _state.IsEnabled = bits[2];
             _state.IsAutonomous = bits[3];

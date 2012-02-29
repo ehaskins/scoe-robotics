@@ -67,6 +67,12 @@ namespace Scoe.Communication.Arduino
             serialPort.Close();
         }
 
+        private enum Mode
+        {
+            Normal = 0,
+            Escape = 1
+        }
+        Mode mode;
         private bool ParseData()
         {
             while (serialPort.BytesToRead > 0)
@@ -76,12 +82,13 @@ namespace Scoe.Communication.Arduino
 
                 if (!_isWaiting)
                 {
-                    if (thisByte == (byte)SpecialChars.Escape && _lastByte != (byte)SpecialChars.Escape)
+                    if (thisByte == (byte)SpecialChars.Escape && mode != Mode.Escape)
                     {
-                        //Wait until next loop
+                        mode = Mode.Escape;
                     }
-                    else if (_receiveBufferPosition < _receiveBuffer.Length - 6)
+                    else if ((thisByte < 254 || mode == Mode.Escape) && _receiveBufferPosition < _receiveBuffer.Length - 6)
                     {
+                        mode = Mode.Normal;
                         _receiveBuffer[_receiveBufferPosition++] = thisByte;
                         if (_receiveBufferPosition == 2)
                         {
@@ -112,6 +119,7 @@ namespace Scoe.Communication.Arduino
                                 Debug.WriteLine("Bad CRC");
                             }
                         }
+
                     }
                     else
                     {
@@ -147,7 +155,7 @@ namespace Scoe.Communication.Arduino
                 {
                     var sectionData = new byte[sectionLength];
                     Array.ConstrainedCopy(_contentData, index, sectionData, 0, sectionLength);
-                    modelSection.Update(new DataSectionData() { SectionId = sectionId, Data = sectionData });
+                    modelSection.ParseStatus(new DataSectionData() { SectionId = sectionId, Data = sectionData });
                 }
                 else
                 {
@@ -181,7 +189,7 @@ namespace Scoe.Communication.Arduino
 
                 foreach (var section in Sections)
                 {
-                    var sectionData = section.GetData();
+                    var sectionData = section.GetCommandData();
                     writer.Write(sectionData.SectionId);
                     var length = sectionData.Data != null ? (UInt16)sectionData.Data.Length : (UInt16)0;
                     writer.Write(length);
