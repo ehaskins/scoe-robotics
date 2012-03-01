@@ -21,7 +21,7 @@ namespace Scoe.UdpProxy
         List<AnalogInput> _analogInputs = new List<AnalogInput>();
         List<DutyCyclePwm> _dutyCyclePwms = new List<DutyCyclePwm>();
 
-        public void Run(string comPort, int baud)
+        public void Start(string comPort, int baud)
         {
             //Command interface
             _server = new ServerInterface(new UdpProtocol(15000, 15001));
@@ -41,6 +41,8 @@ namespace Scoe.UdpProxy
             foreach (var s in commonSections)
                 _ioInt.Sections.Add(s);
 
+            _server.Start();
+            _ioInt.Start();
 
         }
 

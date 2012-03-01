@@ -7,6 +7,7 @@ using Scoe.Communication.Arduino;
 using Scoe.Communication;
 using Scoe.Communication.DataSections;
 using Scoe.Shared.Model.Pid;
+using System.Net;
 
 namespace Scoe.Robot.KiwiDemo
 {
@@ -86,18 +87,18 @@ namespace Scoe.Robot.KiwiDemo
         private void SetupIO(string port, int baudRate)
         {
             //Build IO interfaces
-            var ioInt = new ArduinoInterface(port, baudRate, 20);
+            //var ioInt = new ArduinoInterface(port, baudRate, 20);
+            var ioInt = new ClientInterface(new UdpProtocol(15001, 15000, IPAddress.Loopback));
             ioInt.Sections.Add(new RslModelSection(State));
             ioInt.Sections.Add(new AnalogInputSection(AnalogInputs));
             ioInt.Sections.Add(new MotorSection(Motors));
             ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
             ioInt.Sections.Add(new EncoderSection(Encoders));
-            ioInt.Sections.Add(new DummySection(50));
 
 
             ioInt.Start();
 
-            var ctrlInt = new ServerInterface(new UdpProtocol(1150, 1110, null));
+            var ctrlInt = new ServerInterface(new UdpProtocol(1150, 1110));
             ctrlInt.Connected += (source, e) => State.IsDSConnected = true;
             ctrlInt.Disconnected += (source, e) => State.IsDSConnected = false;
 

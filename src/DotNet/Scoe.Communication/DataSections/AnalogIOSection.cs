@@ -48,7 +48,7 @@ namespace Scoe.Communication.DataSections
 
         public override void ParseCommand(DataSectionData data)
         {
-            using (var stream = new MemoryStream())
+            using (var stream = new MemoryStream(data.Data))
             using (var reader = new BinaryReader(stream))
             {
                 var count = reader.ReadByte();
@@ -64,7 +64,7 @@ namespace Scoe.Communication.DataSections
                         aio = _AnalogInputs[i];
                     }
                     aio.ID = reader.ReadByte();
-                    aio.Value = reader.ReadUInt16();
+                   var samples =  reader.ReadByte(); //TODO: Implement sampleing
                 }
 
                 for (int i = count; i < AnalogInputs.Count; i++)

@@ -9,12 +9,14 @@ namespace Scoe.Communication.DataSections
     public class StateSection : Scoe.Communication.DataSection
     {
         public bool IsDSConnectedUpdated { get; set; }
+        public bool IgnoreUpdates { get; set; }
         RobotState _state;
-        public StateSection(RobotState state, bool updateDSConnected = false)
+        public StateSection(RobotState state, bool ignoreUpdates = false, bool updateDSConnected = false)
             : base(100)
         {
             _state = state;
             IsDSConnectedUpdated = updateDSConnected;
+            IgnoreUpdates = ignoreUpdates;
         }
 
         public override DataSectionData GetCommandData()
@@ -37,11 +39,13 @@ namespace Scoe.Communication.DataSections
         }
         public override void ParseStatus(DataSectionData sectionData)
         {
-            Parse(sectionData);
+            if (!IgnoreUpdates)
+                Parse(sectionData);
         }
         public override void ParseCommand(DataSectionData sectionData)
         {
-            Parse(sectionData);
+            if (!IgnoreUpdates)
+                Parse(sectionData);
         }
         private void Parse(DataSectionData sectionData)
         {

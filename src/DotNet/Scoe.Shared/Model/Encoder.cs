@@ -8,7 +8,7 @@ namespace Scoe.Shared.Model
 {
     public class Encoder : NotifyObject
     {
-
+        public Encoder() { }
         public Encoder(byte pinA, byte pinB)
         {
             ChannelAPin = pinA;

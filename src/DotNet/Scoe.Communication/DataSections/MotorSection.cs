@@ -39,7 +39,7 @@ namespace Scoe.Communication.DataSections
         public override void ParseCommand(DataSectionData data)
         {
 
-            using (var stream = new MemoryStream())
+            using (var stream = new MemoryStream(data.Data))
             using (var reader = new BinaryReader(stream))
             {
                 var count = reader.ReadByte();

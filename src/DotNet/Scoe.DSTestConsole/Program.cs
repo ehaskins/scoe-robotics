@@ -16,14 +16,15 @@ namespace Scoe.DSTestConsole
         {
             var state = new RobotState();
             Joystick stick = new Joystick();
-            var stickUpdater = new JoystickUpdater(stick, JoystickManager.GetSticks()[0]);
             stick.Axes.Add(0.0);
 
             var udp = new ClientInterface(new UdpProtocol(1110, 1150, IPAddress.Loopback));
 
-            udp.Sections.Add(new StateSection(state));
+            udp.Sections.Add(new StateSection(state, ignoreUpdates:true));
             udp.Sections.Add(new JoystickSection(new List<Joystick>(new Joystick[] { stick }), true));
-            udp.Sending += ((o, e) => stickUpdater.Update());
+
+            //var stickUpdater = new JoystickUpdater(stick, JoystickManager.GetSticks()[0]);
+            //udp.Sending += ((o, e) => stickUpdater.Update());
             udp.Start();
             bool done = false;
             while (!done)

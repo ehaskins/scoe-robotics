@@ -10,6 +10,7 @@ namespace Scoe.Communication.Udp
 {
     public class UdpProtocol : Protocol, IDisposable
     {
+        private IPAddress _RemoteAddress;
         protected UdpClient _client;
         protected bool _isStopped = true;
         IPEndPoint endpoint;
@@ -23,7 +24,19 @@ namespace Scoe.Communication.Udp
             ListenPort = listenPort;
         }
 
-        public IPAddress RemoteAddress { get; set; }
+        public IPAddress RemoteAddress
+        {
+            get
+            {
+                return _RemoteAddress;
+            }
+            set
+            {
+                if (_RemoteAddress == value)
+                    return;
+                _RemoteAddress = value;
+            }
+        }
         public int ListenPort { get; set; }
         public int DestinationPort { get; set; }
 
@@ -52,7 +65,7 @@ namespace Scoe.Communication.Udp
                 var data = packet.GetData();
                 _client.Send(data, data.Length, new IPEndPoint(RemoteAddress, DestinationPort));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -63,9 +76,10 @@ namespace Scoe.Communication.Udp
             _isStopped = false;
             while (IsEnabled)
             {
+                byte[] data;
                 try
-                {
-                    byte[] data = _client.Receive(ref endpoint);
+                { 
+                    data = _client.Receive(ref endpoint);
                     if (RemoteAddress == null)
                         RemoteAddress = endpoint.Address;
                     var packet = new PacketV3();

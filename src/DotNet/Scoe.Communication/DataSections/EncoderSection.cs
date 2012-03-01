@@ -50,13 +50,15 @@ namespace Scoe.Communication.DataSections
         }
         public override void ParseCommand(DataSectionData data)
         {
-            using (var stream = new MemoryStream())
+            using (var stream = new MemoryStream(data.Data))
             using (var reader = new BinaryReader(stream))
             {
                 var count = reader.ReadByte();
 
                 for (int i = 0; i < count; i++)
                 {
+                    if (Encoders.Count <= count)
+                        Encoders.Add(new Encoder());
                     Encoders[i].ChannelAPin = reader.ReadByte();
                     Encoders[i].ChannelBPin = reader.ReadByte();
                 }
@@ -73,6 +75,9 @@ namespace Scoe.Communication.DataSections
             var data = sectionData.Data;
             var offset = 0;
             var count = data[offset++];
+
+            if (count > Encoders.Count)
+                count = (byte)Encoders.Count;
 
             for (int i = 0; i < count; i++)
             {
