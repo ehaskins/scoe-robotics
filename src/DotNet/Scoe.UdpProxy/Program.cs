@@ -10,7 +10,7 @@ namespace Scoe.UdpProxy
         public static void Main(string[] args)
         {
             Console.WriteLine("Scoe Communication Udp Proxy Server");
-            (new UdpProxy()).Start("COM5", 115200);
+            (new UdpProxy()).Start("COM10", 115200);
             Console.ReadLine();
         }
     }

@@ -66,12 +66,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Scoe.Vision\Scoe.Vision.csproj">
-      <Project>{51AFE99E-2BCB-40F5-821F-AAA88654C8DB}</Project>
-      <Name>Scoe.Vision</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

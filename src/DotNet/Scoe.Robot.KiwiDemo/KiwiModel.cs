@@ -14,11 +14,13 @@ namespace Scoe.Robot.KiwiDemo
     public class KiwiModel
     {
         RobotState State;
-        public KiwiModel(RobotState state, string port, int baudRate)
+        public KiwiModel(RobotState state, IInterface ioInterface, Interface controlInterface)
         {
             State = state;
             SetupModel();
-            SetupIO(port, baudRate);
+            IOInterface = ioInterface;
+            ControlInterface = controlInterface;
+            SetupIO();
         }
 
         public Joystick DriverController;
@@ -26,10 +28,6 @@ namespace Scoe.Robot.KiwiDemo
         public Motor WestMotor;
         public Motor EastMotor;
         public Motor SouthMotor;
-
-        public VelocityPid WestPid;
-        public VelocityPid EastPid;
-        public VelocityPid SouthPid;
 
         public WheelEncoder WestEncoder;
         public WheelEncoder EastEncoder;
@@ -46,10 +44,13 @@ namespace Scoe.Robot.KiwiDemo
         public List<DutyCyclePwm> DutyCyclePwms;
         public List<Encoder> Encoders;
 
+        public Interface ControlInterface;
+        public IInterface IOInterface;
+
         private void SetupModel()
         {
             //Build objects
-            var antiBuzz = 0.15;
+            var antiBuzz = 0.10;
             WestMotor = new Motor(2, true, controllerDeadband: antiBuzz);
             EastMotor = new Motor(3, false, controllerDeadband: antiBuzz);
             SouthMotor = new Motor(4, true, controllerDeadband: antiBuzz);
@@ -61,13 +62,6 @@ namespace Scoe.Robot.KiwiDemo
             WestEncoder = new WheelEncoder(21, 17, ticks360, true);
             EastEncoder = new WheelEncoder(20, 16, ticks360);
             SouthEncoder = new WheelEncoder(19, 15, ticks250, true);
-
-            var i = 0;
-            var p = 1;
-            var d = 0;
-            WestPid = new VelocityPid() { Source = WestEncoder, Output = WestMotor, P = p, I = i, D = d, OutputMax = 1, OutputMin = -1 };
-            EastPid = new VelocityPid() { Source = EastEncoder, Output = EastMotor, P = p, I = i, D = d, OutputMax = 1, OutputMin = -1 };
-            SouthPid = new VelocityPid() { Source = SouthEncoder, Output = SouthMotor, P = p, I = i, D = d, OutputMax = 1, OutputMin = -1 };
 
             UltraSonicChannel = new AnalogInput(0);
 
@@ -84,28 +78,23 @@ namespace Scoe.Robot.KiwiDemo
             Encoders = new List<Encoder>(new Encoder[] { WestEncoder, EastEncoder, SouthEncoder });
         }
 
-        private void SetupIO(string port, int baudRate)
+        private void SetupIO()
         {
-            //Build IO interfaces
-            //var ioInt = new ArduinoInterface(port, baudRate, 20);
-            var ioInt = new ClientInterface(new UdpProtocol(15001, 15000, IPAddress.Loopback));
-            ioInt.Sections.Add(new RslModelSection(State));
-            ioInt.Sections.Add(new AnalogInputSection(AnalogInputs));
-            ioInt.Sections.Add(new MotorSection(Motors));
-            ioInt.Sections.Add(new DutyCycleSection(DutyCyclePwms));
-            ioInt.Sections.Add(new EncoderSection(Encoders));
+            IOInterface.Sections.Add(new RslModelSection(State));
+            IOInterface.Sections.Add(new AnalogInputSection(AnalogInputs));
+            IOInterface.Sections.Add(new MotorSection(Motors));
+            IOInterface.Sections.Add(new DutyCycleSection(DutyCyclePwms));
+            IOInterface.Sections.Add(new EncoderSection(Encoders));
 
+            IOInterface.Start();
 
-            ioInt.Start();
+            ControlInterface.Connected += (source, e) => State.IsDSConnected = true;
+            ControlInterface.Disconnected += (source, e) => State.IsDSConnected = false;
 
-            var ctrlInt = new ServerInterface(new UdpProtocol(1150, 1110));
-            ctrlInt.Connected += (source, e) => State.IsDSConnected = true;
-            ctrlInt.Disconnected += (source, e) => State.IsDSConnected = false;
+            ControlInterface.Sections.Add(new StateSection(State));
+            ControlInterface.Sections.Add(new JoystickSection(Joysticks));
 
-            ctrlInt.Sections.Add(new StateSection(State));
-            ctrlInt.Sections.Add(new JoystickSection(Joysticks));
-
-            ctrlInt.Start();
+            ControlInterface.Start();
         }
         public void WriteVelocities()
         {

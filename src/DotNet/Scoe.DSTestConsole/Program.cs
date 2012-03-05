@@ -18,13 +18,20 @@ namespace Scoe.DSTestConsole
             Joystick stick = new Joystick();
             stick.Axes.Add(0.0);
 
-            var udp = new ClientInterface(new UdpProtocol(1110, 1150, IPAddress.Loopback));
+            //var address = IPAddress.Loopback;
+            var address = IPAddress.Parse("192.168.0.20");
+            var udp = new ClientInterface(new UdpProtocol(1110, 1150, address));
 
-            udp.Sections.Add(new StateSection(state, ignoreUpdates:true));
+            udp.Sections.Add(new StateSection(state, ignoreUpdates: true));
             udp.Sections.Add(new JoystickSection(new List<Joystick>(new Joystick[] { stick }), true));
 
-            //var stickUpdater = new JoystickUpdater(stick, JoystickManager.GetSticks()[0]);
-            //udp.Sending += ((o, e) => stickUpdater.Update());
+            var sticks = JoystickManager.GetSticks();
+            if (sticks.Length > 0)
+            {
+                var stickUpdater = new JoystickUpdater(stick, sticks[0]);
+                udp.Sending += ((o, e) => stickUpdater.Update());
+            }
+
             udp.Start();
             bool done = false;
             while (!done)

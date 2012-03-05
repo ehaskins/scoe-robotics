@@ -42,7 +42,7 @@ namespace Scoe.Shared.Model.Pid
             if (!double.IsNaN(_lastError))
                 d = (error - _lastError) * D * elapsedSeconds;
 
-            CurrentOutput = CurrentOutput + p + _i + d;
+            CurrentOutput = p + _i + d;
             CurrentOutput = CurrentOutput.Limit(OutputMin, OutputMax);
             Output.Value = CurrentOutput;
             _lastError = error;

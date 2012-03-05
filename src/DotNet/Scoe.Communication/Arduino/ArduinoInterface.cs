@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Scoe.Communication.Arduino
 {
-    public class ArduinoInterface : CardInterfaceBase, IDisposable
+    public class ArduinoInterface : CardInterfaceBase, IDisposable, IInterface
     {
         private uint _packetCrc;
         private int _packetDataLength;
@@ -55,7 +55,7 @@ namespace Scoe.Communication.Arduino
             serialPort.Open();
             transmitTimer.Start();
             readThread = new Thread(ReadWorker);
-            readThread.Name = "ArduinoInterafaceRea";
+            readThread.Name = "ArduinoInterafaceRead";
             readThread.Start();
         }
 

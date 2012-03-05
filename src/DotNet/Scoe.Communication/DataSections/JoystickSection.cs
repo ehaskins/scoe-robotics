@@ -46,7 +46,7 @@ namespace Scoe.Communication.DataSections
             return new DataSectionData() { SectionId = SectionId };
         }
 
-        public override void ParseStatus(DataSectionData sectionData)
+        public override void ParseCommand(DataSectionData sectionData)
         {
             var data = sectionData.Data;
             var offset = 0;

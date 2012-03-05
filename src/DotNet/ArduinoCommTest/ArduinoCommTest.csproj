@@ -63,7 +63,7 @@
       <Project>{7D6A46F0-8432-4851-8F98-18A058F50069}</Project>
       <Name>Scoe.Communication</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scoe.Robot.Card\Scoe.Shared.csproj">
+    <ProjectReference Include="..\Scoe.Shared\Scoe.Shared.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
       <Name>Scoe.Shared</Name>
     </ProjectReference>
