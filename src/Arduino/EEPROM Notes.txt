@@ -1,0 +1,19 @@
+2 - Device ID
+
+2 - Team Number
+6 - MAC
+1 - Network
+1 - Robot IP
+4 - Gateway IP
+4 - Net Mask
+2 - transmitPort
+2 - receivePort
+
+
+Discovery Packet  	PC -> broadcast to robot
+Anouncement Packet	PC <- robot
+
+
+Modified Udp library to support multiple simultanious connections.
+Updated RSL to include config mode code.
+Added EEPROM network configuration.

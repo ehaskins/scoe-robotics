@@ -1,0 +1,11 @@
+1 space = 200ms off
+1 dot = 50ms off + 100ms on + 50ms off
+1 dash = 23ms off + 150ms on + 25ms off
+underscore solid, 200ms each
+
+No master comms ................
+No DS comms        .   .   .   .
+Disbabled	_____     _____    
+Tele           	_____._____._____.__
+Auto            ____..____..____..__
+
