@@ -24,11 +24,23 @@ void setup() {
 
 	Serial.begin(115200);
 	//Serial.begin(1000000);
+  
+  // Controls the robot status light.
 	RslModelSection * rsl = new RslModelSection();
+   
+  // Controls PWM signal generation, for the speed controllers.
 	PwmModelSection * pwm = new PwmModelSection(500, 2500);
+   
+  // Controls analog I/O.
 	AnalogIOSection *analog = new AnalogIOSection();
+   
+  // Controls duty-cycle computation.
 	DutyCycleModelSection * dutyCycle = new DutyCycleModelSection();
+   
+  // Controls digital I/O.
 	DioSection *dio = new DioSection();
+   
+  // Controls data acquisition from the quadrature shaft encoders.
 	EncoderModelSection *enc = new EncoderModelSection();
 
 	beagleComm.init(&Serial);
@@ -42,9 +54,11 @@ void setup() {
 	Serial.println("Ready.");
 }
 
+// NAI: Are these variables used anywhere?
 unsigned long lastLoopTime = 0;
 unsigned long nextLoopTime = 0;
 unsigned long fixedLoopPeriod = 0;
+
 void loop() {
 	beagleComm.poll();
 	/*while (Serial.available()){
