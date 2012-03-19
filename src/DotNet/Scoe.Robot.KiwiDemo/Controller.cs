@@ -22,7 +22,7 @@ namespace Scoe.Robot.KiwiDemo
         public VelocityPid EastPid;
         public VelocityPid SouthPid;
 
-        public Controller()
+        public Controller() : base()
         {
             var port = Environment.OSVersion.VersionString.Contains("Windows") ? "COM10" : "/dev/serial/by-id/usb-Arduino__www.arduino.cc__Arduino_Mega_2560_6493234363835131E111-if00";
             var baudRate = 115200;
@@ -30,6 +30,7 @@ namespace Scoe.Robot.KiwiDemo
             var IOInterface = new ArduinoInterface(port, baudRate);
             var ControlInterface = new ServerInterface(new UdpProtocol(1150, 1110));
 
+            this.RequiredConnectecions.Add(ControlInterface);
             model = new KiwiModel(State, IOInterface, ControlInterface);
 
             if (enablePid)
@@ -55,8 +56,9 @@ namespace Scoe.Robot.KiwiDemo
         {
             if (model.DriverController.Axes.Count >= 3)
             {
-                var x = 0.0; //model.DriverController.Axes[0].Deadband(0.0, 1.0, 0.2);
-                double xboxDeadband = 0.15;
+
+                double xboxDeadband = 0.05;
+                var x = model.DriverController.Axes[2].Deadband(0.0, 1.0, xboxDeadband);
                 var y = -model.DriverController.Axes[1].Deadband(0.0, 1.0, xboxDeadband);
                 var z = -model.DriverController.Axes[0].Deadband(0.0, 1.0, xboxDeadband);
 
@@ -113,26 +115,26 @@ namespace Scoe.Robot.KiwiDemo
         }
 
         double dimmerDir = 0.001;
-        double dimmerMin = -0.1;
-        double dimmerMax = 0.10;
+        double dimmerMin = 0.0;
+        double dimmerMax = 0.5;
         double dimmerPos = 0;
 
         protected override void DisabledLoop()
         {
 
-            //if (dimmerPos > dimmerMax || dimmerPos < dimmerMin)
-            //    dimmerDir *= -1;
+            if (dimmerPos > dimmerMax || dimmerPos < dimmerMin)
+                dimmerDir *= -1;
 
-            //dimmerPos += dimmerDir;
-            //model.SouthMotor.Value = dimmerPos;
+            dimmerPos += dimmerDir;
+            model.LedDimmer.Value = dimmerPos;
 
-            //Console.WriteLine(dimmerPos.ToString("f2"));
+            Console.WriteLine(dimmerPos.ToString("f2"));
             model.WriteVelocities();
         }
 
 
-        double motorChangeDir = -0.01;
-        double motorMax = 0.15;
+        double motorChangeDir = 0.01;
+        double motorMax = 1;
         double motorMin = 0;
         double value = 0.0;
         protected override void AutonomousInit()

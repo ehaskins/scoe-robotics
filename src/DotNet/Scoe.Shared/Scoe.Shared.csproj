@@ -48,8 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\ControllerBase.cs" />
-    <Compile Include="Controller\IterativeControllerBase.cs" />
     <Compile Include="Interface\CardInterfaceBase.cs" />
     <Compile Include="Interface\RobotInterfaceBase.cs" />
     <Compile Include="Model\Alliance.cs" />

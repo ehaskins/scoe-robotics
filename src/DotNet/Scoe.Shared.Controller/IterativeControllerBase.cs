@@ -11,6 +11,8 @@ namespace Scoe.Shared.Controller
     {
         private System.Timers.Timer _timer;
 
+        public List<Scoe.Communication.IInterface> RequiredConnectecions {get;set;}
+
         bool _initDisabled = true;
         bool _initEnabled = true;
         bool _initAuto = true;
@@ -22,6 +24,7 @@ namespace Scoe.Shared.Controller
         public IterativeControllerBase()
         {
             State = new RobotState();
+            RequiredConnectecions = new List<Communication.IInterface>();
         }
 
         public void Dispose()
@@ -77,9 +80,23 @@ namespace Scoe.Shared.Controller
             }
         }
 
+        private bool AreRequiredConnectectionsOk()
+        {
+            bool areOk = true;
+
+            
+            foreach (var conn in RequiredConnectecions)
+            {
+                if (!conn.IsConnected)
+                    areOk = false;
+            }
+            return areOk;
+        }
+
         protected virtual void MainLoop()
         {
-            if (State.IsEnabled)
+            //TODO: Add connected test
+            if (State.IsEnabled && AreRequiredConnectectionsOk())
             {
                 if (State.IsAutonomous)
                 {

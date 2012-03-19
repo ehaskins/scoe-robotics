@@ -67,6 +67,10 @@
       <Project>{623EDA39-8EFC-4D43-803F-769F2B1BBBC2}</Project>
       <Name>Scoe.Robot.KiwiDemo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Scoe.Shared.Controller\Scoe.Shared.Controller.csproj">
+      <Project>{ffd5245e-0b3f-4362-9aff-5641f4ad2ff5}</Project>
+      <Name>Scoe.Shared.Controller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Scoe.Shared\Scoe.Shared.csproj">
       <Project>{19246D9C-3888-43A8-9435-B33EAB54C5A5}</Project>
       <Name>Scoe.Shared</Name>
