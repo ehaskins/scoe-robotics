@@ -11,6 +11,7 @@ namespace Scoe.Communication
     {
         void Start();
         void Stop();
+        bool IsConnected { get; }
         ObservableCollection<Scoe.Communication.DataSection> Sections { get; }
     }
     public abstract class Interface : IInterface

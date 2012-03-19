@@ -37,6 +37,15 @@ namespace Scoe.Communication.Arduino
             transmitTimer.Elapsed += TransmitTimerElapsed;
         }
 
+        public bool IsConnected
+        {
+            get
+            {
+                //TODO: IMplement me!
+                return true;
+            }
+        }
+
         private ObservableCollection<DataSection> _Sections;
         public ObservableCollection<DataSection> Sections
         {
@@ -126,7 +135,7 @@ namespace Scoe.Communication.Arduino
                         _isWaiting = true;
                     }
                 }
-                
+
                 if (_lastByte == (byte)SpecialChars.Command && thisByte == (byte)SpecialChars.NewPacket)
                 {
                     _isWaiting = false;
