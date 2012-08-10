@@ -16,20 +16,20 @@ namespace Scoe.DriverStation
         ObservableCollection<Joystick> _joysticks;
         RobotState _state;
 
-        ServerInterface _client;
+        ClientInterface _client;
 
         public DriverStationVM()
         {
             Joysticks = new ObservableCollection<Joystick>();
             State = new RobotState() { IsEnabled = false };
 
-            Client = new DSUdpClient(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1150), 1110);
+            Client = new ClientInterface(new UdpProtocol(1110, 1150, IPAddress.Parse("127.0.0.1")));
 
             Client.Sections.Add(new StateSection(State));
             Client.Sections.Add(new JoystickSection(Joysticks));
             Client.Start();
         }
-        public DSUdpClient Client
+        public ClientInterface Client
         {
             get
             {

@@ -34,6 +34,8 @@ namespace Scoe.Robot.KiwiDemo
         public WheelEncoder SouthEncoder;
 
         public AnalogInput UltraSonicChannel;
+        public Accelerometer Accelerometer;
+        public Gyro Gyro;
 
         public DutyCyclePwm LedDimmer;
         public DutyCyclePwm JSDimmer;
@@ -59,11 +61,20 @@ namespace Scoe.Robot.KiwiDemo
             int ticks360 = (int)((360 * 4) / (Math.PI * wheelDia));
             int ticks250 = (int)((250 * 4) / (Math.PI * wheelDia));
 
-            WestEncoder = new WheelEncoder(21, 17, ticks360, true);
-            EastEncoder = new WheelEncoder(20, 16, ticks360);
-            SouthEncoder = new WheelEncoder(19, 15, ticks250, true);
+            WestEncoder = new WheelEncoder(21, 18, ticks360, true);
+            EastEncoder = new WheelEncoder(20, 17, ticks360);
+            SouthEncoder = new WheelEncoder(19, 16, ticks250, true);
 
-            UltraSonicChannel = new AnalogInput(0);
+            UltraSonicChannel = new AnalogInput(15);
+            var accelXIn = new AnalogInput(0, maxVolts: 3.3);
+            var accelYIn = new AnalogInput(1, maxVolts: 3.3);
+            var accelZIn = new AnalogInput(2, maxVolts: 3.3);
+
+            Accelerometer = new AnalogAccelerometer(
+                new AnalogAccelerometerChannel() { Input = accelXIn, VoltPerG = 1, CenterValue = (3.3 / 2) },
+                new AnalogAccelerometerChannel() { Input = accelYIn, VoltPerG = 1, CenterValue = (3.3 / 2) },
+                new AnalogAccelerometerChannel() { Input = accelZIn, VoltPerG = 1, CenterValue = (3.3 / 2) }
+                );
 
             DriverController = new Joystick();
 
@@ -72,7 +83,7 @@ namespace Scoe.Robot.KiwiDemo
 
             //Initialize collections
             Motors = new List<Motor>(new Motor[] { WestMotor, EastMotor, SouthMotor });
-            AnalogInputs = new List<AnalogInput>(new AnalogInput[] { UltraSonicChannel });
+            AnalogInputs = new List<AnalogInput>(new AnalogInput[] { UltraSonicChannel, accelXIn, accelYIn, accelZIn });
             DutyCyclePwms = new List<DutyCyclePwm>(new DutyCyclePwm[] { LedDimmer, JSDimmer });
             Joysticks = new List<Joystick>(new Joystick[] { DriverController });
             Encoders = new List<Encoder>(new Encoder[] { WestEncoder, EastEncoder, SouthEncoder });

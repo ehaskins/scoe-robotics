@@ -31,8 +31,9 @@ namespace Scoe.Shared.Model
             ControllerDeadband = controllerDeadband;
         }
 
-        protected override void OnUpdated()
+        protected override void OnUpdated(double oldValue, double newValue)
         {
+            base.OnUpdated(oldValue, newValue);
             RaiseUpdated();
         }
 

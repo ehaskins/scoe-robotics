@@ -32,13 +32,18 @@ namespace Scoe.Shared.Model
             }
             set
             {
+                var old = _Value;
                 _Value = value;
-                OnUpdated();
+                OnUpdated(old, value);
                 RaisePropertyChanged("Value");
             }
         }
-        protected virtual void OnUpdated()
+
+        public event EventHandler<ChannelValueChangedEventArgs<TValue>> ValueChanged;
+        protected virtual void OnUpdated(TValue oldValue, TValue newValue)
         {
+            if (ValueChanged != null)
+                ValueChanged(this, new ChannelValueChangedEventArgs<TValue>(oldValue, newValue));
         }
     }
 }

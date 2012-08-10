@@ -54,11 +54,6 @@ void setup() {
 	Serial.println("Ready.");
 }
 
-// NAI: Are these variables used anywhere?
-unsigned long lastLoopTime = 0;
-unsigned long nextLoopTime = 0;
-unsigned long fixedLoopPeriod = 0;
-
 void loop() {
 	beagleComm.poll();
 	/*while (Serial.available()){
