@@ -43,6 +43,7 @@ void setup() {
   // Controls data acquisition from the quadrature shaft encoders.
 	EncoderModelSection *enc = new EncoderModelSection();
 
+
 	beagleComm.init(&Serial);
 	beagleComm.robotModel.addSection(rsl);
 	beagleComm.robotModel.addSection(pwm);

@@ -22,7 +22,7 @@ unsigned char readUInt8(unsigned char data[], int *offset){
 	*offset += 1;
 	return out;
 }
-unsigned short readUInt16(unsigned char data[], int *offset){
+unsigned short readUInt16(unsigned char data[], unsigned int *offset){
 	unsigned short out = (data[*offset + 1] << 8) + (data[*offset]);
 	/*unsigned char byteCount = 2;
 	for (int i = 0; i < byteCount; i++){

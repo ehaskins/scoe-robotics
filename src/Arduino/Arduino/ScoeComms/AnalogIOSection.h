@@ -19,6 +19,7 @@ public:
 	AnalogIODefinition inputDefinitions[MAX_ANALOGINPUT];
 	virtual void update(unsigned char data[], unsigned int offset);
 	virtual void getStatus(unsigned char data[], unsigned int *offset);
+	virtual void loop(bool safteyTripped);
 };
 
 #endif /* ANALOGIOSECTION_H_ */
