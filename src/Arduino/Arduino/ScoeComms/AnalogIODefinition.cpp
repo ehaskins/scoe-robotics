@@ -8,10 +8,26 @@
 #include "AnalogIODefinition.h"
 #include <Arduino.h>
 AnalogIODefinition::AnalogIODefinition() {
-	// TODO Auto-generated constructor stub
+	sampleCount = 0;
+	pin = 0;
+	enabled = false;
+	sampleInterval = 0;
 
 }
 
+void AnalogIODefinition::commLoop(){
+	if (sampleCount == 0)
+		update(true);
+}
 void AnalogIODefinition::update(){
-	value = (unsigned int)analogRead(pin);
+	update(false);
+}
+void AnalogIODefinition::update(bool force){
+	unsigned long now = micros();
+	unsigned long elapsed = now - lastSampleTime;
+	if ((force || (sampleInterval != 0 && elapsed > sampleInterval)) && sampleCount < MAX_AIO_SAMPLES){
+		lastSampleTime = now;
+		samples[sampleCount].value = (unsigned int)analogRead(pin);
+		samples[sampleCount++].delay = elapsed;
+	}
 }

@@ -14,8 +14,7 @@ EchoSection::EchoSection(){
 	sectionId = 255;
 }
 void EchoSection::update(unsigned char data[], unsigned int offset){
-	int temp = (int)offset;
-	length = readUInt16(data, &temp); offset+=2;
+	length = readUInt16(data, &offset);
 	for(uint16_t i= 0; i < length; i++){
 		echoData[i] = data[offset++];
 	}

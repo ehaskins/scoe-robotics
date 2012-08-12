@@ -23,7 +23,7 @@ void ScoeComms::init(Stream *stream) {
 }
 void ScoeComms::poll() {
 	unsigned long now = millis();
-	//Handle rollover, shouldn't happen, but...
+	//Handle rollover. Vehicle should never be on that long, but...
 	if (now < lastDataReceived) {
 		lastDataReceived = 0;
 	}
@@ -71,7 +71,7 @@ bool ScoeComms::checkSerial() {
 			} else if (receiveBufferPosition < RECEIVE_BUFFER_SIZE - 6) {
 				receiveBuffer[receiveBufferPosition++] = byte;
 				if (receiveBufferPosition == 2) {
-					int position = 0;
+					unsigned int position = 0;
 					packetDataLength = readUInt16(receiveBuffer, &position);
 					if (packetDataLength > (RECEIVE_BUFFER_SIZE - 6)) {
 						isWaiting = true;

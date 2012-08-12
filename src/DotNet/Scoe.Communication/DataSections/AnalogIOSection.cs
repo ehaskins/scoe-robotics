@@ -17,13 +17,14 @@ namespace Scoe.Communication.DataSections
         public override DataSectionData GetCommandData()
         {
             using (var stream = new MemoryStream())
+            using (var writer = new BinaryWriter(stream))
             {
 
-                stream.WriteByte((byte)AnalogInputs.Count);
+                writer.Write((byte)AnalogInputs.Count);
                 foreach (AnalogInput analogInput in AnalogInputs)
                 {
-                    stream.WriteByte(analogInput.ID);
-                    stream.WriteByte(1); //TODO: Implement sample averaging
+                    writer.Write(analogInput.ID);
+                    writer.Write((ushort)(analogInput.SampleFrequency != 0 ? (1 / analogInput.SampleFrequency) * 1000000 : 0));
                 }
 
                 return new DataSectionData() { SectionId = SectionId, Data = stream.ToArray() };
@@ -32,6 +33,7 @@ namespace Scoe.Communication.DataSections
 
         public override DataSectionData GetStatusData()
         {
+            //TODO:UPDATE TO Support multipel samples.
             using (var stream = new MemoryStream())
             using (var writer = new BinaryWriter(stream))
             {
@@ -48,6 +50,8 @@ namespace Scoe.Communication.DataSections
 
         public override void ParseCommand(DataSectionData data)
         {
+
+            //TODO:UPDATE TO Support multipel samples.
             using (var stream = new MemoryStream(data.Data))
             using (var reader = new BinaryReader(stream))
             {
@@ -60,11 +64,12 @@ namespace Scoe.Communication.DataSections
                         aio = new AnalogInput();
                         _AnalogInputs.Add(aio);
                     }
-                    else{
+                    else
+                    {
                         aio = _AnalogInputs[i];
                     }
                     aio.ID = reader.ReadByte();
-                   var samples =  reader.ReadByte(); //TODO: Implement sampleing
+                    var samples = reader.ReadByte(); //TODO: Implement sampleing
                 }
 
                 for (int i = count; i < AnalogInputs.Count; i++)
@@ -76,23 +81,37 @@ namespace Scoe.Communication.DataSections
 
         public override void ParseStatus(DataSectionData sectionData)
         {
-            var data = sectionData.Data;
-            var offset = 0;
 
-            if (data.Length > 0)
+            if (sectionData.Data.Length > 0)
             {
-                byte count = data[offset++];
-                for (int i = 0; i < count; i++)
+                using (var stream = new MemoryStream(sectionData.Data))
+                using (var reader = new BinaryReader(stream))
                 {
-                    byte pin = data[offset++];
-                    var ai = (from a in AnalogInputs where a.ID == pin select a).SingleOrDefault();
-                    if (ai != null)
-                        ai.Value = BitConverter.ToUInt16(data, offset);
-                    offset += 2;
+
+                    byte count = reader.ReadByte();
+                    for (int i = 0; i < count; i++)
+                    {
+                        byte pin = reader.ReadByte();
+                        var ai = (from a in AnalogInputs where a.ID == pin select a).SingleOrDefault();
+                        var samples = ReadSamples(reader);
+                        if (ai != null)
+                            ai.Samples.AddRange(samples);
+                    }
                 }
             }
         }
 
+        private static AnalogIOSample[] ReadSamples(BinaryReader reader)
+        {
+            var sampleCount = reader.ReadByte();
+            var samples = new AnalogIOSample[sampleCount];
+            for (int i = 0; i < sampleCount; i++)
+            {
+                samples[i].Delay = reader.ReadUInt32();
+                samples[i].Value = reader.ReadUInt16();
+            }
+            return samples;
+        }
 
         private IList<AnalogInput> _AnalogInputs;
         public IList<AnalogInput> AnalogInputs
