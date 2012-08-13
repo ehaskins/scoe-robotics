@@ -9,8 +9,11 @@
 #include <ScoeComms\ByteWriter.h>
 #include <ScoeComms\ByteReader.h>
 AnalogIOSection::AnalogIOSection() {
-	//sectionId = 3;
-	//inputCount = 0;
+	sectionId = 3;
+	inputCount = 0;
+	for (int i = 0; i < MAX_ANALOGINPUT; i++){
+		inputDefinitions[i].sampleCount = 0;
+	}
 }
 
 void AnalogIOSection::update(unsigned char data[], unsigned int offset) {
@@ -43,10 +46,14 @@ void AnalogIOSection::getStatus(unsigned char data[], unsigned int *offset) {
 		data[(*offset)++] = samples;
 
 		for (int iSample = 0; i < samples; i++) {
-			writeUInt32(data, inputDefinitions[i].samples[iSample].delay, *offset);
+			writeUInt32(data, 0x01020304, *offset); // inputDefinitions[i].samples[iSample].delay, *offset);
 			(*offset) += 4;
-			writeUInt16(data, inputDefinitions[i].samples[iSample].value, *offset);
+			writeUInt16(data, 0x0506, *offset); //inputDefinitions[i].samples[iSample].value, *offset);
 			(*offset) += 2;
 		}
 	}
+
+	/*for (int j = 0; j < 6; j++){
+		data[(*offset)++] = 255 - j;
+	}*/
 }

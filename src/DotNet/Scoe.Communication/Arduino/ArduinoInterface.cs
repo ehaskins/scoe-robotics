@@ -61,7 +61,9 @@ namespace Scoe.Communication.Arduino
         public override void Start()
         {
             isEnabled = true;
+            serialPort.DtrEnable = true;
             serialPort.Open();
+            Thread.Sleep(5000);
             transmitTimer.Start();
             readThread = new Thread(ReadWorker);
             readThread.Name = "ArduinoInterafaceRead";
@@ -150,28 +152,24 @@ namespace Scoe.Communication.Arduino
             return false;
         }
 
-        private void ProcessData()
+        private DataSectionData[] ProcessData()
         {
             byte sectionCount = _contentData[0];
+            var sections = new DataSectionData[sectionCount];
+
             int index = 1;
             for (int i = 0; i < sectionCount; i++)
             {
                 var sectionId = _contentData[index++];
                 var sectionLength = BitConverter.ToUInt16(_contentData, index);
                 index += 2;
-                var modelSection = (from s in Sections where s.SectionId == sectionId select s).SingleOrDefault();
-                if (modelSection != null)
-                {
-                    var sectionData = new byte[sectionLength];
-                    Array.ConstrainedCopy(_contentData, index, sectionData, 0, sectionLength);
-                    modelSection.ParseStatus(new DataSectionData() { SectionId = sectionId, Data = sectionData });
-                }
-                else
-                {
-                    Debug.WriteLine("No sectionid #" + sectionId);
-                }
+
+                var sectionData = new byte[sectionLength];
+                Array.ConstrainedCopy(_contentData, index, sectionData, 0, sectionLength);
+                sections[i] = new DataSectionData() { SectionId = sectionId, Data = sectionData };
                 index += sectionLength;
             }
+            return sections;
         }
 
         public byte[] GetBytes()
@@ -244,7 +242,22 @@ namespace Scoe.Communication.Arduino
                 if (isEnabled)
                 {
                     if (ParseData())
-                        ProcessData();
+                    {
+                        var sections = ProcessData();
+
+                        foreach (var section in sections)
+                        {
+                            var modelSection = (from s in Sections where s.SectionId == section.SectionId select s).SingleOrDefault();
+                            if (modelSection != null)
+                            {
+                                modelSection.ParseStatus(section);
+                            }
+                            else
+                            {
+                                Debug.WriteLine("No sectionid #" + section.SectionId);
+                            }
+                        }
+                    }
 
                 }
             }
