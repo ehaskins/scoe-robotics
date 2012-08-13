@@ -12,7 +12,6 @@ AnalogIODefinition::AnalogIODefinition() {
 	pin = 0;
 	enabled = false;
 	sampleInterval = 0;
-
 }
 
 void AnalogIODefinition::commLoop(){

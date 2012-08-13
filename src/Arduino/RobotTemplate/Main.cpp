@@ -32,7 +32,7 @@ void setup() {
 	PwmModelSection * pwm = new PwmModelSection(500, 2500);
    
   // Controls analog I/O.
-	AnalogIOSection *analog = new AnalogIOSection();
+	AnalogIOSection * analog = new AnalogIOSection();
    
   // Controls duty-cycle computation.
 	DutyCycleModelSection * dutyCycle = new DutyCycleModelSection();
