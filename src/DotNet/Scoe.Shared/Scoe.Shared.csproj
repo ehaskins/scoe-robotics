@@ -52,7 +52,6 @@
     <Compile Include="Interface\RobotInterfaceBase.cs" />
     <Compile Include="Model\Alliance.cs" />
     <Compile Include="Model\AnalogInput.cs" />
-    <Compile Include="Model\AnalogIOSample.cs" />
     <Compile Include="Model\ChannelValueChangedEventArgs.cs" />
     <Compile Include="Model\ControlState.cs" />
     <Compile Include="Model\DisableableChannel.cs" />

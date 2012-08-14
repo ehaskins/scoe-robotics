@@ -14,15 +14,7 @@ namespace Scoe.Shared.Model
             MinValue = minValue;
             MaxValue = maxValue;
             MaxVolts = maxVolts;
-            Samples = new List<AnalogIOSample>();
         }
-
-        /// <summary>
-        /// Sample frequency
-        /// </summary>
-        public int SampleFrequency { get; set; }
-
-        public List<AnalogIOSample> Samples { get; set; }
         protected override void OnUpdated(ushort oldValue, ushort newValue)
         {
             RaisePropertyChanged("Volts");
