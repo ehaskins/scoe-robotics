@@ -4,8 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>6.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8</ToolchainName>
-    <ProjectGuid>{9de4dcf9-2d7b-453c-931a-3b9918c8af24}</ProjectGuid>
-    <avrdevice>ATmega328P</avrdevice>
+    <ProjectGuid>{01f123fb-7164-448e-9248-3fdbb627f54b}</ProjectGuid>
+    <avrdevice>ATmega2560</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
     <Language>CPP</Language>
@@ -19,9 +19,10 @@
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <OverrideVtorValue />
-    <eraseonlaunchrule>1</eraseonlaunchrule>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
     <AsfVersion>3.1.3</AsfVersion>
-    <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
+    <avrtool>
+    </avrtool>
     <avrtoolinterface>debugWIRE</avrtoolinterface>
     <com_atmel_avrdbg_tool_simulator>
       <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
@@ -129,14 +130,14 @@
         <avrgcccpp.linker.libraries.Libraries>
           <ListValues>
             <Value>m</Value>
-            <Value>libArduinoCore</Value>
-            <Value>libScoeComms</Value>
+            <Value>libArduinoMega</Value>
           </ListValues>
         </avrgcccpp.linker.libraries.Libraries>
         <avrgcccpp.linker.libraries.LibrarySearchPaths>
           <ListValues>
             <Value>../../ArduinoCore/Debug</Value>
             <Value>../../ScoeComms/Debug</Value>
+            <Value>../../ArduinoMega/Debug</Value>
           </ListValues>
         </avrgcccpp.linker.libraries.LibrarySearchPaths>
         <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
@@ -144,7 +145,19 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BalBot.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="BalBot.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Utils.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="utils.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
