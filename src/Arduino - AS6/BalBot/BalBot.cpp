@@ -69,7 +69,7 @@ void loop() {
 	if (elapsedSeconds > 0.01){
 		lastLoop = nowMicros;
 		updateCurrentAngle();
-		balance(0);
+		balance(-1);
 		//printSensors();
 		//printImuCsv();
 		//testCenter();
@@ -85,23 +85,27 @@ double rate = 0;
 double spinRate = 0;
 
 #define BAL_P -60
-#define BAL_I 0
-#define BAL_D 0
+#define BAL_I -1
+#define BAL_D -30
 
 #define BALANCE_SAFTEY_TILT 10
 
 double balanceI = 0.0;
 double balanceLastError = 0.0;
 void balance(double desiredAngle){
+	double output = 0.0;
 	double error = desiredAngle - angle;
-	double output = error * BAL_P;
-	balanceI += error * BAL_I;
-	output += balanceI;
-	double errorDiff = balanceLastError - error;
-	output += errorDiff * BAL_D;
 	
 	if (abs(error) > BALANCE_SAFTEY_TILT){
 		output = 0;
+		balanceI = 0;
+	}
+	else{
+		output = error * BAL_P;
+		balanceI += error * BAL_I;
+		output += balanceI;
+		double errorDiff = balanceLastError - error;
+		output += errorDiff * BAL_D;
 	}
 	setDrive(output, output);
 }
