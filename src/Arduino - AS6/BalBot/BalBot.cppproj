@@ -145,13 +145,37 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Accelerometer.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Accelerometer.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="BalBot.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="BalBot.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Gyro.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Gyro.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PID.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PID.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SimpleAngleThing.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SimpleAngleThing.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Utils.cpp">

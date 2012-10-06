@@ -9,11 +9,8 @@
 #ifndef BALBOT_H_
 #define BALBOT_H_
 
-void updateCurrentAngle();
 void calibrate(int calibrationDelay, int calibrationLoops);
-void printSensors();
-void testCenter();
-void balance(double desiredAngle);
+void balance(double desiredAngle, double spin);
 void setDrive(int left, int right);
 void writeLed(bool state);
 #endif /* BALBOT_H_ */
