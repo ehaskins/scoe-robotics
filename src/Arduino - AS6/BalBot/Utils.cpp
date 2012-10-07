@@ -28,7 +28,7 @@ int limit(int value, int min, int max){
 	return value;
 }
 
-double limit(double value, double min, double max){
+float limit(float value, float min, float max){
 	if (value > max)
 		value = max;
 	else if (value < min)
@@ -36,7 +36,7 @@ double limit(double value, double min, double max){
 	return value;
 }
 
-double removeDeadband(double value, double deadband, double range){
+float removeDeadband(float value, float deadband, float range){
 	double output;
 	double scale = (range - deadband) / range;
 

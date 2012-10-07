@@ -10,7 +10,7 @@
 #define BALBOT_H_
 
 void calibrate(int calibrationDelay, int calibrationLoops);
-void balance(double desiredAngle, double spin);
-void setDrive(int left, int right);
+void balance(float desiredAngle, float spin);
+void setDrive(float left, float right);
 void writeLed(bool state);
 #endif /* BALBOT_H_ */

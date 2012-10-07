@@ -44,7 +44,7 @@ class SimpleAngleThing
 
 		angle = (angle + gyroDelta) * gyroWeight + accelAngle * accelWeight;
 		
-		int now = millis();
+		/*int now = millis();
 		if (now - lastAnglePrint > ANGLE_PRINT_INTERVAL){
 			lastAnglePrint = now;
 			
@@ -55,7 +55,7 @@ class SimpleAngleThing
 			//Serial.print(" GyroChange : ");
 			//Serial.println(gyroDelta);
 		}
-		
+		*/
 	}
 	double angle;
 	Gyro *gyro;

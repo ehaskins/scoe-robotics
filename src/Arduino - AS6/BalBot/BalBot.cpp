@@ -1,29 +1,27 @@
-#include "BalBot.h"
 #include <Arduino.h>
+#include <ScoeComms.h>
 #include <Servo\Servo.h>
 #include <Encoder\Encoder.h>
+#include <RobotModel.h>
+#include <RslModelSection.h>
 #include "utils.h"
 #include "PID.h"
 #include "Gyro.h"
 #include "Accelerometer.h"
 #include "SimpleAngleThing.h"
-// 0 gyroX - tilt
-// 1 gyroY - spin
-// 2 gyroZ
-// 3 accelX - up
-// 4 accelY
-// 5 accelZ - forward
+#include "BalanceSection.h"
+#include "BalBot.h"
 
-#define BALANCE_SAFTEY_TILT 10
+#define BALANCE_SAFTEY_TILT 3
 
 #define LEFT_MOTOR 3
 #define RIGHT_MOTOR 2
 #define RIGHT_INVERT 1
 #define LEFT_INVERT -1
 
-Gyro TiltGyro(0, -0.7);
-Accelerometer UpAccel(3, 512, false);
-Accelerometer ForwardAccel(5, 512, true);
+Gyro TiltGyro(1, 0.7);
+Accelerometer UpAccel(4, 500, true);
+Accelerometer ForwardAccel(5, 500, true);
 SimpleAngleThing AngleCalc(&TiltGyro, &ForwardAccel, &UpAccel, 0.98, true);
 
 Encoder leftEnc (21, 18);
@@ -38,12 +36,21 @@ Servo right;
 #define PLUSE_DEADBAND 80
 
 //PID BalancePID(-40, -2, -25);
-PID BalancePID(-40, 0, 0);
+PID BalancePID(0, 0, 0);
+
+ScoeComms beagleComm;
+TuningDataSection tuningData;
+RslModelSection rsl;
 
 void setup() {
+	
 	pinMode(13, OUTPUT);
 	writeLed(true);
 	Serial.begin(115200);
+	
+	beagleComm.init(&Serial);
+	beagleComm.robotModel.addSection(&tuningData);
+	beagleComm.robotModel.addSection(&rsl);
 	
 	calibrate(2000, 200);
 	
@@ -55,14 +62,27 @@ void setup() {
 }
 
 unsigned long lastLoop = 0;
-double elapsedSeconds = 0.0;
+float elapsedSeconds = 0.0;
 void loop() {
 	long nowMicros = micros();
-	elapsedSeconds = (double)(nowMicros - lastLoop) / 1000000;
-	
-	if (elapsedSeconds > 0.01){
+	if (lastLoop == 0)
 		lastLoop = nowMicros;
-		balance(-1, 0);
+	elapsedSeconds = (float)(nowMicros - lastLoop) / 1000000;
+	
+	beagleComm.poll();
+	if (elapsedSeconds > 0.015){
+		delay(2000);
+	}
+	else if (elapsedSeconds >= 0.01){
+		BalancePID.P = tuningData.p;
+		BalancePID.I = tuningData.i;
+		BalancePID.D = tuningData.d;
+		double desiredAngle = tuningData.desiredAngle;
+		
+		lastLoop = nowMicros;
+		
+		balance(desiredAngle, 0);
+		tuningData.currentAngle = AngleCalc.angle;
 		//printSensors();
 		//printImuCsv();
 		//testCenter();
@@ -73,10 +93,10 @@ void writeLed(bool state){
 	digitalWrite(13, state ? HIGH : LOW);
 }
 
-void balance(double desiredAngle, double spin){
+void balance(float desiredAngle, float spin){
 	AngleCalc.update();
-	double output = 0.0;
-	double error = desiredAngle - AngleCalc.angle;
+	float output = 0.0;
+	float error = desiredAngle - AngleCalc.angle;
 	
 	if (abs(error) > BALANCE_SAFTEY_TILT){
 		output = 0;
@@ -84,14 +104,22 @@ void balance(double desiredAngle, double spin){
 		spin = 0;
 	}
 	else{
-		output = BalancePID.update(AngleCalc.angle, desiredAngle);
+		output = BalancePID.update(AngleCalc.angle, desiredAngle, AngleCalc.gyro->rate);
 	}
 	setDrive(output + spin, output - spin);
 }
 
-void setDrive(int leftVal, int rightVal){
-	left.writeMicroseconds(LEFT_CENTER + removeDeadband(leftVal * LEFT_INVERT, PLUSE_DEADBAND, PULSE_RANGE));
-	right.writeMicroseconds(RIGHT_CENTER + removeDeadband(rightVal * RIGHT_INVERT, PLUSE_DEADBAND, PULSE_RANGE));
+void setDrive(float leftVal, float rightVal){
+	leftVal *= LEFT_INVERT;
+	rightVal *= RIGHT_INVERT;
+	leftVal = limit(leftVal, -1.0, 1.0);
+	rightVal = limit(rightVal, -1.0, 1.0);
+	
+	leftVal *= PULSE_RANGE;
+	rightVal *= PULSE_RANGE;
+	
+	left.writeMicroseconds(LEFT_CENTER + removeDeadband(leftVal, PLUSE_DEADBAND, PULSE_RANGE));
+	right.writeMicroseconds(RIGHT_CENTER + removeDeadband(rightVal, PLUSE_DEADBAND, PULSE_RANGE));
 }
 
 void calibrate(int calibrationDelay, int calibrationLoops) {

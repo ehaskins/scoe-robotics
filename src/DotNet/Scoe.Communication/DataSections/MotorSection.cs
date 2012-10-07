@@ -10,7 +10,7 @@ namespace Scoe.Communication.DataSections
         public MotorSection(IList<Motor> pwmOutputs)
             : base(1)
         {
-            _PwmOutputs = pwmOutputs;
+            Motors = pwmOutputs;
         }
 
         public override DataSectionData GetCommandData()
@@ -67,18 +67,6 @@ namespace Scoe.Communication.DataSections
             }
         }
 
-        private IList<Motor> _PwmOutputs;
-
-        public IList<Motor> Motors
-        {
-            get { return _PwmOutputs; }
-            protected set
-            {
-                if (_PwmOutputs == value)
-                    return;
-                _PwmOutputs = value;
-                RaisePropertyChanged("PwmOutputs");
-            }
-        }
+        public IList<Motor> Motors { get; protected set; }
     }
 }

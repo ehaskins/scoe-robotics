@@ -1,0 +1,14 @@
+﻿<Window x:Class="BalanceTuner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="195" Width="156" Closed="Window_Closed_1">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBox Text="{Binding Tuning.P}"/>
+            <TextBox Text="{Binding Tuning.I}"/>
+            <TextBox Text="{Binding Tuning.D}"/>
+            <TextBox Text="{Binding Tuning.DesiredAngle}"/>
+            <TextBox Text="{Binding Tuning.CurrentAngle, StringFormat=f1}"/>
+        </StackPanel>
+    </Grid>
+</Window>
