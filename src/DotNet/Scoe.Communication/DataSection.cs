@@ -6,24 +6,13 @@ using EHaskins.Utilities;
 namespace Scoe.Communication
 {
     using Scoe.Communication.Udp;
-    public abstract class DataSection : NotifyObject
+    public abstract class DataSection
     {
         public DataSection(byte sectionId)
         {
             SectionId = sectionId;
         }
-        private byte _SectionId;
-        public byte SectionId
-        {
-            get { return _SectionId; }
-            set
-            {
-                if (_SectionId == value)
-                    return;
-                _SectionId = value;
-                RaisePropertyChanged("SectionId");
-            }
-        }
+        public byte SectionId { get; set; }
 
         public virtual void ConnectionStateChanged(object sender, bool isConnected) { }
         public virtual DataSectionData GetCommandData() { return new DataSectionData() { SectionId = SectionId }; }

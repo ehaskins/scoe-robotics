@@ -2,32 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Scoe.Shared.Model;
-using Scoe.Communication.Udp;
-
+using EHaskins.Utilities.Aspects;
 namespace Scoe.Communication.Arduino
 {
+    [NotifyPropertyChanged()]
     public class RslModelSection : Scoe.Communication.DataSection
     {
-        private RobotState _State;
         public RslModelSection(RobotState state)
             : base(0)
         {
             State = state;
         }
-        public RobotState State
-        {
-            get
-            {
-                return _State;
-            }
-            set
-            {
-                if (_State == value)
-                    return;
-                _State = value;
-                RaisePropertyChanged("State");
-            }
-        }
+        public RobotState State { get; set; }
 
         public override DataSectionData GetCommandData()
         {

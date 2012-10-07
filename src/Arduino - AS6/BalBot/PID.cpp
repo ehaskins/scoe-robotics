@@ -11,7 +11,7 @@ PID::PID(double P, double I, double D){
 	this->I = I;
 	this->D = D;
 }
-double PID::update(double current, double desired){
+double PID::update(double current, double desired, double velocity){
 	double error = desired - current;
 	
 	double output = 0.0;
@@ -19,10 +19,7 @@ double PID::update(double current, double desired){
 	output = error * P;
 	iTotal += error * I;
 	output += iTotal;
-	double errorDiff = lastError - error;
-	output += errorDiff * D;
-	
-	lastError = error;
+	output += velocity * D;
 	
 	return output;
 }

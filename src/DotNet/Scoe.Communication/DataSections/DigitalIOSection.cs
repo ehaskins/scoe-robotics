@@ -13,7 +13,7 @@ namespace Scoe.Communication.DataSections
         public DigitalIOSection(ObservableCollection<DigitalIO> digitalInputs)
             : base(2)
         {
-            _DigitalInputs = digitalInputs;
+            DigitalInputs = digitalInputs;
         }
 
         public override DataSectionData GetCommandData()
@@ -80,21 +80,6 @@ namespace Scoe.Communication.DataSections
             }
         }
 
-        private ObservableCollection<DigitalIO> _DigitalInputs;
-
-        public ObservableCollection<DigitalIO> DigitalInputs
-        {
-            get
-            {
-                return _DigitalInputs;
-            }
-            protected set
-            {
-                if (_DigitalInputs == value)
-                    return;
-                _DigitalInputs = value;
-                RaisePropertyChanged("DigitalInputs");
-            }
-        }
+        public ObservableCollection<DigitalIO> DigitalInputs { get; protected set; }
     }
 }

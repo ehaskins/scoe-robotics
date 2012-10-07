@@ -252,10 +252,6 @@ namespace Scoe.Communication.Arduino
                             {
                                 modelSection.ParseStatus(section);
                             }
-                            else
-                            {
-                                Debug.WriteLine("No sectionid #" + section.SectionId);
-                            }
                         }
                     }
 
