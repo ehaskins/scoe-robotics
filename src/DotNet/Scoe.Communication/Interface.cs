@@ -7,13 +7,6 @@ using System.Collections;
 
 namespace Scoe.Communication
 {
-    public interface IInterface
-    {
-        void Start();
-        void Stop();
-        bool IsConnected { get; }
-        ObservableCollection<Scoe.Communication.DataSection> Sections { get; }
-    }
     public abstract class Interface : IInterface
     {
         public Interface(Protocol protocol)

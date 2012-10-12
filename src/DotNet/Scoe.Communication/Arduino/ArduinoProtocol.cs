@@ -15,7 +15,7 @@ namespace Scoe.Communication.Arduino
 
         bool isStopped = false;
         Boolean isWriting = false;
-        object isWritingSemaphore = new object();
+        Semaphore writingSemaphore = new Semaphore(1, 1);
         Thread readThread;
 
         bool _isWaiting = true;
@@ -44,15 +44,19 @@ namespace Scoe.Communication.Arduino
 
         public override void Transmit(PacketV3 packet)
         {
-            lock (isWritingSemaphore)
+            try
             {
-                if (isWriting)
-                    return;
-                isWriting = true;
+                writingSemaphore.WaitOne(0);
+
+
+                var data = packet.GetData();
+                Write(data, 0, data.Length);
+
+                writingSemaphore.Release();
             }
-            var data = packet.GetData();
-            Write(data, 0, data.Length);
-            isWriting = false;
+            catch
+            {
+            }
         }
 
         int _length = 0;
