@@ -11,7 +11,7 @@
 
 ScoeComms beagleComm;
 
-AnalogGyroDefinition * gyroDef;
+//AnalogGyroDefinition * gyroDef;
 int main(void)
 {
 	init();
@@ -77,7 +77,7 @@ void loop() {
 	if (startMillis == 0)
 	startMillis = now;
 
-	bool cal = (now - startMillis < 1000);
-	gyroDef->update(cal);
-	Serial.println((long) gyroDef->value);
+	//bool cal = (now - startMillis < 1000);
+	//gyroDef->update(cal);
+	//Serial.println((long) gyroDef->value);
 }
