@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>6.0</ProjectVersion>
+    <ToolchainName>com.Atmel.AVRGCC8</ToolchainName>
+    <ProjectGuid>{654884f6-65a4-4834-a519-65907e59849c}</ProjectGuid>
+    <avrdevice>ATmega2560</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>StaticLibrary</OutputType>
+    <Language>CPP</Language>
+    <OutputFileName>lib$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AvrGccProjectExtensions>
+    </AvrGccProjectExtensions>
+    <AssemblyName>ScoeComms</AssemblyName>
+    <Name>ScoeComms</Name>
+    <RootNamespace>ScoeComms</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <AsfVersion>3.1.3</AsfVersion>
+    <avrtool />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <AvrGccCpp>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcccpp.compiler.optimization.level>Optimize for size (-Os)</avrgcccpp.compiler.optimization.level>
+        <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+        <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+        <avrgcccpp.linker.libraries.Libraries>
+          <ListValues>
+            <Value>m</Value>
+          </ListValues>
+        </avrgcccpp.linker.libraries.Libraries>
+      </AvrGccCpp>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <AvrGccCpp>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>..\..\ArduinoCore</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcccpp.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>..\..\ArduinoCore</Value>
+          </ListValues>
+        </avrgcccpp.compiler.directories.IncludePaths>
+        <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
+        <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+        <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+        <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+        <avrgcccpp.linker.libraries.Libraries>
+          <ListValues>
+            <Value>m</Value>
+            <Value>libArduinoCore</Value>
+          </ListValues>
+        </avrgcccpp.linker.libraries.Libraries>
+        <avrgcccpp.linker.libraries.LibrarySearchPaths>
+          <ListValues>
+            <Value>..\..\ArduinoCore\Debug</Value>
+          </ListValues>
+        </avrgcccpp.linker.libraries.LibrarySearchPaths>
+        <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+      </AvrGccCpp>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\ScoeComms\AnalogGyroDefinition.cpp">
+      <SubType>compile</SubType>
+      <Link>AnalogGyroDefinition.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\AnalogGyroDefinition.h">
+      <SubType>compile</SubType>
+      <Link>AnalogGyroDefinition.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\AnalogGyroSection.cpp">
+      <SubType>compile</SubType>
+      <Link>AnalogGyroSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\AnalogGyroSection.h">
+      <SubType>compile</SubType>
+      <Link>AnalogGyroSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\AnalogIODefinition.cpp">
+      <SubType>compile</SubType>
+      <Link>AnalogIODefinition.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\AnalogIODefinition.h">
+      <SubType>compile</SubType>
+      <Link>AnalogIODefinition.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\AnalogIOSection.cpp">
+      <SubType>compile</SubType>
+      <Link>AnalogIOSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\AnalogIOSection.h">
+      <SubType>compile</SubType>
+      <Link>AnalogIOSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\BitField16.cpp">
+      <SubType>compile</SubType>
+      <Link>BitField16.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\BitField16.h">
+      <SubType>compile</SubType>
+      <Link>BitField16.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\BitField8.cpp">
+      <SubType>compile</SubType>
+      <Link>BitField8.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\BitField8.h">
+      <SubType>compile</SubType>
+      <Link>BitField8.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\ByteReader.cpp">
+      <SubType>compile</SubType>
+      <Link>ByteReader.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\ByteReader.h">
+      <SubType>compile</SubType>
+      <Link>ByteReader.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\ByteWriter.cpp">
+      <SubType>compile</SubType>
+      <Link>ByteWriter.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\ByteWriter.h">
+      <SubType>compile</SubType>
+      <Link>ByteWriter.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\CRC32.cpp">
+      <SubType>compile</SubType>
+      <Link>CRC32.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\CRC32.h">
+      <SubType>compile</SubType>
+      <Link>CRC32.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\DioSection.cpp">
+      <SubType>compile</SubType>
+      <Link>DioSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\DioSection.h">
+      <SubType>compile</SubType>
+      <Link>DioSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\DutyCycleDefinition.cpp">
+      <SubType>compile</SubType>
+      <Link>DutyCycleDefinition.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\DutyCycleDefinition.h">
+      <SubType>compile</SubType>
+      <Link>DutyCycleDefinition.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\DutyCycleModelSection.cpp">
+      <SubType>compile</SubType>
+      <Link>DutyCycleModelSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\DutyCycleModelSection.h">
+      <SubType>compile</SubType>
+      <Link>DutyCycleModelSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\EchoSection.cpp">
+      <SubType>compile</SubType>
+      <Link>EchoSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\EchoSection.h">
+      <SubType>compile</SubType>
+      <Link>EchoSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\EncoderDefinition.cpp">
+      <SubType>compile</SubType>
+      <Link>EncoderDefinition.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\EncoderDefinition.h">
+      <SubType>compile</SubType>
+      <Link>EncoderDefinition.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\EncoderModelSection.cpp">
+      <SubType>compile</SubType>
+      <Link>EncoderModelSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\EncoderModelSection.h">
+      <SubType>compile</SubType>
+      <Link>EncoderModelSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\PwmDefinition.cpp">
+      <SubType>compile</SubType>
+      <Link>PwmDefinition.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\PwmDefinition.h">
+      <SubType>compile</SubType>
+      <Link>PwmDefinition.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\PwmModelSection.cpp">
+      <SubType>compile</SubType>
+      <Link>PwmModelSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\PwmModelSection.h">
+      <SubType>compile</SubType>
+      <Link>PwmModelSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\RobotModel.cpp">
+      <SubType>compile</SubType>
+      <Link>RobotModel.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\RobotModel.h">
+      <SubType>compile</SubType>
+      <Link>RobotModel.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\RobotModelSection.cpp">
+      <SubType>compile</SubType>
+      <Link>RobotModelSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\RobotModelSection.h">
+      <SubType>compile</SubType>
+      <Link>RobotModelSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\RslModelSection.cpp">
+      <SubType>compile</SubType>
+      <Link>RslModelSection.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\RslModelSection.h">
+      <SubType>compile</SubType>
+      <Link>RslModelSection.h</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\ScoeComms.cpp">
+      <SubType>compile</SubType>
+      <Link>ScoeComms.cpp</Link>
+    </Compile>
+    <Compile Include="..\ScoeComms\ScoeComms.h">
+      <SubType>compile</SubType>
+      <Link>ScoeComms.h</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>
