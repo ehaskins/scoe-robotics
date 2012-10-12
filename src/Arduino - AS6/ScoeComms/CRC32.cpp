@@ -1,53 +1,30 @@
 /*
- * CRC32.cpp
- *
- *  Created on: Feb 19, 2011
- *      Author: EHaskins
- */
+* CRC32.cpp
+*
+*  Created on: Feb 19, 2011
+*      Author: EHaskins
+*/
+
+//FROM http://excamera.com/sphinx/article-crc.html
 
 #include "CRC32.h"
 #include <Arduino.h>
-#include <stdio.h>
 
-/* Table of CRCs of all 8-bit messages. */
-unsigned long crc_table[256];
+const PROGMEM prog_uint32_t crc_table[16] = {
+	0x00000000, 0x1db71064, 0x3b6e20c8, 0x26d930ac,
+	0x76dc4190, 0x6b6b51f4, 0x4db26158, 0x5005713c,
+	0xedb88320, 0xf00f9344, 0xd6d6a3e8, 0xcb61b38c,
+	0x9b64c2b0, 0x86d3d2d4, 0xa00ae278, 0xbdbdf21c
+};
 
-/* Flag: has the table been computed? Initially false. */
-int crc_table_computed = 0;
-
-/* Make the table for a fast CRC. */
-void make_crc_table(void) {
-	unsigned long c;
-	int n, k;
-
-	for (n = 0; n < 256; n++) {
-		c = (unsigned long) n;
-		for (k = 0; k < 8; k++) {
-			if (c & 1)
-				c = 0xedb88320L ^ (c >> 1);
-			else
-				c = c >> 1;
-		}
-		crc_table[n] = c;
-	}
-	crc_table_computed = 1;
-}
-
-/* Update a running CRC with the bytes buf[0..len-1]--the CRC
- should be initialized to all 1's, and the transmitted value
- is the 1's complement of the final running CRC (see the
- crc() routine below)). */
-
-unsigned long update_crc(unsigned long crc, unsigned char *buf, int len) {
-	unsigned long c = crc;
-	int n;
-
-	if (!crc_table_computed)
-		make_crc_table();
-	for (n = 0; n < len; n++) {
-		c = crc_table[(c ^ buf[n]) & 0xff] ^ (c >> 8);
-	}
-	return c;
+unsigned long crc_update(unsigned long crc, byte data)
+{
+	byte tbl_idx;
+	tbl_idx = crc ^ (data >> (0 * 4));
+	crc = pgm_read_dword_near(crc_table + (tbl_idx & 0x0f)) ^ (crc >> 4);
+	tbl_idx = crc ^ (data >> (1 * 4));
+	crc = pgm_read_dword_near(crc_table + (tbl_idx & 0x0f)) ^ (crc >> 4);
+	return crc;
 }
 
 /* Return the CRC of the bytes buf[0..len-1]. */
