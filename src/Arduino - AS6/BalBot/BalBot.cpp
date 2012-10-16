@@ -38,7 +38,7 @@ Servo right;
 //PID BalancePID(-40, -2, -25);
 PID BalancePID(0, 0, 0);
 
-ScoeComms beagleComm;
+SerialInterface beagleComm;
 TuningDataSection tuningData;
 RslModelSection rsl;
 

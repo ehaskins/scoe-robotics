@@ -14,7 +14,7 @@ DioSection::DioSection() {
 }
 
 void DioSection::update(unsigned char data[], unsigned int offset) {
-	int position = (int)offset;
+	unsigned int position = offset;
 	inUse = readUInt32(data, &position);
 	mode = readUInt32(data, &position);
 	state = readUInt32(data, &position);
