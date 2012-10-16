@@ -58,7 +58,7 @@ namespace Scoe.Communication.Udp
             SpinWait.SpinUntil(() => _isStopped, 100);
         }
 
-        public override void Transmit(PacketV3 packet)
+        public override void Transmit(PacketV4 packet)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Scoe.Communication.Udp
                     data = _client.Receive(ref endpoint);
                     if (RemoteAddress == null)
                         RemoteAddress = endpoint.Address;
-                    var packet = new PacketV3();
+                    var packet = new PacketV4();
                     packet.Parse(data);
                     Received(packet);
                 }

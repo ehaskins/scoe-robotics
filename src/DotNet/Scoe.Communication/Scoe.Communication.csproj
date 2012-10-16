@@ -54,6 +54,7 @@
     <Compile Include="DataSections\MotorSection.cs" />
     <Compile Include="Arduino\DataSections\RslModelSection.cs" />
     <Compile Include="ClientInterface.cs" />
+    <Compile Include="IInterface.cs" />
     <Compile Include="InterfaceMode.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="PacketType.cs" />

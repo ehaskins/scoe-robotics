@@ -1,9 +1,9 @@
 /*
- * RobotModel.cpp
- *
- *  Created on: Dec 26, 2011
- *      Author: EHaskins
- */
+* RobotModel.cpp
+*
+*  Created on: Dec 26, 2011
+*      Author: EHaskins
+*/
 
 #include "RobotModel.h"
 #include <Arduino.h>
@@ -42,7 +42,7 @@ void RobotModel::getStatus(unsigned char data[], unsigned int *offset){
 		unsigned short start = *offset;
 
 		if (sections[i]->isActive)
-			sections[i]->getStatus(data, offset);
+		sections[i]->getStatus(data, offset);
 		//Write length to header
 		unsigned short length = (*offset) - start;
 		writeUInt16(data, length, headerPos + 1);
@@ -52,7 +52,7 @@ void RobotModel::getStatus(unsigned char data[], unsigned int *offset){
 void RobotModel::loop(bool safteyTripped){
 	for (int i = 0; i < _sectionCount; i++){
 		if (sections[i]->isActive)
-			sections[i]->loop(safteyTripped);
+		sections[i]->loop(safteyTripped);
 	}
 }
 

@@ -8,8 +8,8 @@ namespace Scoe.Communication
     {
         public abstract void Start();
         public abstract void Stop();
-        public abstract void Transmit(PacketV3 packet);
+        public abstract void Transmit(PacketV4 packet);
         public bool IsEnabled { get; protected set; }
-        public Method<PacketV3> Received;
+        public Method<PacketV4> Received;
     }
 }

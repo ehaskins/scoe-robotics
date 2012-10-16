@@ -17,7 +17,7 @@ void ReadBytes(unsigned char data[], int *offset, int count, unsigned char out[]
 	Serial.println(*offset);
 }*/
 
-unsigned char readUInt8(unsigned char data[], int *offset){
+unsigned char readUInt8(unsigned char data[], unsigned int *offset){
 	unsigned char out = data[*offset];
 	*offset += 1;
 	return out;
@@ -31,7 +31,7 @@ unsigned short readUInt16(unsigned char data[], unsigned int *offset){
 	*offset += 2;
 	return out;
 }
-unsigned long readUInt32(unsigned char data[], int *offset){
+unsigned long readUInt32(unsigned char data[], unsigned int *offset){
 	unsigned long out =
 			((unsigned long)data[*offset + 3] << 24) +
 			((unsigned long)data[*offset + 2] << 16) +
@@ -44,7 +44,7 @@ unsigned long readUInt32(unsigned char data[], int *offset){
 	*offset += 4;
 	return out;
 }
-unsigned long long readUInt64(unsigned char data[], int *offset){
+unsigned long long readUInt64(unsigned char data[], unsigned int *offset){
 	unsigned long long out =
 			((unsigned long long)data[*offset + 7] << 56) +
 			((unsigned long long)data[*offset + 6] << 48) +
@@ -61,7 +61,7 @@ unsigned long long readUInt64(unsigned char data[], int *offset){
 	*offset += 8;
 	return out;
 }
-void readBytes(unsigned char data[], unsigned char out[], int count, int *offset){
+void readBytes(unsigned char data[], unsigned char out[], int count, unsigned int *offset){
 	for (int i = 0; i < count; i++){
 		out[i] = data[i + *offset];
 	}

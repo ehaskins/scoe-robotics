@@ -17,7 +17,7 @@ const PROGMEM prog_uint32_t crc_table[16] = {
 	0x9b64c2b0, 0x86d3d2d4, 0xa00ae278, 0xbdbdf21c
 };
 
-unsigned long crc_update(unsigned long crc, byte data)
+unsigned long update_crc(unsigned long crc, byte data)
 {
 	byte tbl_idx;
 	tbl_idx = crc ^ (data >> (0 * 4));
@@ -29,6 +29,10 @@ unsigned long crc_update(unsigned long crc, byte data)
 
 /* Return the CRC of the bytes buf[0..len-1]. */
 unsigned long crc(unsigned char *buf, int len) {
-	return update_crc(0xffffffffL, buf, len) ^ 0xffffffffL;
+	unsigned long crc = ~0L;
+	for (int i = 0; i < len; i++){
+		crc = update_crc(crc, buf[i]);
+	}
+	crc = ~crc;
 }
 

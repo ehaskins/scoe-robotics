@@ -9,7 +9,7 @@
 #include <EncoderModelSection.h>
 #include <AnalogGyroDefinition.h>
 
-ScoeComms beagleComm;
+SerialInterface beagleComm;
 
 //AnalogGyroDefinition * gyroDef;
 int main(void)

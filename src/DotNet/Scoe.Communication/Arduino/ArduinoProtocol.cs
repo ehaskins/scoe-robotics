@@ -42,7 +42,7 @@ namespace Scoe.Communication.Arduino
             serialPort.Close();
         }
 
-        public override void Transmit(PacketV3 packet)
+        public override void Transmit(PacketV4 packet)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace Scoe.Communication.Arduino
                         {
                             try
                             {
-                                Received(new PacketV3(_receiveBuffer));
+                                Received(new PacketV4(_receiveBuffer));
                             }
                             catch (Exception ex)
                             {

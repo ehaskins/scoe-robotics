@@ -33,7 +33,7 @@ namespace Scoe.Communication
         protected void Transmit()
         {
             RaiseSending();
-            var packet = new PacketV3();
+            var packet = new PacketV4();
             if (Mode == InterfaceMode.Client)
                 LastPacketIndex++;
             packet.PacketIndex = LastPacketIndex;
