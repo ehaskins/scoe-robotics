@@ -8,6 +8,9 @@ EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "ScoeComms", "ScoeComms\ScoeComms.cppproj", "{1907C774-5E1D-4D93-9310-56124929A3D1}"
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "BalBot", "BalBot\BalBot.cppproj", "{01F123FB-7164-448E-9248-3FDBB627F54B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{654884F6-65A4-4834-A519-65907E59849C} = {654884F6-65A4-4834-A519-65907E59849C}
+	EndProjectSection
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "ArduinoMega", "ArduinoMega\ArduinoMega.cppproj", "{8A13E4B5-D775-4673-BEFF-D18990E868F8}"
 EndProject

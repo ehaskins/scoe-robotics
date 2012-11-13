@@ -15,7 +15,7 @@ namespace BalanceTuner
     [NotifyPropertyChanged()]
     class MainVM
     {
-        private ArduinoInterface _IOInterface;
+        private Interface _IOInterface;
         RobotState state;
         RslModelSection rsl;
         public MainVM()
@@ -28,10 +28,10 @@ namespace BalanceTuner
             state = new RobotState();
             rsl = new RslModelSection(state);
             state.IsEnabled = true;
-            var port = Environment.OSVersion.VersionString.Contains("Windows") ? "COM6" : "/dev/serial/by-id/usb-Arduino__www.arduino.cc__Arduino_Mega_2560_6493234363835131E111-if00";
+            var port = Environment.OSVersion.VersionString.Contains("Windows") ? "COM4" : "/dev/serial/by-id/usb-Arduino__www.arduino.cc__Arduino_Mega_2560_6493234363835131E111-if00";
             var baudRate = 115200;
             //Build IO interfaces
-            _IOInterface = new ArduinoInterface(port, baudRate);
+            _IOInterface = new ClientInterface(new ArduinoProtocol(port, baudRate), 50);
 
             _IOInterface.Sections.Add(Tuning);
             _IOInterface.Start();

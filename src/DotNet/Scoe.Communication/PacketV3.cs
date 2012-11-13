@@ -66,8 +66,11 @@ namespace Scoe.Communication
 
 
                 var calcCrc = Crc32.Compute(content);
-                if (crc == calcCrc && content.Length > 0)
-                    ParseContent(content);
+                if (crc == calcCrc)
+                {
+                    if (Type == PacketType.Command || Type == PacketType.Status)
+                        ParseContent(content);
+                }
                 else
                 {
                     throw new Exception("Invalid CRC"); //TODO: DTC & exception

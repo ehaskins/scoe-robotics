@@ -19,7 +19,7 @@
 #define RIGHT_INVERT 1
 #define LEFT_INVERT -1
 
-Gyro TiltGyro(1, 0.7);
+Gyro TiltGyro(1, 1.4);
 Accelerometer UpAccel(4, 500, true);
 Accelerometer ForwardAccel(5, 500, true);
 SimpleAngleThing AngleCalc(&TiltGyro, &ForwardAccel, &UpAccel, 0.98, true);

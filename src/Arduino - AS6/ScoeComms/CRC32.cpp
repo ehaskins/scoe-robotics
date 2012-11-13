@@ -33,6 +33,6 @@ unsigned long crc(unsigned char *buf, int len) {
 	for (int i = 0; i < len; i++){
 		crc = update_crc(crc, buf[i]);
 	}
-	crc = ~crc;
+	return ~crc;
 }
 
