@@ -44,19 +44,13 @@ namespace Scoe.Communication.Arduino
 
         public override void Transmit(PacketV4 packet)
         {
-            try
-            {
-                writingSemaphore.WaitOne(0);
+            writingSemaphore.WaitOne();
 
 
-                var data = packet.GetData();
-                Write(data, 0, data.Length);
+            var data = packet.GetData();
+            Write(data, 0, data.Length);
 
-                writingSemaphore.Release();
-            }
-            catch
-            {
-            }
+            writingSemaphore.Release();
         }
 
         int _length = 0;
@@ -72,7 +66,7 @@ namespace Scoe.Communication.Arduino
             {
                 var thisByte = (byte)serialPort.ReadByte();
                 debugBuffer.Add(thisByte);
-                //Debug.Write((char)thisByte);
+
                 if (!_isWaiting)
                 {
                     if (thisByte == (byte)SpecialChars.Escape && _lastByte != (byte)SpecialChars.Escape)
@@ -88,7 +82,7 @@ namespace Scoe.Communication.Arduino
                             _receiveBuffer = new byte[_length];
                         }
                     }
-                    else if (_receiveBufferOffset < _length && _length > 12)
+                    else if (_receiveBufferOffset < _length)
                     {
                         _receiveBuffer[_receiveBufferOffset++] = thisByte;
                         if (_receiveBufferOffset == _length)
@@ -139,6 +133,7 @@ namespace Scoe.Communication.Arduino
             var writer = new BinaryWriter(serialPort.BaseStream);
             writer.Write(new byte[] { (byte)SpecialChars.Command, (byte)SpecialChars.NewPacket });
             var sizeBytes = BitConverter.GetBytes((ushort)data.Length);
+            Debug.WriteLine("Sent:" + data.Length);
             for (int i = 0; i < sizeBytes.Length; i++)
             {
                 if (sizeBytes[i] >= 254)

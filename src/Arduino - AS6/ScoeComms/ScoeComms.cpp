@@ -53,15 +53,19 @@ void SerialInterface::sendStatus() {
 	
 	unsigned long packetCrc = crc(transmitBuffer, offset);
 	
-	byte startBytes[2] = {(byte)CommandBegin, (byte)NewPacket};
-		
+	byte startBytes[4] = {(byte)CommandBegin, (byte)NewPacket, 0, 0};
+	writeUInt16(startBytes, HEADER_LENGTH + offset, 2);
+
 	byte headerBytes[HEADER_LENGTH] = {0, 0, 0, 0, PACKET_VERSION, 0, 0, 0, 0, 0 };
-	writeUInt16(headerBytes, offset, CONTENT_LENGTH_POS);
 	writeUInt32(headerBytes, packetCrc, CRC_POS);
 	headerBytes[TYPE_POS] = (byte)type;
+			
 	writeUInt16(headerBytes, packetIndex, INDEX_POS);
+	writeUInt16(headerBytes, offset, CONTENT_LENGTH_POS);
 
-	for (int i = 0; i < 2; i++) {
+
+	
+	for (int i = 0; i < 4; i++) {
 		commStream->write(startBytes[i]);
 	}
 	for (int i = 0; i < HEADER_LENGTH; i++) {
@@ -85,18 +89,20 @@ void SerialInterface::sendStatus() {
 
 bool SerialInterface::processCommand(){
 	unsigned int offset = 0;
-	unsigned long packetCrc = readUInt32(receiveBuffer, &offset);
+	unsigned long packetCrc = readUInt32(receiveBuffer, &offset); offset = 4;
 	byte version = receiveBuffer[offset++];
+	
 	if (version == PACKET_VERSION){
 		packetIndex = readUInt16(receiveBuffer, &offset);
 		PacketType type = (PacketType)receiveBuffer[offset++];
 		isConnected = true;
 		packetDataLength = readUInt16(receiveBuffer, &offset);
-		
 		unsigned char *bptr = receiveBuffer;
 		unsigned long calculatedCrc = crc(bptr + CONTENT_POS, packetDataLength);	
 		
-		return calculatedCrc == packetCrc;
+		bool crcOk = calculatedCrc == packetCrc;
+
+		return crcOk;
 	}
 	return false;
 }
@@ -122,18 +128,22 @@ bool SerialInterface::checkSerial() {
 			else if (receiveBufferPosition < packetSize && receiveBufferPosition < RECEIVE_BUFFER_SIZE) 
 			{
 				receiveBuffer[receiveBufferPosition++] = thisByte;
+				
+				if (receiveBufferPosition == packetSize)
+				{
+					isWaiting = true;
+					return true;
+				}
 			}
-			else if (receiveBufferPosition == packetSize) 
-			{
-				isWaiting = true;
+			
 
-				return true;
-			}
 		}
-		if (thisByte == (byte)NewPacket && lastByte == (byte)CommandBegin) {
+		
+		if (thisByte == (byte)NewPacket && lastByte == (byte)CommandBegin) {			
 			isWaiting = false;
 			receiveBufferPosition = 0;
 			sizeBufferPosition = 0;
+			
 		}
 
 		lastByte = thisByte;

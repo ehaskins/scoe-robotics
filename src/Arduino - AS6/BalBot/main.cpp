@@ -18,6 +18,16 @@ int main(void)
 	
 	for (;;) {
 		loop();
+		/*
+		Serial.print(micros());
+		
+		for (int i = 1; i <= 6; i++)
+		{
+			Serial.print(",");
+			Serial.print(analogRead(i));
+		}
+		Serial.println();
+		*/
 		//if (serialEventRun) serialEventRun();
 	}
 	
