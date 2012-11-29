@@ -8,7 +8,6 @@
 #ifndef RSLMODELSECTION_H_
 #define RSLMODELSECTION_H_
 
-#include <Arduino.h>
 #include "RobotModelSection.h"
 
 #define RSL_NOFRCCOMM 0

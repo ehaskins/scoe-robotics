@@ -6,7 +6,6 @@
 */
 
 #include "RobotModel.h"
-#include <Arduino.h>
 #include "ByteReader.h"
 #include "ByteWriter.h"
 

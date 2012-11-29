@@ -8,7 +8,7 @@
 #ifndef CRC32_H_
 #define CRC32_H_
 
-#include <avr/pgmspace.h>
+#include <pgmspace.h>
 
 typedef unsigned long PROGMEM prog_uint32_t;
 

@@ -7,7 +7,7 @@
 
 #ifndef ENCODERDEFINITION_H_
 #define ENCODERDEFINITION_H_
-#include <Encoder\Encoder.h>
+#include <Encoder.h>
 
 class EncoderDefinition {
 public:

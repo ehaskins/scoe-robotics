@@ -1,0 +1,14 @@
+<VisualMicro>
+  <Program Name="ScoeComms" Ext=".ino" Location="C:\Users\ehaskins\Code-Local\SCOE\src\DotNet\ScoeComms">
+    <Compile CompilerErrors="0" ConfigurationName="Debug" StopOnError="False" OptimiseLibs="True" OptimiseCore="True" BuildPath="C:\Users\ehaskins\AppData\Local\VMicro\Arduino\Builds\ScoeComms\uno" IncludeDebug="0" IncludesDebug="0" SketchName="ScoeComms" IsCompiled="1" />
+    <Platform Name="Arduino">
+      <Board Name="uno" Description="Arduino Uno" CoreFolder="C:\robots\arduino-1.0.1\hardware\arduino\cores\arduino" VariantFullPath="C:\robots\arduino-1.0.1\hardware\arduino\variants\standard" />
+    </Platform>
+    <VCCodeModel>
+      <VCCodeMacros>
+        <VCCodeMacro Name="ARDUINO" Value="101" />
+        <VCCodeMacro Name="__AVR_ATmega328P__" />
+      </VCCodeMacros>
+    </VCCodeModel>
+  </Program>
+</VisualMicro>

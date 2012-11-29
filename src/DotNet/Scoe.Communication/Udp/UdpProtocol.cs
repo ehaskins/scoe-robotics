@@ -58,11 +58,10 @@ namespace Scoe.Communication.Udp
             SpinWait.SpinUntil(() => _isStopped, 100);
         }
 
-        public override void Transmit(PacketV4 packet)
+        protected override void Write(byte[] data)
         {
             try
             {
-                var data = packet.GetData();
                 _client.Send(data, data.Length, new IPEndPoint(RemoteAddress, DestinationPort));
             }
             catch (Exception ex)

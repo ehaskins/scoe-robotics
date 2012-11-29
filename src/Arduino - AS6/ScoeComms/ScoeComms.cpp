@@ -4,7 +4,6 @@
 *  Created on: Dec 26, 2011
 *      Author: EHaskins
 */
-#include <Arduino.h>
 #include "ScoeComms.h"
 #include "CRC32.h"
 #include "ByteReader.h"
@@ -34,6 +33,8 @@ void SerialInterface::poll() {
 	if (checkSerial() && processCommand()) {
 		lastDataReceived = now;
 		robotModel.update(receiveBuffer, CONTENT_POS, packetDataLength);
+		
+		packageStatus();
 		sendStatus();
 	}
 	unsigned long safeTime = lastDataReceived + RECEIVE_SAFTEY_DELAY;
@@ -41,6 +42,9 @@ void SerialInterface::poll() {
 	robotModel.loop(isConnected);
 }
 
+void SerialInterface::packageStatus(){
+	
+}
 
 void SerialInterface::sendStatus() {
 	unsigned int offset = 0;
@@ -101,6 +105,7 @@ bool SerialInterface::processCommand(){
 		unsigned long calculatedCrc = crc(bptr + CONTENT_POS, packetDataLength);	
 		
 		bool crcOk = calculatedCrc == packetCrc;
+		Serial.print("Packet received, CRC:"); Serial.println(crcOk);
 
 		return crcOk;
 	}

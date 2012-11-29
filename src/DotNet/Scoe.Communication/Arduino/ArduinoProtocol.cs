@@ -15,7 +15,7 @@ namespace Scoe.Communication.Arduino
 
         bool isStopped = false;
         Boolean isWriting = false;
-        Semaphore writingSemaphore = new Semaphore(1, 1);
+
         Thread readThread;
 
         bool _isWaiting = true;
@@ -30,9 +30,7 @@ namespace Scoe.Communication.Arduino
         {
             IsEnabled = true;
             serialPort.Open();
-            readThread = new Thread(ReadWorker);
-            readThread.Name = "Serial read worker";
-            readThread.Start();
+            //serialPort.
         }
 
         public override void Stop()
@@ -42,16 +40,7 @@ namespace Scoe.Communication.Arduino
             serialPort.Close();
         }
 
-        public override void Transmit(PacketV4 packet)
-        {
-            writingSemaphore.WaitOne();
 
-
-            var data = packet.GetData();
-            Write(data, 0, data.Length);
-
-            writingSemaphore.Release();
-        }
 
         int _length = 0;
 
@@ -59,7 +48,6 @@ namespace Scoe.Communication.Arduino
         byte[] _sizeBuffer = new byte[2];
         int _receiveBufferOffset = 0;
         byte[] _receiveBuffer;
-        List<byte> debugBuffer = new List<byte>();
         private bool ParseData()
         {
             while (serialPort.BytesToRead > 0)
@@ -87,26 +75,7 @@ namespace Scoe.Communication.Arduino
                         _receiveBuffer[_receiveBufferOffset++] = thisByte;
                         if (_receiveBufferOffset == _length)
                         {
-                            try
-                            {
-                                Received(new PacketV4(_receiveBuffer));
-                            }
-                            catch (Exception ex)
-                            {
-                                Debug.WriteLine(ex.Message);
-
-                                var builder = new StringBuilder();
-                                for (int i = 9; i < _receiveBuffer.Length; i++)
-                                {
-                                    if (_receiveBuffer[i] != 0)
-                                        builder.AppendFormat("testData[{0}] = {1};", i - 9, _receiveBuffer[i]);
-                                }
-                                Debug.WriteLine(builder.ToString());
-                            }
-                            finally
-                            {
-                                debugBuffer.Clear();
-                            }
+                            DecodePacket(_receiveBuffer);
                         }
                     }
                     else
@@ -115,7 +84,7 @@ namespace Scoe.Communication.Arduino
                     }
                 }
 
-                if (_lastByte == (byte)SpecialChars.Command && thisByte == (byte)SpecialChars.NewPacket)
+                if (_lastByte == (byte)SpecialChars.Command && thisByte == (byte)SpecialChars.StartOfPacket)
                 {
                     _sizeBufferOffset = 0;
                     _receiveBufferOffset = 0;
@@ -128,46 +97,43 @@ namespace Scoe.Communication.Arduino
             return false;
         }
 
-        private void Write(byte[] data, int offset, int length)
+        protected override void Write(byte[] data)
         {
-            var writer = new BinaryWriter(serialPort.BaseStream);
-            writer.Write(new byte[] { (byte)SpecialChars.Command, (byte)SpecialChars.NewPacket });
+            byte[] frame = GetFrame(data);
+            serialPort.Write(frame, 0, frame.Length);
+        }
+
+        private static byte[] GetFrame(byte[] data)
+        {
+            MemoryStream stream = new MemoryStream();
+            var writer = new BinaryWriter(stream);
+            writer.Write(new byte[] { (byte)SpecialChars.Command, (byte)SpecialChars.StartOfPacket });
             var sizeBytes = BitConverter.GetBytes((ushort)data.Length);
-            Debug.WriteLine("Sent:" + data.Length);
+
             for (int i = 0; i < sizeBytes.Length; i++)
             {
                 if (sizeBytes[i] >= 254)
                     writer.Write((byte)SpecialChars.Escape);
                 writer.Write(sizeBytes[i]);
             }
-            for (int i = offset; i < length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
                 if (data[i] >= 254)
                     writer.Write((byte)SpecialChars.Escape);
                 writer.Write(data[i]);
             }
-            writer.Flush();
-        }
+            writer.Write(new byte[] { (byte)SpecialChars.Command, (byte)SpecialChars.EndOfPacket });
 
-        private void ReadWorker()
-        {
-            isStopped = false;
-            while (IsEnabled)
-            {
-                SpinWait.SpinUntil(() => serialPort.BytesToRead > 0 || !IsEnabled);
-                if (IsEnabled)
-                {
-                    ParseData();
-                }
-            }
-            isStopped = true;
+            var transmitData = stream.ToArray();
+            return transmitData;
         }
 
         private enum SpecialChars : byte
         {
             Command = 0xff,
             Escape = 0xfe,
-            NewPacket = 0xff
+            StartOfPacket = 0xff,
+            EndOfPacket = 0xfe
         }
 
         public void Dispose()
