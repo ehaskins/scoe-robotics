@@ -1,9 +1,10 @@
-#include <Arduino.h>
-#include <ScoeComms.h>
-#include <Servo\Servo.h>
-#include <Encoder\Encoder.h>
-#include <RobotModel.h>
-#include <RslModelSection.h>
+#include "Arduino.h"
+#include "ScoeComms.h"
+#include "Servo\Servo.h"
+#include "Encoder\Encoder.h"
+#include "RobotModel.h"
+#include "RslModelSection.h"
+#include "CRC32.h"
 #include "utils.h"
 #include "PID.h"
 #include "Gyro.h"
@@ -57,6 +58,9 @@ void setup() {
 	right.attach(RIGHT_MOTOR);
 	left.attach(LEFT_MOTOR);
 
+	unsigned char testData[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	Serial.println(crc(testData, 0));
+	Serial.println(crc(testData, 10));
 	Serial.println("Ready.");
 	writeLed(false);
 }

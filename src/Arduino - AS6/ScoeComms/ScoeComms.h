@@ -23,7 +23,7 @@
 
 
 //Time in ms before output is disabled due to no communication.
-#define RECEIVE_SAFTEY_DELAY 500 //TODO: Set back to reasonable level
+#define RECEIVE_SAFTEY_DELAY 1900 //TODO: Set back to reasonable level
 
 enum SerialSpecialChar {CommandBegin = 255, EscapeNext = 254};
 enum ReceiveState {ReadData = 0, ProcessCommand = 1, Escape = 2, WaitForPacket = 3};
@@ -54,6 +54,7 @@ class SerialInterface {
 
 	unsigned long lastDataReceived;
 	bool checkSerial();
+	void packageStatus();
 	void sendStatus();
 	bool processCommand();
 };

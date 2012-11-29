@@ -6,7 +6,6 @@
  */
 
 #include "ByteReader.h"
-#include <Arduino.h>
 /*
 void ReadBytes(unsigned char data[], int *offset, int count, unsigned char out[]) {
 	for (int i = 0; i < count; i++){

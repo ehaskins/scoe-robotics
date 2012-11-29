@@ -6,7 +6,6 @@
  */
 
 #include "AnalogIODefinition.h"
-#include <Arduino.h>
 AnalogIODefinition::AnalogIODefinition() {
 	// TODO Auto-generated constructor stub
 
