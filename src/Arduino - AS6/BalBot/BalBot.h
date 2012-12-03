@@ -13,4 +13,6 @@ void calibrate(int calibrationDelay, int calibrationLoops);
 void balance(float desiredAngle, float spin);
 void setDrive(float left, float right);
 void writeLed(bool state);
+void printAngle();
+void printImuCsv();
 #endif /* BALBOT_H_ */

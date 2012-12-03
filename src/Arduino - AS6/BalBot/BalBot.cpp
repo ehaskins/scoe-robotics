@@ -12,16 +12,16 @@
 #include "BalanceSection.h"
 #include "BalBot.h"
 
-#define BALANCE_SAFTEY_TILT 3
+#define BALANCE_SAFTEY_TILT 6
 
 #define LEFT_MOTOR 3
 #define RIGHT_MOTOR 2
 #define RIGHT_INVERT 1
 #define LEFT_INVERT -1
 
-Gyro TiltGyro(1, 1.4);
-Accelerometer UpAccel(4, 500, true);
-Accelerometer ForwardAccel(5, 500, true);
+Gyro TiltGyro(9, 1);
+Accelerometer UpAccel(12, 500, true);
+Accelerometer ForwardAccel(13, 500, true);
 SimpleAngleThing AngleCalc(&TiltGyro, &ForwardAccel, &UpAccel, 0.98, true);
 
 Encoder leftEnc (21, 18);
@@ -48,10 +48,10 @@ void setup() {
 	writeLed(true);
 	Serial.begin(115200);
 	
-	beagleComm.init(&Serial);
+	/*beagleComm.init(&Serial);
 	beagleComm.robotModel.addSection(&tuningData);
 	beagleComm.robotModel.addSection(&rsl);
-	
+	*/
 	calibrate(2000, 200);
 	
 	right.attach(RIGHT_MOTOR);
@@ -66,27 +66,61 @@ float elapsedSeconds = 0.0;
 void loop() {
 	long nowMicros = micros();
 	if (lastLoop == 0)
-		lastLoop = nowMicros;
+	lastLoop = nowMicros;
 	elapsedSeconds = (float)(nowMicros - lastLoop) / 1000000;
 	
-	beagleComm.poll();
+	//beagleComm.poll();
 	if (elapsedSeconds > 0.015){
 		delay(2000);
 	}
 	else if (elapsedSeconds >= 0.01){
-		BalancePID.P = tuningData.p;
+		/*BalancePID.P = tuningData.p;
 		BalancePID.I = tuningData.i;
-		BalancePID.D = tuningData.d;
-		double desiredAngle = tuningData.desiredAngle;
+		BalancePID.D = tuningData.d;*/
+		
+		BalancePID.P = -0.08f;
+		BalancePID.I = -0.005f;
+		BalancePID.D = 0.0005f;
+		
+		double desiredAngle = -8;
 		
 		lastLoop = nowMicros;
 		
-		balance(desiredAngle, 0);
-		tuningData.currentAngle = AngleCalc.angle;
-		//printSensors();
+		balance(desiredAngle, 0.05);
+		//tuningData.currentAngle = AngleCalc.angle;
+		printAngle();
 		//printImuCsv();
 		//testCenter();
 	}
+}
+
+void printAngle(){
+	Serial.print("Angle:");
+	Serial.print(AngleCalc.angle);
+	Serial.print(" Accel X:");
+	Serial.print(ForwardAccel.rawValue);
+	Serial.print(" Accel Y:");
+	Serial.print(UpAccel.rawValue);
+	Serial.print(" Rate:");
+	Serial.println(TiltGyro.rate);
+}
+int count = 0;
+void printImuCsv(){
+	int anas[6];
+	for (int i = 0; i < 6; i++){
+		anas[i] = analogRead(i+8);
+	}
+	
+	Serial.print(count);
+	Serial.print(",");
+	for (int i = 0; i < 6; i++){
+		Serial.print(anas[i]);
+		Serial.print(",");
+	}
+	Serial.print((long)millis());
+	
+	Serial.println();
+	//delay(1);
 }
 
 void writeLed(bool state){
