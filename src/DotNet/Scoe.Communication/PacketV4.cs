@@ -11,6 +11,7 @@ namespace Scoe.Communication
             : this()
         {
             Parse(data);
+            Version = 4;
         }
         public PacketV4() : base(4) { }
 
@@ -19,10 +20,8 @@ namespace Scoe.Communication
             using (var stream = new MemoryStream())
             using (var writer = new BinaryWriter(stream))
             {
-                var content = (Type == PacketType.Command || Type == PacketType.Status) ? GetContentData() : new byte[0];
-                var crc = Crc32.Compute(content);
+                var content = GetContentData();
 
-                writer.Write(crc);
                 writer.Write(Version);
                 writer.Write(PacketIndex);
                 writer.Write((byte)Type);
@@ -54,7 +53,6 @@ namespace Scoe.Communication
             using (var stream = new MemoryStream(data))
             using (var reader = new BinaryReader(stream))
             {
-                var crc = reader.ReadUInt32();
                 var version = reader.ReadByte();
                 if (version != Version)
                     throw new Exception("Incompatible protocol version."); //TODO: DTC & exception
@@ -64,17 +62,7 @@ namespace Scoe.Communication
                 var contentLength = reader.ReadUInt16();
                 var content = reader.ReadBytes(contentLength);
 
-
-                var calcCrc = Crc32.Compute(content);
-                if (crc == calcCrc)
-                {
-                    if (Type == PacketType.Command || Type == PacketType.Status)
-                        ParseContent(content);
-                }
-                else
-                {
-                    throw new Exception("Invalid CRC"); //TODO: DTC & exception
-                }
+                ParseContent(content);
 
             }
         }

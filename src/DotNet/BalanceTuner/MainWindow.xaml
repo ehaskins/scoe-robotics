@@ -4,10 +4,12 @@
         Title="MainWindow" Height="195" Width="156" Closed="Window_Closed_1">
     <Grid>
         <StackPanel Orientation="Vertical">
+            <CheckBox IsChecked="{Binding Interface.IsConnected, Mode=OneWay}" Content="Is Connected:"/>
             <TextBox Text="{Binding Tuning.P}"/>
             <TextBox Text="{Binding Tuning.I}"/>
             <TextBox Text="{Binding Tuning.D}"/>
             <TextBox Text="{Binding Tuning.DesiredAngle}"/>
+            <TextBox Text="{Binding Tuning.Spin}"/>
             <TextBox Text="{Binding Tuning.CurrentAngle, StringFormat=f1}"/>
         </StackPanel>
     </Grid>

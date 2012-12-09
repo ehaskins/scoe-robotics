@@ -28,5 +28,6 @@ unsigned short readUInt16(unsigned char[],unsigned int*);
 unsigned long readUInt32(unsigned char[], unsigned int*);
 unsigned long long readUInt64(unsigned char[], unsigned int*);
 void readBytes(unsigned char data[], unsigned char out[], int count, unsigned int *offset);
+float readFloat(unsigned char[], unsigned int*);
 
 #endif /* STREAMREADER_H_ */

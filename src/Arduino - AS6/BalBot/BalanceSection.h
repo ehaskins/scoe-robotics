@@ -9,49 +9,36 @@
 #ifndef TUNINGDATASECTION_H_
 #define TUNINGDATASECTION_H_
 
-
+#include <ByteReader.h>
 #include <RobotModelSection.h>
 
 class TuningDataSection : public RobotModelSection{
 	public:
 	TuningDataSection(){
 		this->sectionId = 255;
-	}		
+	}
 	float p;
 	float i;
 	float d;
 	float currentAngle;
 	float desiredAngle;
+	float spin;
+	float safteyLimit;
 	virtual void update(unsigned char data[], unsigned int offset){
-		byte *pBytes = &data[offset];
-		float* pVal = reinterpret_cast<float*>(pBytes);
-		offset += 4;
+	
+		p = readFloat(data, &offset);
+		i = readFloat(data, &offset);
+		d = readFloat(data, &offset);
+		safteyLimit = readFloat(data, &offset);
+		desiredAngle = readFloat(data, &offset);
+		spin = readFloat(data, &offset);
 		
-		byte *iBytes = &data[offset];
-		float* iVal = reinterpret_cast<float*>(iBytes);
-		offset += 4;
-		
-		byte *dBytes = &data[offset];
-		float* dVal = reinterpret_cast<float*>(dBytes);
-		offset += 4;
-		
-		byte *desiredBytes = &data[offset];
-		float* desiredVal = reinterpret_cast<float*>(desiredBytes);
-		offset += 4;
-		
-		p = *pVal;
-		i = *iVal;
-		d = *dVal;
-		desiredAngle = *desiredVal;
 	}
 	virtual void getStatus(unsigned char data[], unsigned int *offset){
-		unsigned int pos = *offset;
 		byte* currentBytes = reinterpret_cast<byte*>(&currentAngle);
 		for (int i = 0; i < 4; i++){
-			data[pos++] = currentBytes[i];
+			data[(*offset)++] = currentBytes[i];
 		}
-		
-		*offset = pos;
 	}
 };
 

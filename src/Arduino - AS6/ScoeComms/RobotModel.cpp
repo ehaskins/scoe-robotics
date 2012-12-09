@@ -19,34 +19,59 @@ void RobotModel::init(){
 }
 
 void RobotModel::update(unsigned char data[], unsigned int offset, unsigned int length){
-	unsigned char sectionCount = data[offset++];
-
-	for (int i = 0; i < sectionCount; i++){
-		unsigned char sectionId = data[offset++];
-		unsigned short length = readUInt16(data, &offset);
-		for (int iSection = 0; iSection < _sectionCount; iSection++){
-			if (sections[iSection]->sectionId == sectionId){
-				sections[iSection]->isActive = true;
-				sections[iSection]->update(data, offset);
+	if (data[offset++] == PACKET_VERSION){
+		packetIndex = readUInt16(data, &offset);
+		uint8_t packetType = data[offset++];
+		
+		offset+=2; //Ignore the content length.
+		if (packetType == 2) {
+			uint8_t sectionCount = data[offset++];
+			
+			for (int i = 0; i < sectionCount; i++){
+				unsigned char sectionId = data[offset++];
+				
+				unsigned short length = readUInt16(data, &offset);
+				for (int iSection = 0; iSection < _sectionCount; iSection++){
+					if (sections[iSection]->sectionId == sectionId){
+						if (!sections[iSection]->isActive){
+							sections[iSection]->isActive = true;
+							Serial.print("Activated section:");
+							Serial.println(sectionId);
+						}						
+						sections[iSection]->update(data, offset);
+					}
+				}
+				offset += length;
 			}
+
 		}
-		offset += length;
+	}
+	else{
+		//TODO:Invalid packet version. DTC.
 	}
 }
 void RobotModel::getStatus(unsigned char data[], unsigned int *offset){
+	data[(*offset)++] = PACKET_VERSION;
+	writeUInt16(data, packetIndex, (*offset)); (*offset) += 2;
+	data[(*offset)++] = 3; //Set as status packet
+	unsigned int contentLengthOffset = *offset;
+	(*offset) += 2;
 	data[(*offset)++] = _sectionCount;
+	
 	for (int i = 0; i < _sectionCount; i++){
-		unsigned short headerPos = *offset;
+		unsigned short sectionHeaderOffset = *offset;
 		data[(*offset)++] = sections[i]->sectionId;
 		(*offset) += 2;
-		unsigned short start = *offset;
+		unsigned short contentStartOffset = *offset;
 
-		if (sections[i]->isActive)
-		sections[i]->getStatus(data, offset);
+		if (sections[i]->isActive){
+			sections[i]->getStatus(data, offset);
+		}		
 		//Write length to header
-		unsigned short length = (*offset) - start;
-		writeUInt16(data, length, headerPos + 1);
+		unsigned short length = (*offset) - contentStartOffset;
+		writeUInt16(data, length, sectionHeaderOffset + 1);
 	}
+	writeUInt16(data, (*offset) - contentLengthOffset, contentLengthOffset);
 }
 
 void RobotModel::loop(bool safteyTripped){

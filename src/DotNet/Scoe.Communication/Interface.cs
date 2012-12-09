@@ -12,7 +12,7 @@ namespace Scoe.Communication
         public Interface(Protocol protocol)
         {
             Protocol = protocol;
-            
+
             Sections = new ObservableCollection<Scoe.Communication.DataSection>();
             IsConnected = false;
         }
@@ -37,17 +37,13 @@ namespace Scoe.Communication
             if (Mode == InterfaceMode.Client)
                 LastPacketIndex++;
             packet.PacketIndex = LastPacketIndex;
-            if (IsConnected)
-            {
-                packet.Type = (Mode == InterfaceMode.Server ? PacketType.Status : PacketType.Command);
 
-                foreach (var section in Sections)
-                {
-                    packet.Sections.Add(packet.Type == PacketType.Command ? section.GetCommandData() : section.GetStatusData());
-                }
+            packet.Type = (Mode == InterfaceMode.Server ? PacketType.Status : PacketType.Command);
+
+            foreach (var section in Sections)
+            {
+                packet.Sections.Add(packet.Type == PacketType.Command ? section.GetCommandData() : section.GetStatusData());
             }
-            else
-                packet.Type = (Mode == InterfaceMode.Server ? PacketType.Echo : PacketType.Probe);
 
             Protocol.Transmit(packet);
         }
@@ -56,24 +52,16 @@ namespace Scoe.Communication
             if (Mode == InterfaceMode.Server)
                 LastPacketIndex = packet.PacketIndex;
 
-            if (packet.Type == PacketType.Probe)
-                IsConnected = false;
-            else
+            IsConnected = true;
+            foreach (var sectionData in packet.Sections)
             {
-                IsConnected = true;
-                if (packet.Type != PacketType.Echo)
+                var section = (from s in Sections where s.SectionId == sectionData.SectionId select s).SingleOrDefault();
+                if (section != null)
                 {
-                    foreach (var sectionData in packet.Sections)
-                    {
-                        var section = (from s in Sections where s.SectionId == sectionData.SectionId select s).SingleOrDefault();
-                        if (section != null)
-                        {
-                            if (packet.Type == PacketType.Command)
-                                section.ParseCommand(sectionData);
-                            else
-                                section.ParseStatus(sectionData);
-                        }
-                    }
+                    if (packet.Type == PacketType.Command)
+                        section.ParseCommand(sectionData);
+                    else
+                        section.ParseStatus(sectionData);
                 }
             }
         }
