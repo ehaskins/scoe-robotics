@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Windows.Media;
 using Scoe.Communication.Udp;
 using System.Net;
+using Scoe.DriverStation.Input;
 
 namespace BalanceTuner
 {
@@ -21,13 +22,18 @@ namespace BalanceTuner
         private Interface _IOInterface;
         RobotState state;
         RslModelSection rsl;
+        Joystick stick = new Joystick();
+        JoystickUpdater stickUpdater;
         public MainVM()
         {
+            stickUpdater = new JoystickUpdater(stick, JoystickManager.GetSticks()[0]);
+
             Tuning = new TuningSection();
             Tuning.P = -0.08;// -40;
             Tuning.I = -0.005;// -2;
             Tuning.D = 0.0005;// -25;
-            Tuning.DesiredAngle = -8;
+            Tuning.BaseAngle = -8;
+            Tuning.SafteyLimit = 10;
             state = new RobotState();
             rsl = new RslModelSection(state);
             state.IsEnabled = true;
@@ -38,7 +44,15 @@ namespace BalanceTuner
             Interface = new ClientInterface(new UdpProtocol(8889, 8888, IPAddress.Parse("192.168.1.108")), 50);
             Interface.Sections.Add(Tuning);
             Interface.Sections.Add(rsl);
+            Interface.Sending += Interface_Sending;
             Interface.Start();
+        }
+
+        void Interface_Sending(object sender, EventArgs e)
+        {
+            stickUpdater.Update();
+            Tuning.Drive = stick.Axes[1] * -5;
+            Tuning.Spin = stick.Axes[0] * -0.2;
         }
         public void Stop()
         {
@@ -73,6 +87,18 @@ namespace BalanceTuner
         public double CurrentAngle { get; set; }
         public double SafteyLimit { get; set; }
         public double Spin { get; set; }
+        public double BaseAngle { get; set; }
+        public double Drive
+        {
+            get
+            {
+                return DesiredAngle - BaseAngle;
+            }
+            set
+            {
+                DesiredAngle = BaseAngle + value;
+            }
+        }
         public override DataSectionData GetCommandData()
         {
             using (var stream = new MemoryStream())
