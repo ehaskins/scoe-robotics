@@ -83,7 +83,14 @@ namespace Scoe.Communication.Udp
                     if (RemoteAddress == null)
                         RemoteAddress = endpoint.Address;
                     var packet = new PacketV4();
-                    packet.Parse(data);
+                    try
+                    {
+                        packet.Parse(data);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Failed to parse packet:" + ex.Message);
+                    }
                     Received(packet);
                 }
                 catch (InvalidOperationException opex)

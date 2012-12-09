@@ -4,13 +4,15 @@
 #include <Encoder\Encoder.h>
 #include <RobotModel.h>
 #include <RslModelSection.h>
-#include "utils.h"
-#include "PID.h"
-#include "Gyro.h"
-#include "Accelerometer.h"
-#include "SimpleAngleThing.h"
+#include "UdpComm/UdpComms.h"
+#include "RobotModel\utils.h"
+#include "RobotModel\PID.h"
+#include "RobotModel\Gyro.h"
+#include "RobotModel\Accelerometer.h"
+#include "RobotModel\SimpleAngleThing.h"
 #include "BalanceSection.h"
 #include "BalBot.h"
+
 
 #define BALANCE_SAFTEY_TILT 6
 
@@ -18,6 +20,7 @@
 #define RIGHT_MOTOR 2
 #define RIGHT_INVERT 1
 #define LEFT_INVERT -1
+
 
 Gyro TiltGyro(9, 1);
 Accelerometer UpAccel(12, 500, true);
@@ -38,7 +41,8 @@ Servo right;
 //PID BalancePID(-40, -2, -25);
 PID BalancePID(0, 0, 0);
 
-SerialInterface beagleComm;
+//SerialInterface beagleComm;
+UdpComms udpComm;
 TuningDataSection tuningData;
 RslModelSection rsl;
 
@@ -48,10 +52,34 @@ void setup() {
 	writeLed(true);
 	Serial.begin(115200);
 	
-	/*beagleComm.init(&Serial);
-	beagleComm.robotModel.addSection(&tuningData);
-	beagleComm.robotModel.addSection(&rsl);
-	*/
+	Serial.println("Starting up...");
+	
+	udpComm.isDhcp = true;
+	udpComm.receivePort = 8888;
+	byte mac[6] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};
+	for (int i = 0; i< 6; i++){
+		udpComm.macAddress[i] = mac[i];
+	}
+	udpComm.init();
+	udpComm.robotModel.addSection(&tuningData);
+	udpComm.robotModel.addSection(&rsl);
+	
+	tuningData.p = -0.08f;
+	tuningData.i = -0.005f;
+	tuningData.d = 0.0005f;
+	tuningData.desiredAngle = -8;
+	tuningData.spin = 0;
+	tuningData.safteyLimit = 3;
+	
+	// print your local IP address:
+	Serial.print("My IP address: ");
+	for (byte i = 0; i < 4; i++) {
+		// print the value of each byte of the IP address:
+		Serial.print(Ethernet.localIP()[i], DEC);
+		Serial.print(".");
+	}
+	Serial.println();
+	
 	calibrate(2000, 200);
 	
 	right.attach(RIGHT_MOTOR);
@@ -70,25 +98,24 @@ void loop() {
 	elapsedSeconds = (float)(nowMicros - lastLoop) / 1000000;
 	
 	//beagleComm.poll();
-	if (elapsedSeconds > 0.015){
-		delay(2000);
-	}
-	else if (elapsedSeconds >= 0.01){
-		/*BalancePID.P = tuningData.p;
+	udpComm.poll();
+	
+	Serial.print(tuningData.spin);
+	if (elapsedSeconds >= 0.01){
+		BalancePID.P = tuningData.p;
 		BalancePID.I = tuningData.i;
-		BalancePID.D = tuningData.d;*/
+		BalancePID.D = tuningData.d;
 		
-		BalancePID.P = -0.08f;
+		/*BalancePID.P = -0.08f;
 		BalancePID.I = -0.005f;
 		BalancePID.D = 0.0005f;
-		
-		double desiredAngle = -8;
+		*/
 		
 		lastLoop = nowMicros;
 		
-		balance(desiredAngle, 0.05);
-		//tuningData.currentAngle = AngleCalc.angle;
-		printAngle();
+		balance(tuningData.desiredAngle, tuningData.spin);
+		tuningData.currentAngle = AngleCalc.angle;
+		//printAngle();
 		//printImuCsv();
 		//testCenter();
 	}
@@ -132,7 +159,7 @@ void balance(float desiredAngle, float spin){
 	float output = 0.0;
 	float error = desiredAngle - AngleCalc.angle;
 	
-	if (abs(error) > BALANCE_SAFTEY_TILT){
+	if (abs(error) > tuningData.safteyLimit){
 		output = 0;
 		BalancePID.iTotal = 0.0;
 		spin = 0;

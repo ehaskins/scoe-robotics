@@ -147,54 +147,118 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Accelerometer.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Accelerometer.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="BalBot.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="BalBot.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Gyro.cpp">
+    <Compile Include="Ethernet\Dhcp.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Gyro.h">
+    <Compile Include="Ethernet\Dhcp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\Dns.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\Dns.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\Ethernet.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\Ethernet.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\EthernetClient.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\EthernetClient.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\EthernetServer.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\EthernetServer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\EthernetUdp.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\EthernetUdp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\util.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\utility\socket.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\utility\socket.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\utility\w5100.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Ethernet\utility\w5100.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PID.cpp">
+    <Compile Include="RobotModel\Accelerometer.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PID.h">
+    <Compile Include="RobotModel\Accelerometer.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SimpleAngleThing.cpp">
+    <Compile Include="RobotModel\Gyro.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SimpleAngleThing.h">
+    <Compile Include="RobotModel\Gyro.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RobotModel\PID.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RobotModel\PID.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RobotModel\SimpleAngleThing.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RobotModel\SimpleAngleThing.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RobotModel\Utils.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RobotModel\utils.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="BalanceSection.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="UdpComms.cpp">
+    <Compile Include="SPI\SPI.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="UdpComms.h">
+    <Compile Include="SPI\SPI.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Utils.cpp">
+    <Compile Include="UdpComm\UdpComms.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="utils.h">
+    <Compile Include="UdpComm\UdpComms.h">
       <SubType>compile</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ethernet" />
+    <Folder Include="Ethernet\utility\" />
+    <Folder Include="RobotModel" />
+    <Folder Include="SPI\" />
+    <Folder Include="UdpComm" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

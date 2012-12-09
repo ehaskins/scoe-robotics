@@ -9,7 +9,7 @@
 #define ROBOTMODEL_H_
 
 #include "RobotModelSection.h"
-
+#define PACKET_VERSION 4
 #define MAX_MODEL_SECTIONS 8
 
 class RobotModel {
@@ -22,6 +22,7 @@ public:
 
 	RobotModelSection *sections[MAX_MODEL_SECTIONS];
 	bool addSection(RobotModelSection *section);
+	unsigned int packetIndex;
 	int _sectionCount;
 };
 
