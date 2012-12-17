@@ -16,6 +16,8 @@ Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "ArduinoMega", "ArduinoMega\
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "ScoeCommsMega", "ScoeCommsMega\ScoeCommsMega.cppproj", "{654884F6-65A4-4834-A519-65907E59849C}"
 EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Skateboard", "Skateboard\Skateboard.cppproj", "{91B3AC9C-F615-4F12-8135-86D8DBFA12ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -46,6 +48,10 @@ Global
 		{654884F6-65A4-4834-A519-65907E59849C}.Debug|AVR.Build.0 = Debug|AVR
 		{654884F6-65A4-4834-A519-65907E59849C}.Release|AVR.ActiveCfg = Release|AVR
 		{654884F6-65A4-4834-A519-65907E59849C}.Release|AVR.Build.0 = Release|AVR
+		{91B3AC9C-F615-4F12-8135-86D8DBFA12ED}.Debug|AVR.ActiveCfg = Debug|AVR
+		{91B3AC9C-F615-4F12-8135-86D8DBFA12ED}.Debug|AVR.Build.0 = Debug|AVR
+		{91B3AC9C-F615-4F12-8135-86D8DBFA12ED}.Release|AVR.ActiveCfg = Release|AVR
+		{91B3AC9C-F615-4F12-8135-86D8DBFA12ED}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
