@@ -5,7 +5,7 @@
  *  Author: EHaskins
  */ 
 #include "Arduino.h"
-#include "BalBot.h"
+#include "SkateBoard.h"
 int main(void)
 {
 	init();
