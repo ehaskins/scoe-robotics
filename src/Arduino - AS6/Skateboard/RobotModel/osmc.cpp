@@ -35,6 +35,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 //}
 
 void Osmc::init(int aLI,int bLI, int dis) {
+	pinMode(aLI, OUTPUT);
+	pinMode(bLI, OUTPUT);
+	pinMode(dis, OUTPUT);
 	this->aLI = aLI;
 	this->aLI = bLI;
 	this->dis = dis;
@@ -47,7 +50,7 @@ void Osmc::drive(float drive){
 	else if (drive > 1)
 	drive = 1;
 	
-	unsigned char power = drive >= 0 ? drive  : -drive * 255;
+	unsigned char power = (drive >= 0 ? drive  : -drive) * 255;
 	if (drive > 0){
 		analogWrite(this->aLI, power);
 		digitalWrite(this->bLI, LOW);
