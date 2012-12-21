@@ -184,6 +184,7 @@
           <ListValues>
             <Value>m</Value>
             <Value>libArduino</Value>
+			<Value>libScoeComms</Value>
           </ListValues>
         </avrgcccpp.linker.libraries.Libraries>
         <avrgcccpp.linker.libraries.LibrarySearchPaths>
@@ -234,6 +235,7 @@
           <ListValues>
             <Value>m</Value>
             <Value>libArduino</Value>
+			<Value>libScoeComms</Value>
           </ListValues>
         </avrgcccpp.linker.libraries.Libraries>
         <avrgcccpp.linker.libraries.LibrarySearchPaths>
