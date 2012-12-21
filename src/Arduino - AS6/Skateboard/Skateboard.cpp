@@ -13,24 +13,36 @@ Osmc left;
 void setup(){
 	Serial.begin(115200);
 	left.init(6, 5, 7);
-	right.init(9, 11, 8);
+	right.init(11, 9, 8);
 	right.setEnabled(true);
 	left.setEnabled(true);
 }
 
 
 float drive = 0;
-float max = 0.15;
-float min = -0.15;
-float dir = 0.01;
+float max = 0.20;
+float accel = 0.01;
+
+int count = 0;
 void loop(){
-	drive += dir;
+	int accelLoops = max / accel;
+	int loops = accelLoops * 6;
 	
-	if (drive < min || drive > max)
-		dir *= -1;
-		
+	
+	if (count % loops < accelLoops){
+		drive += accel;
+	}
+	else if (count % loops < accelLoops * 3){} //hold speed
+	else if (count % loops < accelLoops * 4){
+		drive -= accel;
+	}		
+	else {} //hold speed
+	
+	count++;
+	
 	right.drive(drive);
 	left.drive(drive);
 	Serial.println(drive);
+
 	delay(100);
 }
