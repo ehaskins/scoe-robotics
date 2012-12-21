@@ -1,15 +1,15 @@
 #include <Arduino.h>
-#include <CRC32.h>
-#include <ScoeComms.h>
-#include <RslModelSection.h>
-#include <PwmModelSection.h>
-#include <AnalogIOSection.h>
-#include <DioSection.h>
-#include <DutyCycleModelSection.h>
-#include <EncoderModelSection.h>
-#include <AnalogGyroDefinition.h>
+#include <Utils\CRC32.h>
+#include <RobotModel\RslModelSection.h>
+#include <RobotModel\PwmModelSection.h>
+#include <RobotModel\AnalogIOSection.h>
+#include <RobotModel\DioSection.h>
+#include <RobotModel\DutyCycleModelSection.h>
+#include <RobotModel\EncoderModelSection.h>
+#include <RobotModel\AnalogGyroDefinition.h>
+#include <Comm\Udp\UdpComms.h>
 
-SerialInterface beagleComm;
+UdpComms beagleComm;
 
 //AnalogGyroDefinition * gyroDef;
 int main(void)
@@ -57,7 +57,7 @@ void setup() {
 	//// Controls data acquisition from the quadrature shaft encoders.
 	//EncoderModelSection *enc = new EncoderModelSection();
 
-	beagleComm.init(&Serial);
+	beagleComm.init();
 	beagleComm.robotModel.addSection(rsl);
 	//beagleComm.robotModel.addSection(pwm);
 	//beagleComm.robotModel.addSection(analog);

@@ -1,15 +1,15 @@
 #include <Arduino.h>
-#include <ScoeComms.h>
+#include <Comm\Serial\ScoeComms.h>
 #include <Servo\Servo.h>
 #include <Encoder\Encoder.h>
-#include <RobotModel.h>
-#include <RslModelSection.h>
-#include "UdpComm/UdpComms.h"
-#include "RobotModel\utils.h"
-#include "RobotModel\PID.h"
-#include "RobotModel\Gyro.h"
-#include "RobotModel\Accelerometer.h"
-#include "RobotModel\SimpleAngleThing.h"
+#include <RobotModel\RobotModel.h>
+#include <RobotModel\RslModelSection.h>
+#include <Comm\Udp\UdpComms.h>
+#include <Utils\utils.h>
+#include <Control\PID.h>
+#include <Drivers\Input\Gyro.h>
+#include <Drivers\Input\AnalogAccelerometer.h>
+#include <Control\SimpleAngleThing.h>
 #include "BalanceSection.h"
 #include "BalBot.h"
 
@@ -23,8 +23,8 @@
 
 
 Gyro TiltGyro(9, 1);
-Accelerometer UpAccel(12, 500, true);
-Accelerometer ForwardAccel(13, 500, true);
+AnalogAccelerometer UpAccel(12, 500, true);
+AnalogAccelerometer ForwardAccel(13, 500, true);
 SimpleAngleThing AngleCalc(&TiltGyro, &ForwardAccel, &UpAccel, 0.98, true);
 
 Encoder leftEnc (21, 18);
@@ -125,9 +125,9 @@ void printAngle(){
 	Serial.print("Angle:");
 	Serial.print(AngleCalc.angle);
 	Serial.print(" Accel X:");
-	Serial.print(ForwardAccel.rawValue);
+	Serial.print(ForwardAccel.acceleration);
 	Serial.print(" Accel Y:");
-	Serial.print(UpAccel.rawValue);
+	Serial.print(UpAccel.acceleration);
 	Serial.print(" Rate:");
 	Serial.println(TiltGyro.rate);
 }

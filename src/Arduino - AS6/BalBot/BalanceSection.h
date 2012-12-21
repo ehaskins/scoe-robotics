@@ -9,8 +9,8 @@
 #ifndef TUNINGDATASECTION_H_
 #define TUNINGDATASECTION_H_
 
-#include <ByteReader.h>
-#include <RobotModelSection.h>
+#include <Utils\ByteReader.h>
+#include <RobotModel\RobotModelSection.h>
 
 class TuningDataSection : public RobotModelSection{
 	public:
