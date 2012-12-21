@@ -1,0 +1,20 @@
+Header ------------------------
+uint32	crc
+uint8	version, 3 expected
+uint16	PacketIndex
+uint16	contentLength
+uint8[contentLength]	content
+
+
+Content----------
+
+uint8	PacketType
+uint8	SectionCount
+uint8	SectionID
+uint16	SectionLength
+uint8[sectionLength]	sectionContent
+
+
+Serial-----------
+uint16	Start of packet	{0xff, 0xff}
+uint16	total decoded length

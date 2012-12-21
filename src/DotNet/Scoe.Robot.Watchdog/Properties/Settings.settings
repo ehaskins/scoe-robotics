@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Scoe.Robot.Watchdog.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WatchPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\Watch</Value>
+    </Setting>
+    <Setting Name="RunPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\Run</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

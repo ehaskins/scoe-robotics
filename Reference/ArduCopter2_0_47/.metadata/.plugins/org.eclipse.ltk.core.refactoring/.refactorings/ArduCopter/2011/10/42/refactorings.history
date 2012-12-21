@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;ArduCopter/ArduCopter.pde&apos; to &apos;ArduCopter.cpp&apos;" description="Rename resource &apos;ArduCopter.pde&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="ArduCopter.pde" name="ArduCopter.cpp" stamp="1318307223055" updateReferences="true"/>
+</session>
