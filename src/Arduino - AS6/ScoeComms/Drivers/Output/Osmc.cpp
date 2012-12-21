@@ -23,8 +23,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "osmc.h"
-#include "utils.h"
+#include "Osmc.h"
+#include "..\..\Utils\utils.h"
 
 //OSMC::osmc(int aHI,int bHI,int aLI,int bLI, int dis) {
 	//	this->aHI = aHI;
