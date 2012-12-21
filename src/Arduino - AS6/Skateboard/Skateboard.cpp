@@ -6,7 +6,7 @@
  */ 
 
 #include <Arduino.h>
-#include "RobotModel/osmc.h"
+#include <Drivers\Output\Osmc.h>
 Osmc right;
 Osmc left;
 

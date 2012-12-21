@@ -5,7 +5,6 @@
     <ProjectVersion>6.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8</ToolchainName>
     <ProjectGuid>{01f123fb-7164-448e-9248-3fdbb627f54b}</ProjectGuid>
-    <avrdevice>ATmega2560</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
     <Language>CPP</Language>
@@ -23,7 +22,8 @@
     <AsfVersion>3.1.3</AsfVersion>
     <avrtool>
     </avrtool>
-    <avrtoolinterface>debugWIRE</avrtoolinterface>
+    <avrtoolinterface>
+    </avrtoolinterface>
     <com_atmel_avrdbg_tool_simulator>
       <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
       <ToolName xmlns="">AVR Simulator</ToolName>
@@ -70,6 +70,8 @@
     </com_atmel_avrdbg_tool_avrdragon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+  
+    <avrdevice>ATmega2560</avrdevice>
     <ToolchainSettings>
       <AvrGccCpp>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
@@ -96,6 +98,8 @@
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+  
+    <avrdevice>ATmega2560</avrdevice>
     <ToolchainSettings>
       <AvrGccCpp>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
@@ -130,16 +134,114 @@
         <avrgcccpp.linker.libraries.Libraries>
           <ListValues>
             <Value>m</Value>
-            <Value>libArduinoMega</Value>
-            <Value>libScoeCommsMega</Value>
+            <Value>libArduino</Value>
+            <Value>libScoeComms</Value>
           </ListValues>
         </avrgcccpp.linker.libraries.Libraries>
         <avrgcccpp.linker.libraries.LibrarySearchPaths>
           <ListValues>
             <Value>../../ArduinoCore/Debug</Value>
             <Value>../../ScoeComms/Debug</Value>
-            <Value>../../ArduinoMega/Debug</Value>
-            <Value>../../ScoeCommsMega/Debug</Value>
+          </ListValues>
+        </avrgcccpp.linker.libraries.LibrarySearchPaths>
+        <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+      </AvrGccCpp>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug - 2560' ">
+    <avrdevice>ATmega2560</avrdevice>
+    <ToolchainSettings>
+      <AvrGccCpp>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>../../ArduinoCore</Value>
+            <Value>../../ScoeComms</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcccpp.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>../../ArduinoCore</Value>
+            <Value>../../ScoeComms</Value>
+          </ListValues>
+        </avrgcccpp.compiler.directories.IncludePaths>
+        <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
+        <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+        <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+        <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+        <avrgcccpp.linker.libraries.Libraries>
+          <ListValues>
+            <Value>m</Value>
+            <Value>libArduino</Value>
+            <Value>libScoeComms</Value>
+          </ListValues>
+        </avrgcccpp.linker.libraries.Libraries>
+        <avrgcccpp.linker.libraries.LibrarySearchPaths>
+          <ListValues>
+            <Value>../../ArduinoCore/Debug - 2560</Value>
+            <Value>../../ScoeComms/Debug - 2560</Value>
+          </ListValues>
+        </avrgcccpp.linker.libraries.LibrarySearchPaths>
+        <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+      </AvrGccCpp>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug - 328P' ">
+    <avrdevice>ATmega328P</avrdevice>
+    <ToolchainSettings>
+      <AvrGccCpp>
+        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>../../ArduinoCore</Value>
+            <Value>../../ScoeComms</Value>
+          </ListValues>
+        </avrgcc.compiler.directories.IncludePaths>
+        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
+        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+        <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+        <avrgcccpp.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>../../ArduinoCore</Value>
+            <Value>../../ScoeComms</Value>
+          </ListValues>
+        </avrgcccpp.compiler.directories.IncludePaths>
+        <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
+        <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+        <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+        <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+        <avrgcccpp.linker.libraries.Libraries>
+          <ListValues>
+            <Value>m</Value>
+            <Value>libArduino</Value>
+            <Value>libScoeComms</Value>
+          </ListValues>
+        </avrgcccpp.linker.libraries.Libraries>
+        <avrgcccpp.linker.libraries.LibrarySearchPaths>
+          <ListValues>
+            <Value>../../ArduinoCore/Debug - 328P</Value>
+            <Value>../../ScoeComms/Debug - 328P</Value>
           </ListValues>
         </avrgcccpp.linker.libraries.LibrarySearchPaths>
         <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
@@ -151,57 +253,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="BalBot.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\Dhcp.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\Dhcp.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\Dns.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\Dns.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\Ethernet.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\Ethernet.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\EthernetClient.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\EthernetClient.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\EthernetServer.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\EthernetServer.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\EthernetUdp.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\EthernetUdp.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\util.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\utility\socket.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\utility\socket.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\utility\w5100.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Ethernet\utility\w5100.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.cpp">
@@ -240,12 +291,6 @@
     <Compile Include="BalanceSection.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI\SPI.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SPI\SPI.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="UdpComm\UdpComms.cpp">
       <SubType>compile</SubType>
     </Compile>
@@ -254,10 +299,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Ethernet" />
-    <Folder Include="Ethernet\utility\" />
     <Folder Include="RobotModel" />
-    <Folder Include="SPI\" />
     <Folder Include="UdpComm" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
