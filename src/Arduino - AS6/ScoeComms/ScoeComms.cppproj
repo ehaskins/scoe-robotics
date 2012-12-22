@@ -225,7 +225,10 @@
     <Compile Include="Drivers\Input\AnalogAccelerometer.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Drivers\Input\Gyro.cpp">
+    <Compile Include="Drivers\Input\AnalogGyro.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\AnalogGyro.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Drivers\Input\Gyro.h">

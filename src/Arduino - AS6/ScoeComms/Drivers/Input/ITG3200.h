@@ -1,17 +1,55 @@
 /*
- * ITG3200.h
- *
- * Created: 12/21/2012 6:15:54 PM
- *  Author: EHaskins
- */ 
+* ITG3200.h
+*
+* Created: 12/21/2012 6:15:54 PM
+*  Author: EHaskins
+*/
 
 
 #ifndef ITG3200_H_
 #define ITG3200_H_
 
-class ITG3200{
+#include <Arduino.h>
 
+class ITG3200Axis;
+
+class ITG3200{
+	public:
+	ITG3200();
+	ITG3200(uint8_t id);
+
+	void update();
+
+	float getResolution(){
+		return resolution;
+	}
+
+	ITG3200Axis* getX(){
+		return x;
+	}
+	ITG3200Axis* getY(){
+		return y;
+	}
+	ITG3200Axis* getZ(){
+		return z;
+	}
+	float getTemp(){
+		return temp;
+	}
 	
+	private:
+
+	void startSensor(uint8_t id);
+	float temp;
+
+	ITG3200Axis *x;
+	ITG3200Axis *y;
+	ITG3200Axis *z;
+
+	float resolution;
+	uint8_t id;
+	unsigned long lastUpdateMicros;
+
 };
 
 

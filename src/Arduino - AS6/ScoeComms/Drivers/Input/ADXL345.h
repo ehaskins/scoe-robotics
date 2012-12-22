@@ -15,6 +15,7 @@ class ADXL345Axis;
 
 class ADXL345{
 	public:
+	ADXL345();
 	ADXL345 (uint8_t id);
 
 	void update();
@@ -33,7 +34,7 @@ class ADXL345{
 		return 0.0078;
 	}
 	private:
-	void startSensor();
+	void startSensor(uint8_t id);
 	
 	uint8_t id;
 	ADXL345Axis * x;
@@ -41,6 +42,8 @@ class ADXL345{
 	ADXL345Axis * z;
 	unsigned long lastUpdateMicros;
 };
+
+#define ADXL_ADDR	0xA6
 
 //ADXL Register Map
 #define	DEVID			0x00	//Device ID Register

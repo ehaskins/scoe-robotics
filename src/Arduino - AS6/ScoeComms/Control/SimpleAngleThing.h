@@ -35,7 +35,7 @@ class SimpleAngleThing
 		double accelRads = atan2(xAccel->getAcceleration(), yAccel->getAcceleration());
 		double accelAngle = (long) (accelRads * 180 / PI);
 
-		double gyroDelta = gyro->deltaAngle;
+		double gyroDelta = gyro->getDeltaAngle();
 
 		if (firstAngleUpdate) {
 			angle = accelAngle;
