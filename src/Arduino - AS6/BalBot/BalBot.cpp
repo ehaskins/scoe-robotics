@@ -7,7 +7,7 @@
 #include <Comm\Udp\UdpComms.h>
 #include <Utils\utils.h>
 #include <Control\PID.h>
-#include <Drivers\Input\Gyro.h>
+#include <Drivers\Input\AnalogGyro.h>
 #include <Drivers\Input\AnalogAccelerometer.h>
 #include <Control\SimpleAngleThing.h>
 #include "BalanceSection.h"
@@ -22,7 +22,7 @@
 #define LEFT_INVERT -1
 
 
-Gyro TiltGyro(9, 1);
+AnalogGyro TiltGyro(9, 1);
 AnalogAccelerometer UpAccel(12, 500, true);
 AnalogAccelerometer ForwardAccel(13, 500, true);
 SimpleAngleThing AngleCalc(&TiltGyro, &ForwardAccel, &UpAccel, 0.98, true);
@@ -125,11 +125,11 @@ void printAngle(){
 	Serial.print("Angle:");
 	Serial.print(AngleCalc.angle);
 	Serial.print(" Accel X:");
-	Serial.print(ForwardAccel.acceleration);
+	Serial.print(ForwardAccel.getAcceleration());
 	Serial.print(" Accel Y:");
-	Serial.print(UpAccel.acceleration);
+	Serial.print(UpAccel.getAcceleration());
 	Serial.print(" Rate:");
-	Serial.println(TiltGyro.rate);
+	Serial.println(TiltGyro.getRate());
 }
 int count = 0;
 void printImuCsv(){
@@ -165,7 +165,7 @@ void balance(float desiredAngle, float spin){
 		spin = 0;
 	}
 	else{
-		output = BalancePID.update(AngleCalc.angle, desiredAngle, AngleCalc.gyro->rate);
+		output = BalancePID.update(AngleCalc.angle, desiredAngle, AngleCalc.gyro->getRate());
 	}
 	setDrive(output + spin, output - spin);
 }
@@ -197,5 +197,5 @@ void calibrate(int calibrationDelay, int calibrationLoops) {
 
 	Serial.println("Calibration complete!");
 	Serial.print("GyroCenter:");
-	Serial.print(TiltGyro.center);
+	Serial.print(TiltGyro.getCenterValue());
 }
