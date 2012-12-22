@@ -26,12 +26,22 @@ unsigned long lastPrint;
 
 void setup(){
 	Serial.begin(115200);
+	
 	gyro = new ITG3200();
+	
+	Serial.println("Waiting to calibrate...");
+	delay(1000);
+	Serial.println("Calibrating...");
+	gyro->calibrate();
+	Serial.println("Calibration complete.");
+	
 	accel = new ADXL345();
-	angleCalc = new SimpleAngleThing(gyro->getY(), accel->getX(), accel->getZ(), 0.98., false);
-
+	
+	angleCalc = new SimpleAngleThing(gyro->getY(), accel->getX(), accel->getZ(), 0.98, false);
+	
 	right.setIsEnabled(true);
 	left.setIsEnabled(true);
+	
 	delay(200);
 	Serial.println("ready!");
 	lastPrint = 0;
@@ -43,18 +53,25 @@ float max = 0.15;
 float min = -0.15;
 float dir = 0.01;
 void loop(){
-	printSensors();
+	if (accel->update()){
+		gyro->update();
+		angleCalc->update(gyro->getY()->getDeltaAngle(), accel->getX()->getAcceleration() * -1, accel->getZ()->getAcceleration());
+		printSensors();
+	}	
 }
 
+void printAngle(){
+	Serial.println(angleCalc->angle);
+}
 void printSensors(){
-	if (accel->update()){
+	//if (accel->update()){
 		Serial.print(accel->getX()->getAcceleration());
 		Serial.print(",");
 		Serial.print(accel->getY()->getAcceleration());
 		Serial.print(",");
 		Serial.print(accel->getZ()->getAcceleration());
-	}
-	if (gyro->update()){
+	//}
+	//if (gyro->update()){
 		unsigned long now = micros();
 		Serial.print(",");
 		Serial.print(gyro->getX()->getRate());
@@ -65,7 +82,7 @@ void printSensors(){
 		Serial.print(",");
 		Serial.println(now-lastPrint);
 		lastPrint = now;
-	}
+	//}
 }
 
 void testDrive(){

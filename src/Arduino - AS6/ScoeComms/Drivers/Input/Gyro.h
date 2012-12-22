@@ -26,7 +26,14 @@ class Gyro
 		return elapsedSeconds;
 	}
 	
+	float getCenterValue(){
+		return centerValue;
+	}
+	void setCenterValue(float val){
+		centerValue = val;
+	}
 	protected:
+	float centerValue;
 	float rate;
 	float deltaAngle;
 	float elapsedSeconds;

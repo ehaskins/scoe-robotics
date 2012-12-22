@@ -24,7 +24,6 @@ class ITG3200Axis : public Gyro{
 
 	private:
 	ITG3200 *parent;
-	int rawValue;
 	unsigned long lastMicros;
 };
 

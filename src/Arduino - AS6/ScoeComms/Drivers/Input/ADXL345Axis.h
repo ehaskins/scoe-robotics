@@ -28,7 +28,9 @@ ADXL345* getParent() const {
 }
 
 float getAcceleration();
-
+int getRawValue(){
+	return rawValue;
+}
 
 void update(int raw);
 private:
