@@ -7,42 +7,31 @@
 
 #include <Arduino.h>
 #include <Drivers\Output\Osmc.h>
-Osmc right;
-Osmc left;
+#include <Drivers\Output\RCMotor.h>
+
+
+Osmc right(6, 5, 7);
+Osmc left(9, 11, 8);
 
 void setup(){
 	Serial.begin(115200);
-	left.init(6, 5, 7);
-	right.init(11, 9, 8);
-	right.setEnabled(true);
-	left.setEnabled(true);
+	right.setIsEnabled(true);
+	left.setIsEnabled(true);
 }
 
 
 float drive = 0;
-float max = 0.20;
-float accel = 0.01;
-
-int count = 0;
+float max = 0.15;
+float min = -0.15;
+float dir = 0.01;
 void loop(){
-	int accelLoops = max / accel;
-	int loops = accelLoops * 6;
+	drive += dir;
 	
-	
-	if (count % loops < accelLoops){
-		drive += accel;
-	}
-	else if (count % loops < accelLoops * 3){} //hold speed
-	else if (count % loops < accelLoops * 4){
-		drive -= accel;
-	}		
-	else {} //hold speed
-	
-	count++;
-	
-	right.drive(drive);
-	left.drive(drive);
+	if (drive < min || drive > max)
+		dir *= -1;
+		
+	right.setOutput(drive);
+	left.setOutput(drive);
 	Serial.println(drive);
-
 	delay(100);
 }

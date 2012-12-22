@@ -12,13 +12,43 @@
 class Accelerometer
 {
 	public:
-		
+	
 	void init(int center, bool invert){
 		this->center = center;
 		this->invert = invert;
 	}
 	
 	virtual void update() = 0;
+	
+	
+	float getAcceleration() const
+	{
+		return acceleration;
+	}
+	void setAcceleration(float val)
+	{
+		acceleration = val;
+	}
+
+	int getCenter() const
+	{
+		return center;
+	}
+	void setCenter(int val)
+	{
+		center = val;
+	}
+
+	bool getInvert() const
+	{
+		return invert;
+	}
+	void setInvert(bool val)
+	{
+		invert = val;
+	}
+
+	protected:
 	bool invert;
 	int center;
 	float acceleration;
