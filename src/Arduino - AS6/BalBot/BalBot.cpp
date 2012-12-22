@@ -125,9 +125,9 @@ void printAngle(){
 	Serial.print("Angle:");
 	Serial.print(AngleCalc.angle);
 	Serial.print(" Accel X:");
-	Serial.print(ForwardAccel.acceleration);
+	Serial.print(ForwardAccel.getAcceleration());
 	Serial.print(" Accel Y:");
-	Serial.print(UpAccel.acceleration);
+	Serial.print(UpAccel.getAcceleration());
 	Serial.print(" Rate:");
 	Serial.println(TiltGyro.rate);
 }

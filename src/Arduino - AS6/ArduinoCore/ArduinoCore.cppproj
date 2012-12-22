@@ -47,7 +47,7 @@
         </avrgcccpp.linker.libraries.Libraries>
       </AvrGccCpp>
     </ToolchainSettings>
-  </PropertyGroup> 
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <avrdevice>ATmega2560</avrdevice>
     <ToolchainSettings>
@@ -188,6 +188,8 @@
     <Folder Include="Ethernet\utility\" />
     <Folder Include="Servo\" />
     <Folder Include="SPI\" />
+    <Folder Include="Wire\" />
+    <Folder Include="Wire\utility\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EEPROM\keywords.txt">
@@ -364,6 +366,18 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="WInterrupts.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Wire\utility\twi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Wire\utility\twi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Wire\Wire.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Wire\Wire.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="wiring.c">

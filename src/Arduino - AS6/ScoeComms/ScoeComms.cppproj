@@ -5,7 +5,6 @@
     <ProjectVersion>6.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8</ToolchainName>
     <ProjectGuid>{1907c774-5e1d-4d93-9310-56124929a3d1}</ProjectGuid>
-
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>StaticLibrary</OutputType>
     <Language>CPP</Language>
@@ -22,7 +21,7 @@
     <avrtool />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-     <avrdevice>ATmega2560</avrdevice> 
+    <avrdevice>ATmega2560</avrdevice>
     <ToolchainSettings>
       <AvrGccCpp>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
@@ -49,7 +48,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <avrdevice>ATmega2560</avrdevice>
+    <avrdevice>ATmega2560</avrdevice>
     <ToolchainSettings>
       <AvrGccCpp>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
@@ -94,7 +93,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug - 2560' ">
-      <avrdevice>ATmega2560</avrdevice>
+    <avrdevice>ATmega2560</avrdevice>
     <ToolchainSettings>
       <AvrGccCpp>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
@@ -139,7 +138,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug - 328P' ">
-      <avrdevice>ATmega328P</avrdevice>
+    <avrdevice>ATmega328P</avrdevice>
     <ToolchainSettings>
       <AvrGccCpp>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
@@ -211,6 +210,18 @@
     <Compile Include="Drivers\Input\Accelerometer.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Drivers\Input\ADXL345.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\ADXL345.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\ADXL345Axis.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\ADXL345Axis.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Drivers\Input\AnalogAccelerometer.h">
       <SubType>compile</SubType>
     </Compile>
@@ -220,10 +231,34 @@
     <Compile Include="Drivers\Input\Gyro.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Drivers\Input\ITG3200.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\ITG3200.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\ITG3200Axis.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\ITG3200Axis.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Output\Motor.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Output\Motor.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Drivers\Output\Osmc.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Drivers\Output\Osmc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Output\RCMotor.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Output\RCMotor.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="RobotModel\AnalogGyroDefinition.cpp">
@@ -344,6 +379,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Utils\CRC32.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Utils\I2CHelpers.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Utils\I2CHelpers.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Utils\Utils.cpp">
