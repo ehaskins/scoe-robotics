@@ -14,6 +14,6 @@ void ITG3200Axis::update(int val){
 		
 		elapsedSeconds = (double)elasped / 1000000;
 		
-		rate = val * parent->getResolution();
+		rate = val * parent->getResolution();// - getCenterValue();
 		deltaAngle = rate * elapsedSeconds;
 }

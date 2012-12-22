@@ -71,6 +71,32 @@ char ITG3200::write(char register_addr, char value){
 	twiReset();
 	return twiTransmit(id, register_addr, value);
 }
+
+void ITG3200::calibrate(){
+	float xSum, ySum, zSum;
+	x->setCenterValue(0);
+	y->setCenterValue(0);
+	z->setCenterValue(0);
+	
+	for (int i = 0; i < 100; i++){
+		while (!this->update()){
+			delay(100);
+		};
+		xSum += x->getRate();
+		ySum += y->getRate();
+		zSum += z->getRate();
+	}
+	
+	x->setCenterValue(xSum/100);
+	y->setCenterValue(ySum/100);
+	z->setCenterValue(zSum/100);
+	
+	Serial.print(x->getCenterValue());
+	Serial.print(", ");
+	Serial.print(x->getCenterValue());
+	Serial.print(", ");
+	Serial.println(x->getCenterValue());
+}
 void ITG3200::startSensor(uint8_t id){
 	this->id = id;
 	x = new ITG3200Axis(this);

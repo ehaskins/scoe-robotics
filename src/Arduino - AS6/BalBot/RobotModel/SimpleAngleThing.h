@@ -15,48 +15,9 @@
 class SimpleAngleThing
 {
 	public:
-	SimpleAngleThing(Gyro *gyro, Accelerometer *xAccel, Accelerometer *yAccel, double gyroWeight, bool updateSensors){
-		this->gyro = gyro;
-		this->xAccel = xAccel;
-		this->yAccel = yAccel;
-		this->gyroWeight = gyroWeight;
-		this->accelWeight = 1 - gyroWeight;
-		this->updateSensors = updateSensors;
-		firstAngleUpdate = true;
-	}
+	SimpleAngleThing(Gyro *gyro, Accelerometer *xAccel, Accelerometer *yAccel, double gyroWeight, bool updateSensors);
 	
-	void update(){
-		if (updateSensors){
-			gyro->update();
-			xAccel->update();
-			yAccel->update();
-		}
-		
-		double accelRads = atan2(xAccel->rawValue, yAccel->rawValue);
-		double accelAngle = (long) (accelRads * 180 / PI);
-
-		double gyroDelta = gyro->deltaAngle;
-
-		if (firstAngleUpdate) {
-			angle = accelAngle;
-			firstAngleUpdate = false;
-		}
-
-		angle = (angle + gyroDelta) * gyroWeight + accelAngle * accelWeight;
-		
-		/*int now = millis();
-		if (now - lastAnglePrint > ANGLE_PRINT_INTERVAL){
-			lastAnglePrint = now;
-			
-			Serial.print("Angle : ");
-			Serial.println(angle);
-			//Serial.print(" AccelAngle : ");
-			//Serial.print(accelAngle);
-			//Serial.print(" GyroChange : ");
-			//Serial.println(gyroDelta);
-		}
-		*/
-	}
+	void update();
 	double angle;
 	Gyro *gyro;
 	Accelerometer *xAccel;

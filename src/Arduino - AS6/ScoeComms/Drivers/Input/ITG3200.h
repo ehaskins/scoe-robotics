@@ -19,7 +19,8 @@ class ITG3200{
 	ITG3200(uint8_t id);
 
 	bool update();
-
+	void calibrate();
+	
 	float getResolution(){
 		return resolution;
 	}

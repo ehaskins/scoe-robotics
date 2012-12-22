@@ -14,6 +14,6 @@ void loop();
 void setup();
 void printSensors();
 void testDrive();
-
+void printAngle();
 
 #endif /* SKATEBOARD_H_ */
