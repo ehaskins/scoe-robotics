@@ -18,7 +18,7 @@ class ITG3200{
 	ITG3200();
 	ITG3200(uint8_t id);
 
-	void update();
+	bool update();
 
 	float getResolution(){
 		return resolution;
@@ -40,6 +40,8 @@ class ITG3200{
 	private:
 
 	void startSensor(uint8_t id);
+	char read(char register_addr, char * value);
+	char write(char register_addr, char value);
 	float temp;
 
 	ITG3200Axis *x;

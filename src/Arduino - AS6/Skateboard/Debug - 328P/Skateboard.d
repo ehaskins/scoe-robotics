@@ -24,7 +24,17 @@ Skateboard.d Skateboard.o: .././Skateboard.cpp \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.4.0.65\avrtoolchain\bin\../lib/gcc/avr/4.6.2/../../../../avr/include/stdio.h \
  c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.4.0.65\avrtoolchain\bin\../lib/gcc/avr/4.6.2/include/stdarg.h \
  ../../ArduinoCore/Printable.h ../../ArduinoCore/new.h \
- ../../ArduinoCore/pins_arduino.h ../../ScoeComms/Drivers\Output\Osmc.h
+ ../../ArduinoCore/pins_arduino.h ../../ScoeComms/Drivers\Output\Osmc.h \
+ ../../ScoeComms/Drivers\Output\/Motor.h \
+ ../../ScoeComms/Drivers\Output\RCMotor.h \
+ ../../ScoeComms/Drivers\Input\ADXL345.h \
+ ../../ScoeComms/Drivers\Input\ADXL345Axis.h \
+ ../../ScoeComms/Drivers\Input\/ADXL345.h \
+ ../../ScoeComms/Drivers\Input\/Accelerometer.h \
+ ../../ScoeComms/Drivers\Input\ITG3200.h \
+ ../../ScoeComms/Drivers\Input\ITG3200Axis.h \
+ ../../ScoeComms/Drivers\Input\/ITG3200.h \
+ ../../ScoeComms/Drivers\Input\/Gyro.h .././Skateboard.h
 
 ../../ArduinoCore/Arduino.h:
 
@@ -87,3 +97,25 @@ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.4.0.
 ../../ArduinoCore/pins_arduino.h:
 
 ../../ScoeComms/Drivers\Output\Osmc.h:
+
+../../ScoeComms/Drivers\Output\/Motor.h:
+
+../../ScoeComms/Drivers\Output\RCMotor.h:
+
+../../ScoeComms/Drivers\Input\ADXL345.h:
+
+../../ScoeComms/Drivers\Input\ADXL345Axis.h:
+
+../../ScoeComms/Drivers\Input\/ADXL345.h:
+
+../../ScoeComms/Drivers\Input\/Accelerometer.h:
+
+../../ScoeComms/Drivers\Input\ITG3200.h:
+
+../../ScoeComms/Drivers\Input\ITG3200Axis.h:
+
+../../ScoeComms/Drivers\Input\/ITG3200.h:
+
+../../ScoeComms/Drivers\Input\/Gyro.h:
+
+.././Skateboard.h:

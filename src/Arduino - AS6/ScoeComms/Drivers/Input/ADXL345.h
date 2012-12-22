@@ -18,7 +18,7 @@ class ADXL345{
 	ADXL345();
 	ADXL345 (uint8_t id);
 
-	void update();
+	bool update();
 
 
 	ADXL345Axis* getX() const {
@@ -35,7 +35,8 @@ class ADXL345{
 	}
 	private:
 	void startSensor(uint8_t id);
-	
+	char read(char register_addr, char * value);
+	char write(char register_addr, char value);
 	uint8_t id;
 	ADXL345Axis * x;
 	ADXL345Axis * y;

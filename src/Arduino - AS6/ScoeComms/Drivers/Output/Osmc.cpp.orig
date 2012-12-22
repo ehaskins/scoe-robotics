@@ -7,7 +7,7 @@ Osmc::Osmc(int aLI,int bLI, int dis) {
 	pinMode(bLI, OUTPUT);
 	pinMode(dis, OUTPUT);
 	this->aLI = aLI;
-	this->bLI = bLI;
+	this->aLI = bLI;
 	this->dis = dis;
 	setIsEnabled(false);
 	setOutput(0.0);

@@ -14,13 +14,12 @@ void readI2CBytes(uint8_t device, uint8_t address, uint8_t *buffer, int offset, 
 	Wire.endTransmission(); //end transmission
 	
 	Wire.beginTransmission(device); //start transmission to ACC
-	Wire.requestFrom(device, count);    // request 6 bytes from ACC
-	
+	Wire.requestFrom(device, count);   
+	Wire.endTransmission();
 	while(Wire.available())    //ACC may send less than requested (abnormal)
 	{
 		buffer[offset++] = Wire.read(); // receive a byte
 	}
-	Wire.endTransmission(); //end transmission
 }
 
 uint8_t writeI2CByte(uint8_t device, uint8_t address, uint8_t val){
