@@ -7,15 +7,14 @@
 
 #include <Arduino.h>
 #include <Drivers\Output\Osmc.h>
-Osmc right;
-Osmc left;
+#include <Drivers\Output\RCMotor.h>
+Osmc right(6, 5, 7);
+Osmc left(9, 11, 8);
 
 void setup(){
 	Serial.begin(115200);
-	left.init(6, 5, 7);
-	right.init(9, 11, 8);
-	right.setEnabled(true);
-	left.setEnabled(true);
+	right.setIsEnabled(true);
+	left.setIsEnabled(true);
 }
 
 
@@ -29,8 +28,8 @@ void loop(){
 	if (drive < min || drive > max)
 		dir *= -1;
 		
-	right.drive(drive);
-	left.drive(drive);
+	right.setOutput(drive);
+	left.setOutput(drive);
 	Serial.println(drive);
 	delay(100);
 }

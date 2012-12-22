@@ -1,16 +1,21 @@
+#include <Arduino.h>
 #include "Osmc.h"
 #include "..\..\Utils\utils.h"
 
-void Osmc::init(int aLI,int bLI, int dis) {
+Osmc::Osmc(int aLI,int bLI, int dis) {
 	pinMode(aLI, OUTPUT);
 	pinMode(bLI, OUTPUT);
 	pinMode(dis, OUTPUT);
 	this->aLI = aLI;
 	this->aLI = bLI;
 	this->dis = dis;
+	setIsEnabled(false);
+	setOutput(0.0);
 }
 
-void Osmc::drive(float drive){	
+void Osmc::updateOutput(){	
+	float drive = output;
+	
 	if (drive < -1)
 	drive = -1;
 	else if (drive > 1)
@@ -38,11 +43,6 @@ void Osmc::drive(float drive){
 	}
 }
 	
-void Osmc::setEnabled(bool val){
-	isEnabled = val;
-	digitalWrite( this->dis, val ? LOW : HIGH);
-}
-
-bool Osmc::getEnabled(){
-	return isEnabled;
+void Osmc::updateEnabled(){
+	digitalWrite( this->dis, isEnabled ? LOW : HIGH);
 }

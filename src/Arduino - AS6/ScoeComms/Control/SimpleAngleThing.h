@@ -32,7 +32,7 @@ class SimpleAngleThing
 			yAccel->update();
 		}
 		
-		double accelRads = atan2(xAccel->acceleration, yAccel->acceleration);
+		double accelRads = atan2(xAccel->getAcceleration(), yAccel->getAcceleration());
 		double accelAngle = (long) (accelRads * 180 / PI);
 
 		double gyroDelta = gyro->deltaAngle;
