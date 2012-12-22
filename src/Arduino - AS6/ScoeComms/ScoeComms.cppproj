@@ -106,6 +106,11 @@
             <Value>..\..\ArduinoCore</Value>
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
+		        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>F_CPU=16000000UL</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
         <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
@@ -150,6 +155,11 @@
           <ListValues>
             <Value>..\..\ArduinoCore</Value>
           </ListValues>
+		          <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>F_CPU=16000000UL</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
         </avrgcc.compiler.directories.IncludePaths>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
@@ -181,6 +191,7 @@
         <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
       </AvrGccCpp>
     </ToolchainSettings>
+    <OutputPath>bin\Debug - 328P\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Comm\Serial\ScoeComms.cpp">
@@ -232,6 +243,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Drivers\Input\Gyro.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\I2C\twi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Drivers\Input\I2C\twi.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Drivers\Input\ITG3200.cpp">
@@ -403,6 +420,7 @@
     <Folder Include="Drivers" />
     <Folder Include="Comm" />
     <Folder Include="Drivers\Input" />
+    <Folder Include="Drivers\Input\I2C" />
     <Folder Include="Drivers\Output" />
     <Folder Include="Control" />
     <Folder Include="Utils" />

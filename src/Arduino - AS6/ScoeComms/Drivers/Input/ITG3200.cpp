@@ -5,17 +5,20 @@
 *  Author: EHaskins
 */
 #include <Arduino.h>
-#include <Wire\Wire.h>
 #include "ITG3200.h"
 #include "ITG3200Axis.h"
-#include "..\..\Utils\I2CHelpers.h"
+
+extern "C"{
+	#include ".\I2C\twi.h"
+}
+
 ITG3200::ITG3200(){
 	startSensor(ITG_ADDR);
 }
 ITG3200::ITG3200(uint8_t id){
 	startSensor(id);
 }
-void ITG3200::update(){
+bool ITG3200::update(){
 	unsigned long now = micros();
 	unsigned long elapsed = now - lastUpdateMicros;
 
@@ -23,7 +26,12 @@ void ITG3200::update(){
 	if (elapsed > 10000) {
 		uint8_t data[8];
 		
-		readI2CBytes(id, TEMP_OUT_H, data, 0, 8);
+		for (int i = 0; i < 8; i++)
+		{
+			char val;
+			read(TEMP_OUT_H + i, &val);
+			data[i] = val;
+		}
 		
 		int tempRaw,xRaw, yRaw, zRaw;
 		tempRaw = (data[0]<<8)|data[1];
@@ -34,27 +42,54 @@ void ITG3200::update(){
 		x->update(xRaw);
 		y->update(yRaw);
 		z->update(zRaw);
+		temp = tempRaw;
+		lastUpdateMicros = micros();
+		return true;
 	}
+	return false;
+}
+//Read a register value from the ADXL345
+//pre: register_addr is the register address to read
+//	   value is a pointer to an integer
+//post: value contains the value of the register that was read
+//returns: 1-Success
+//		   TWSR-Failure (Check out twi.h for TWSR error codes)
+//usage: status = accelerometer.read(DEVID, &value); //value is created as an 'int' in main.cpp
+char ITG3200::read(char register_addr, char * value){
+	twiReset();
+	return twiReceive(id, register_addr, value);
+}
 
-	lastUpdateMicros = micros();
+//Write a value to a register
+//pre: register_addre is the register to write to
+//	   value is the value to place in the register
+//returns: 1-Success
+//		   TWSR- Failure
+//usage status=accelerometer.write(register_addr, value);
+char ITG3200::write(char register_addr, char value){
+
+	twiReset();
+	return twiTransmit(id, register_addr, value);
 }
 void ITG3200::startSensor(uint8_t id){
 	this->id = id;
 	x = new ITG3200Axis(this);
 	y = new ITG3200Axis(this);
 	z = new ITG3200Axis(this);
-
+	
+	twiInit(80000);			//Init. SCL speed to 50 kHz
+	
 	//Set internal clock to 1kHz with 42Hz LPF and Full Scale to 3 for proper operation
-	writeI2CByte(id, DLPF_FS, DLPF_FS_SEL_0|DLPF_FS_SEL_1|DLPF_CFG_0);
+	write(DLPF_FS, DLPF_FS_SEL_0|DLPF_FS_SEL_1|DLPF_CFG_0);
 	
 	//Set sample rate divider for 100 Hz operation
-	writeI2CByte(id, SMPLRT_DIV, 9);	//Fsample = Fint / (divider + 1) where Fint is 1kHz
+	write(SMPLRT_DIV, 9);	//Fsample = Fint / (divider + 1) where Fint is 1kHz
 	
 	//Setup the interrupt to trigger when new data is ready.
-	writeI2CByte(id, INT_CFG, INT_CFG_RAW_RDY_EN | INT_CFG_ITG_RDY_EN);
+	write(INT_CFG, INT_CFG_RAW_RDY_EN | INT_CFG_ITG_RDY_EN);
 	
 	//Select X gyro PLL for clock source
-	writeI2CByte(id, PWR_MGM, PWR_MGM_CLK_SEL_0);
+	write(PWR_MGM, PWR_MGM_CLK_SEL_0);
 
 	resolution = 1/14.375;
 }

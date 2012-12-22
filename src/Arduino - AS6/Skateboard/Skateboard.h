@@ -12,6 +12,8 @@
 
 void loop();
 void setup();
+void printSensors();
+void testDrive();
 
 
 #endif /* SKATEBOARD_H_ */
