@@ -10,11 +10,11 @@
 #include "ADXL345Axis.h"
 #include "..\..\Utils\I2CHelpers.h"
 
+ADXL345::ADXL345(){
+	startSensor(ADXL_ADDR);
+}
 ADXL345::ADXL345 (uint8_t id){
-	this->id = id;
-	x = new ADXL345Axis();
-	y = new ADXL345Axis();
-	z = new ADXL345Axis();
+	startSensor(id);
 }
 
 void ADXL345::update(){
@@ -40,7 +40,12 @@ void ADXL345::update(){
 	lastUpdateMicros = micros();
 }
 
-void ADXL345::startSensor(){
+void ADXL345::startSensor(uint8_t id){
+	this->id = id;
+	x = new ADXL345Axis();
+	y = new ADXL345Axis();
+	z = new ADXL345Axis();
+
 	writeI2CByte(id, POWER_CTL, MEASURE);
 	writeI2CByte(id, DATA_FORMAT, RANGE_4G);
 }

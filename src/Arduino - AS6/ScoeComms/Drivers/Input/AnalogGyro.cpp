@@ -5,14 +5,13 @@
 *  Author: EHaskins
 */
 #include <Arduino.h>
-#include "Gyro.h"
+#include "AnalogGyro.h"
 
-Gyro::Gyro(int pin, double degreesPerSecPerInput){
+AnalogGyro::AnalogGyro(int pin, double degreesPerSecPerInput){
 	this->pin = pin;
-	this->center = center;
-	this->degreesPerSecPerInput = degreesPerSecPerInput;
+	setResolution(degreesPerSecPerInput);
 }
-double Gyro::update(){
+void AnalogGyro::update(){
 	long now = micros();
 	long elasped = now - lastMicros;
 	lastMicros = now;
@@ -22,15 +21,15 @@ double Gyro::update(){
 	double val = analogRead(pin);
 	val -= center;
 	
-	rate = val * degreesPerSecPerInput;
+	rate = val * getResolution();
 	deltaAngle = rate * elapsedSeconds;
 }
 
-void Gyro::calibrate(){
+void AnalogGyro::calibrate(){
 	calTotal += analogRead(pin);
 	calCount++;
 }
-void Gyro::endCalibrate(){
+void AnalogGyro::endCalibrate(){
 	center = calTotal / calCount;
 	
 	calTotal = 0;
