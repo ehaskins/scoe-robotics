@@ -21,13 +21,13 @@ class ADXL345{
 	bool update();
 
 
-	ADXL345Axis* getX() const {
+	ADXL345Axis* getX() {
 		return x;
 	}
-	ADXL345Axis* getY() const {
+	ADXL345Axis* getY() {
 		return y;
 	}
-	ADXL345Axis* getZ() const {
+	ADXL345Axis* getZ() {
 		return z;
 	}
 	float getResolution(){

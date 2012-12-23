@@ -47,8 +47,12 @@ class Accelerometer
 	{
 		invert = val;
 	}
+	int getRawValue(){
+		return rawValue;
+	}
 
 	protected:
+	int rawValue;
 	bool invert;
 	int center;
 	float acceleration;

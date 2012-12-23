@@ -28,11 +28,6 @@ void SimpleAngleThing::update(){
 		yAccel->update();
 	}
 	
-	Serial.print("X : ");
-	Serial.print(xAccel->getAcceleration());
-	Serial.print(" Y : ");
-	Serial.println(yAccel->getAcceleration());
-	
 	update(gyro->getDeltaAngle(), xAccel->getAcceleration(), yAccel->getAcceleration());
 
 }
@@ -49,6 +44,7 @@ void SimpleAngleThing::update(float gyroDeltaAngle, float accelX, float accelY){
 
 		angle = (angle + gyroDelta) * gyroWeight + accelAngle * accelWeight;
 		
+		/*
 		Serial.print("Angle : ");
 		Serial.print(angle);
 		Serial.print(" AccelAngle : ");
@@ -56,5 +52,5 @@ void SimpleAngleThing::update(float gyroDeltaAngle, float accelX, float accelY){
 		Serial.print(" GyroChange : ");
 		Serial.println(gyroDelta);
 		
-		
+		*/
 }

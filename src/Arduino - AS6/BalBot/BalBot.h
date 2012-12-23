@@ -9,10 +9,12 @@
 #ifndef BALBOT_H_
 #define BALBOT_H_
 
-void calibrate(int calibrationDelay, int calibrationLoops);
+//void calibrate(int calibrationDelay, int calibrationLoops);
 void balance(float desiredAngle, float spin);
+void normalLoop();
 void setDrive(float left, float right);
 void writeLed(bool state);
 void printAngle();
+void printDigitalImuCsv();
 void printImuCsv();
 #endif /* BALBOT_H_ */
