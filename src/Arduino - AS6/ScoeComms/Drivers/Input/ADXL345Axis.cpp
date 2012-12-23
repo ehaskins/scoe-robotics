@@ -9,8 +9,5 @@
 
 void ADXL345Axis::update(int raw){
 	this->rawValue = raw;
-}
-
-float ADXL345Axis::getAcceleration(){
-	return (float)rawValue*parent->getResolution();
+	this->acceleration = (float)rawValue * parent->getResolution() * (invert ? -1 : 1);
 }

@@ -20,9 +20,9 @@ class ITG3200Axis : public Gyro{
 	void update(){
 		parent->update();
 	}
-	void update(int rawValue);
-
-	private:
+	void update(int rawValue, float elapsedSeconds);
+	
+private:
 	ITG3200 *parent;
 	unsigned long lastMicros;
 };

@@ -32,7 +32,18 @@ class Gyro
 	void setCenterValue(float val){
 		centerValue = val;
 	}
+	int getRawValue(){
+		return rawValue;
+	}
+	bool getInvert(){
+		return invert;
+	}
+	void setInvert(bool val){
+		invert = val;
+	}
 	protected:
+	bool invert;
+	int rawValue;
 	float centerValue;
 	float rate;
 	float deltaAngle;

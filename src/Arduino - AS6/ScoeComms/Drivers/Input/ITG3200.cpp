@@ -24,6 +24,7 @@ bool ITG3200::update(){
 
 	//limit update to 100hz since that's out sensor's update rate
 	if (elapsed > 10000) {
+		float elapsedSeconds = (float)elapsed / 1000000;
 		uint8_t data[8];
 		
 		for (int i = 0; i < 8; i++)
@@ -39,52 +40,30 @@ bool ITG3200::update(){
 		yRaw = (data[4]<<8)|data[5];
 		zRaw = (data[6]<<8)|data[7];
 		
-		x->update(xRaw);
-		y->update(yRaw);
-		z->update(zRaw);
+		x->update(xRaw, elapsedSeconds);
+		y->update(yRaw, elapsedSeconds);
+		z->update(zRaw, elapsedSeconds);
 		temp = tempRaw;
 		lastUpdateMicros = micros();
 		return true;
 	}
 	return false;
 }
-//Read a register value from the ADXL345
-//pre: register_addr is the register address to read
-//	   value is a pointer to an integer
-//post: value contains the value of the register that was read
-//returns: 1-Success
-//		   TWSR-Failure (Check out twi.h for TWSR error codes)
-//usage: status = accelerometer.read(DEVID, &value); //value is created as an 'int' in main.cpp
-char ITG3200::read(char register_addr, char * value){
-	twiReset();
-	return twiReceive(id, register_addr, value);
-}
-
-//Write a value to a register
-//pre: register_addre is the register to write to
-//	   value is the value to place in the register
-//returns: 1-Success
-//		   TWSR- Failure
-//usage status=accelerometer.write(register_addr, value);
-char ITG3200::write(char register_addr, char value){
-
-	twiReset();
-	return twiTransmit(id, register_addr, value);
-}
 
 void ITG3200::calibrate(){
-	float xSum, ySum, zSum;
+	int xSum, ySum, zSum;
+	xSum = ySum = zSum = 0.0;
 	x->setCenterValue(0);
 	y->setCenterValue(0);
 	z->setCenterValue(0);
 	
 	for (int i = 0; i < 100; i++){
 		while (!this->update()){
-			delay(100);
+			delay(10);
 		};
-		xSum += x->getRate();
-		ySum += y->getRate();
-		zSum += z->getRate();
+		xSum += x->getRawValue();
+		ySum += y->getRawValue();
+		zSum += z->getRawValue();
 	}
 	
 	x->setCenterValue(xSum/100);
@@ -117,5 +96,29 @@ void ITG3200::startSensor(uint8_t id){
 	//Select X gyro PLL for clock source
 	write(PWR_MGM, PWR_MGM_CLK_SEL_0);
 
-	resolution = 1/14.375;
+	resolution = 0.0696; //1/14.375;
+}
+
+//Read a register value from the ADXL345
+//pre: register_addr is the register address to read
+//	   value is a pointer to an integer
+//post: value contains the value of the register that was read
+//returns: 1-Success
+//		   TWSR-Failure (Check out twi.h for TWSR error codes)
+//usage: status = accelerometer.read(DEVID, &value); //value is created as an 'int' in main.cpp
+char ITG3200::read(char register_addr, char * value){
+	twiReset();
+	return twiReceive(id, register_addr, value);
+}
+
+//Write a value to a register
+//pre: register_addre is the register to write to
+//	   value is the value to place in the register
+//returns: 1-Success
+//		   TWSR- Failure
+//usage status=accelerometer.write(register_addr, value);
+char ITG3200::write(char register_addr, char value){
+
+	twiReset();
+	return twiTransmit(id, register_addr, value);
 }

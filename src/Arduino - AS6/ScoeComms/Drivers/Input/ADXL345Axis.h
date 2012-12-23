@@ -27,14 +27,10 @@ ADXL345* getParent() const {
 	return parent;
 }
 
-float getAcceleration();
-int getRawValue(){
-	return rawValue;
-}
 
 void update(int raw);
 private:
-int rawValue;
+
 ADXL345 *parent;
 };
 
