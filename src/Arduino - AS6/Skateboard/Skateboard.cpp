@@ -21,7 +21,7 @@
 #include "BalanceSection.h"
 #include "Skateboard.h"
 
-#define ENABLE_UDP
+//#define ENABLE_UDP
 Osmc right(6, 5, 7);
 Osmc left(9, 11, 8);
 
@@ -121,6 +121,8 @@ void setup(){
 	balancePid.I = i;
 	balancePid.D = d;
 	
+	pinMode(3, INPUT);
+	pinMode(4, INPUT);
 	pinMode(13, OUTPUT);
 	digitalWrite(13, HIGH);
 	Serial.println("ready!");
@@ -133,11 +135,6 @@ void loop(){
 	mainLoop();
 	//testDrive();
 	//printDigitalImuCsv();
-	/*if (accel->update()){
-		gyro->update();
-		angleCalc->update(gyro->getY()->getDeltaAngle(), accel->getX()->getAcceleration() * -1, accel->getZ()->getAcceleration());
-		printSensors();
-	}	*/
 }
 
 void mainLoop(){
@@ -181,10 +178,14 @@ void balance(float desiredAngle, float spin){
 	
 	float limit = lastLoopPowerEnabled ? safteyLimit : startTolerance;
 	bool riderPresent = checkSafties();
-	bool powerEnabled = riderPresent && abs(error) > limit;
+	bool powerEnabled = riderPresent && abs(error) < limit;
 	
 	if (powerEnabled){
 		output = balancePid.update(angleCalc->angle, desiredAngle, angleCalc->gyro->getRate());
+		
+		#ifdef ENABLE_UDP
+		spin = tuningData.spin;
+		#endif
 	}
 	else{
 		output = 0;
@@ -196,7 +197,9 @@ void balance(float desiredAngle, float spin){
 }
 
 bool checkSafties(){
-	return digitalRead(3) == HIGH && digitalRead(4) == HIGH;
+	Serial.println(digitalRead(3) == HIGH);
+	Serial.println(digitalRead(4) == HIGH);
+	return true; //digitalRead(3) == HIGH && digitalRead(4) == HIGH;
 }
 void setDrive(float leftPow, float rightPow){
 	left.setOutput(leftPow);
