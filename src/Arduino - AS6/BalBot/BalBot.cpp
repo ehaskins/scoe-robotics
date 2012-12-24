@@ -20,8 +20,8 @@
 
 #define BALANCE_SAFTEY_TILT 6
 
-#define LEFT_MOTOR 3
-#define RIGHT_MOTOR 2
+#define LEFT_MOTOR 6
+#define RIGHT_MOTOR 5
 #define RIGHT_INVERT 1
 #define LEFT_INVERT -1
 
@@ -111,15 +111,13 @@ void setup() {
 
 
 	vertAccel = accel->getY();
-	vertAccel->setInvert(true);
+	vertAccel->setInvert(false);
 	horizAccel = accel->getZ();
 	horizAccel->setInvert(true);
 	tiltGyro = gyro->getX();
+	tiltGyro->setInvert(false);
 
 	angleCalc = new SimpleAngleThing(tiltGyro, horizAccel, vertAccel, 0.98, false);
-
-	right.attach(RIGHT_MOTOR);
-	left.attach(LEFT_MOTOR);
 
 	Serial.println("Ready.");
 	writeLed(false);
@@ -158,7 +156,7 @@ void normalLoop(){
 		
 		balance(tuningData.desiredAngle, tuningData.spin);
 		tuningData.currentAngle = angleCalc->angle;
-		printAngle();
+		//printAngle();
 		//printImuCsv();
 		//testCenter();
 		//printAngleCalcCsv();
@@ -245,9 +243,16 @@ void balance(float desiredAngle, float spin){
 		output = 0;
 		BalancePID.iTotal = 0.0;
 		spin = 0;
+		
+		right.detach();
+		left.detach();
 	}
 	else{
+		right.attach(RIGHT_MOTOR);
+		left.attach(LEFT_MOTOR);
+		
 		output = BalancePID.update(angleCalc->angle, desiredAngle, angleCalc->gyro->getRate());
+		output = 0.2;
 	}
 	setDrive(output + spin, output - spin);
 }
