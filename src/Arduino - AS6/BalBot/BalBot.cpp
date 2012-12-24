@@ -179,16 +179,7 @@ void printAngleCalcCsv(){
 	Serial.println();
 }
 
-void printAngle(){
-	Serial.print("Angle:");
-	Serial.print(angleCalc->angle);
-	Serial.print(" Accel X:");
-	Serial.print(horizAccel->getAcceleration());
-	Serial.print(" Accel Y:");
-	Serial.print(vertAccel->getAcceleration());
-	Serial.print(" Rate:");
-	Serial.println(tiltGyro->getRate());
-}
+
 
 void printDigitalImuCsv(){
 	if (accel->update())

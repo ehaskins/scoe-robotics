@@ -25,21 +25,21 @@ void Osmc::updateOutput(){
 	if (drive > 0){
 		analogWrite(this->aLI, power);
 		digitalWrite(this->bLI, LOW);
-		Serial.print("Forward:");
-		Serial.println(power);
+		//Serial.print("Forward:");
+		//Serial.println(power);
 	}
 	else if (drive < 0){
 		digitalWrite(this->aLI, LOW);
 		analogWrite(this->bLI, power);
 		
-		Serial.print("Reverse:");
-		Serial.println(power);
+		//Serial.print("Reverse:");
+		//Serial.println(power);
 	}
 	else{
 		digitalWrite(this->aLI, LOW);
 		digitalWrite(this->bLI, LOW);
 		
-		Serial.print("Brake:");
+		//Serial.print("Brake:");
 	}
 }
 	

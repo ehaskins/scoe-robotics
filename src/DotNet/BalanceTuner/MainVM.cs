@@ -26,7 +26,8 @@ namespace BalanceTuner
         JoystickUpdater stickUpdater;
         public MainVM()
         {
-            stickUpdater = new JoystickUpdater(stick, JoystickManager.GetSticks()[0]);
+            //if (JoystickManager.GetSticks()[0] != null)
+                //stickUpdater = new JoystickUpdater(stick, JoystickManager.GetSticks()[0]);
 
             Tuning = new TuningSection();
             Tuning.P = -0.08;// -40;
@@ -41,7 +42,7 @@ namespace BalanceTuner
             //var baudRate = 115200;
             ////Build IO interfaces
             //_IOInterface = new ClientInterface(new ArduinoProtocol(port, baudRate), 50);
-            Interface = new ClientInterface(new UdpProtocol(8889, 8888, IPAddress.Parse("192.168.1.106")), 50);
+            Interface = new ClientInterface(new UdpProtocol(8889, 8888, IPAddress.Parse("192.168.10.2")), 50);
             Interface.Sections.Add(Tuning);
             Interface.Sections.Add(rsl);
             Interface.Sending += Interface_Sending;
@@ -50,9 +51,10 @@ namespace BalanceTuner
 
         void Interface_Sending(object sender, EventArgs e)
         {
-            stickUpdater.Update();
-            Tuning.Drive = stick.Axes[1] * -5;
-            Tuning.Spin = stick.Axes[0] * -0.2;
+            //if (stickUpdater != null)
+                //stickUpdater.Update();
+            //Tuning.Drive = stick.Axes[1] * -5;
+            //Tuning.Spin = stick.Axes[0] * -0.2;
         }
         public void Stop()
         {
@@ -76,7 +78,8 @@ namespace BalanceTuner
     [NotifyPropertyChanged()]
     public class TuningSection : DataSection
     {
-        public TuningSection() : base(255)
+        public TuningSection()
+            : base(255)
         {
 
         }
