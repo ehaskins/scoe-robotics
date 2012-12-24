@@ -31,11 +31,9 @@ void SimpleAngleThing::update(){
 	update(gyro->getDeltaAngle(), xAccel->getAcceleration(), yAccel->getAcceleration());
 
 }
-void SimpleAngleThing::update(float gyroDeltaAngle, float accelX, float accelY){
+void SimpleAngleThing::update(float gyroDelta, float accelX, float accelY){
 		float accelRads = atan2(accelX, accelY);
 		float accelAngle = accelRads * 180 / PI;
-
-		float gyroDelta = gyroDeltaAngle;
 
 		if (firstAngleUpdate) {
 			angle = accelAngle;

@@ -24,7 +24,10 @@ bool ITG3200::update(){
 
 	//limit update to 100hz since that's out sensor's update rate
 	if (elapsed > 10000) {
+		//Serial.println(elapsed);
 		float elapsedSeconds = (float)elapsed / 1000000;
+		//Serial.println(elapsedSeconds, 3);
+		this->elapsedSeconds = elapsedSeconds;
 		uint8_t data[8];
 		
 		for (int i = 0; i < 8; i++)
@@ -44,7 +47,7 @@ bool ITG3200::update(){
 		y->update(yRaw, elapsedSeconds);
 		z->update(zRaw, elapsedSeconds);
 		temp = tempRaw;
-		lastUpdateMicros = micros();
+		lastUpdateMicros = now;
 		return true;
 	}
 	return false;
@@ -96,7 +99,7 @@ void ITG3200::startSensor(uint8_t id){
 	//Select X gyro PLL for clock source
 	write(PWR_MGM, PWR_MGM_CLK_SEL_0);
 
-	resolution = 0.0696; //1/14.375;
+	resolution = 0.071; //1/14.375;
 }
 
 //Read a register value from the ADXL345
