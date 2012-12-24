@@ -11,9 +11,14 @@
 
 
 void loop();
+void mainLoop();
 void setup();
 void printSensors();
 void testDrive();
 void printAngle();
+void balance(float angle, float spin);
+bool checkSafties();
+void setDrive(float left, float right);
 
+void printDigitalImuCsv();
 #endif /* SKATEBOARD_H_ */

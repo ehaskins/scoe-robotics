@@ -37,7 +37,8 @@ Skateboard.d Skateboard.o: .././Skateboard.cpp \
  ../../ScoeComms/Drivers\Input\/Gyro.h \
  ../../ScoeComms/Control\SimpleAngleThing.h \
  ../../ScoeComms/Control\/..\Drivers\Input\Accelerometer.h \
- ../../ScoeComms/Control\/..\Drivers\Input\Gyro.h .././Skateboard.h
+ ../../ScoeComms/Control\/..\Drivers\Input\Gyro.h \
+ ../../ScoeComms/Control\PID.h .././Skateboard.h
 
 ../../ArduinoCore/Arduino.h:
 
@@ -126,5 +127,7 @@ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.4.0.
 ../../ScoeComms/Control\/..\Drivers\Input\Accelerometer.h:
 
 ../../ScoeComms/Control\/..\Drivers\Input\Gyro.h:
+
+../../ScoeComms/Control\PID.h:
 
 .././Skateboard.h:
