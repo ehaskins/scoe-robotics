@@ -41,7 +41,7 @@ namespace BalanceTuner
             //var baudRate = 115200;
             ////Build IO interfaces
             //_IOInterface = new ClientInterface(new ArduinoProtocol(port, baudRate), 50);
-            Interface = new ClientInterface(new UdpProtocol(8889, 8888, IPAddress.Parse("192.168.1.108")), 50);
+            Interface = new ClientInterface(new UdpProtocol(8889, 8888, IPAddress.Parse("192.168.1.106")), 50);
             Interface.Sections.Add(Tuning);
             Interface.Sections.Add(rsl);
             Interface.Sending += Interface_Sending;
