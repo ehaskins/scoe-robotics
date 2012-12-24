@@ -110,13 +110,13 @@ void setup() {
 	accel = new ADXL345();
 
 
-	vertAccel = accel->getZ();
-	vertAccel->setInvert(false);
-	horizAccel = accel->getY();
+	vertAccel = accel->getY();
+	vertAccel->setInvert(true);
+	horizAccel = accel->getZ();
 	horizAccel->setInvert(true);
 	tiltGyro = gyro->getX();
 
-	angleCalc = new SimpleAngleThing(tiltGyro, horizAccel, vertAccel, 0.995, false);
+	angleCalc = new SimpleAngleThing(tiltGyro, horizAccel, vertAccel, 0.98, false);
 
 	right.attach(RIGHT_MOTOR);
 	left.attach(LEFT_MOTOR);
@@ -144,7 +144,7 @@ void normalLoop(){
 	if (elapsedSeconds >= 0.01){
 		gyro->update();
 		accel->update();
-		
+		//Serial.println(gyro->elapsedSeconds, 3);
 		BalancePID.P = tuningData.p;
 		BalancePID.I = tuningData.i;
 		BalancePID.D = tuningData.d;
@@ -161,14 +161,31 @@ void normalLoop(){
 		printAngle();
 		//printImuCsv();
 		//testCenter();
+		//printAngleCalcCsv();
 	}
+}
+void printAngleCalcCsv(){
+	Serial.print(horizAccel->getAcceleration(), 3);
+	Serial.print(",");
+	Serial.print(vertAccel->getAcceleration(), 3);
+	Serial.print(",");
+	Serial.print(tiltGyro->getRate(), 3);
+	Serial.print(",");
+	Serial.print(gyro->elapsedSeconds, 3);
+	Serial.print(",");
+	Serial.print(tiltGyro->getDeltaAngle(), 3);
+	Serial.print(",");
+	Serial.print(micros());
+	Serial.print(",");
+	Serial.print(angleCalc->angle, 3);
+	Serial.println();
 }
 
 void printAngle(){
 	Serial.print("Angle:");
 	Serial.print(angleCalc->angle);
 	Serial.print(" Accel X:");
-	Serial.print(horizAccel->getAcceleration());//horizAccel->getAcceleration());
+	Serial.print(horizAccel->getAcceleration());
 	Serial.print(" Accel Y:");
 	Serial.print(vertAccel->getAcceleration());
 	Serial.print(" Rate:");

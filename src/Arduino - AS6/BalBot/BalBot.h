@@ -16,5 +16,7 @@ void setDrive(float left, float right);
 void writeLed(bool state);
 void printAngle();
 void printDigitalImuCsv();
+void printAngleCalcCsv();
+
 void printImuCsv();
 #endif /* BALBOT_H_ */

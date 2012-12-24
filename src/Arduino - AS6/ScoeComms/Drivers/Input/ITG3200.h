@@ -38,6 +38,7 @@ class ITG3200{
 		return temp;
 	}
 	
+	float elapsedSeconds;
 	private:
 
 	void startSensor(uint8_t id);
