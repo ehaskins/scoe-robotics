@@ -38,7 +38,30 @@ Skateboard.d Skateboard.o: .././Skateboard.cpp \
  ../../ScoeComms/Control\SimpleAngleThing.h \
  ../../ScoeComms/Control\/..\Drivers\Input\Accelerometer.h \
  ../../ScoeComms/Control\/..\Drivers\Input\Gyro.h \
- ../../ScoeComms/Control\PID.h .././Skateboard.h
+ ../../ScoeComms/Control\PID.h ../../ScoeComms/Comm\Udp\UdpComms.h \
+ ../../ArduinoCore/Ethernet\Ethernet.h \
+ ../../ArduinoCore/Ethernet\/..\IPAddress.h \
+ ../../ArduinoCore/Ethernet\/..\/Printable.h \
+ ../../ArduinoCore/Ethernet\/EthernetClient.h \
+ ../../ArduinoCore/Ethernet\/..\Arduino.h \
+ ../../ArduinoCore/Ethernet\/..\Print.h \
+ ../../ArduinoCore/Ethernet\/..\Client.h \
+ ../../ArduinoCore/Ethernet\/..\/Print.h \
+ ../../ArduinoCore/Ethernet\/..\/Stream.h \
+ ../../ArduinoCore/Ethernet\/..\/IPAddress.h \
+ ../../ArduinoCore/Ethernet\/..\IPAddress.h \
+ ../../ArduinoCore/Ethernet\/EthernetServer.h \
+ ../../ArduinoCore/Ethernet\/..\Server.h \
+ ../../ArduinoCore/Ethernet\/Dhcp.h \
+ ../../ArduinoCore/Ethernet\/EthernetUdp.h \
+ ../../ArduinoCore/Ethernet\/..\Udp.h \
+ ../../ArduinoCore/Ethernet\EthernetUdp.h \
+ ../../ScoeComms/RobotModel\RobotModel.h \
+ ../../ScoeComms/RobotModel\/RobotModelSection.h \
+ ../../ScoeComms/Robotmodel\RslModelSection.h \
+ ../../ScoeComms/Robotmodel\/RobotModelSection.h .././BalanceSection.h \
+ ../../ScoeComms/Utils\ByteReader.h \
+ ../../ScoeComms/RobotModel\RobotModelSection.h .././Skateboard.h
 
 ../../ArduinoCore/Arduino.h:
 
@@ -129,5 +152,55 @@ c:\program\ files\ (x86)\atmel\atmel\ studio\ 6.0\extensions\atmel\avrgcc\3.4.0.
 ../../ScoeComms/Control\/..\Drivers\Input\Gyro.h:
 
 ../../ScoeComms/Control\PID.h:
+
+../../ScoeComms/Comm\Udp\UdpComms.h:
+
+../../ArduinoCore/Ethernet\Ethernet.h:
+
+../../ArduinoCore/Ethernet\/..\IPAddress.h:
+
+../../ArduinoCore/Ethernet\/..\/Printable.h:
+
+../../ArduinoCore/Ethernet\/EthernetClient.h:
+
+../../ArduinoCore/Ethernet\/..\Arduino.h:
+
+../../ArduinoCore/Ethernet\/..\Print.h:
+
+../../ArduinoCore/Ethernet\/..\Client.h:
+
+../../ArduinoCore/Ethernet\/..\/Print.h:
+
+../../ArduinoCore/Ethernet\/..\/Stream.h:
+
+../../ArduinoCore/Ethernet\/..\/IPAddress.h:
+
+../../ArduinoCore/Ethernet\/..\IPAddress.h:
+
+../../ArduinoCore/Ethernet\/EthernetServer.h:
+
+../../ArduinoCore/Ethernet\/..\Server.h:
+
+../../ArduinoCore/Ethernet\/Dhcp.h:
+
+../../ArduinoCore/Ethernet\/EthernetUdp.h:
+
+../../ArduinoCore/Ethernet\/..\Udp.h:
+
+../../ArduinoCore/Ethernet\EthernetUdp.h:
+
+../../ScoeComms/RobotModel\RobotModel.h:
+
+../../ScoeComms/RobotModel\/RobotModelSection.h:
+
+../../ScoeComms/Robotmodel\RslModelSection.h:
+
+../../ScoeComms/Robotmodel\/RobotModelSection.h:
+
+.././BalanceSection.h:
+
+../../ScoeComms/Utils\ByteReader.h:
+
+../../ScoeComms/RobotModel\RobotModelSection.h:
 
 .././Skateboard.h:
