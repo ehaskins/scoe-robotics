@@ -19,6 +19,10 @@ void printAngle();
 void balance(float angle, float spin);
 bool checkSafties();
 void setDrive(float left, float right);
-
+void printTurn();
+void printSafties();
+float getTurn();
 void printDigitalImuCsv();
+
+float deadBand(float val, float deadband, float range);
 #endif /* SKATEBOARD_H_ */

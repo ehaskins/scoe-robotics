@@ -21,6 +21,10 @@
 #include "BalanceSection.h"
 #include "Skateboard.h"
 
+
+#define SPIN_DEADBAND 0.05
+#define SPIN_FACTOR 0.15;
+
 //#define ENABLE_UDP
 Osmc right(6, 5, 7);
 Osmc left(9, 11, 8);
@@ -37,9 +41,9 @@ unsigned long lastPrint;
 
 float balancePoint = 1;
 float p = 0.08;
-float i = 0.005;
-float d = 0.0;
-float safteyLimit = 10;
+float i = 0.003;
+float d = -0.0007;
+float safteyLimit = 15;
 float startTolerance = 2;
 
 PID balancePid(p, i, d);
@@ -122,7 +126,10 @@ void setup(){
 	balancePid.D = d;
 	
 	pinMode(3, INPUT);
-	pinMode(4, INPUT);
+	digitalWrite(3, HIGH);
+	pinMode(12, INPUT);
+	digitalWrite(12, HIGH);
+
 	pinMode(13, OUTPUT);
 	digitalWrite(13, HIGH);
 	Serial.println("ready!");
@@ -133,8 +140,33 @@ void setup(){
 int loopCount = 0;
 void loop(){
 	mainLoop();
+	printTurn();
+	//printSafties();
 	//testDrive();
 	//printDigitalImuCsv();
+}
+
+void printSafties(){
+	Serial.print("3:");
+	Serial.print(digitalRead(3));
+	Serial.print("  12:");
+	Serial.println(digitalRead(12));
+	Serial.println(checkSafties());
+}
+void printTurn(){
+	Serial.print(analogRead(3));
+	Serial.print("   ");
+	Serial.print(getTurn());
+	Serial.print("   ");
+	Serial.println(deadBand(getTurn(), SPIN_DEADBAND, 1));
+}
+
+float getTurn(){
+	float input = (float)analogRead(3) - 45;
+	if (input < 0){
+		input = 0;
+	}
+	return -(sqrt(input) - 14) / 14;
 }
 
 void mainLoop(){
@@ -160,7 +192,7 @@ void mainLoop(){
 		balance(tuningData.desiredAngle, tuningData.spin);
 
 		#else
-		balance(balancePoint, 0.0);
+		balance(balancePoint, getTurn());
 		#endif
 		/*BalancePID.P = -0.08f;
 		BalancePID.I = -0.005f;
@@ -172,7 +204,7 @@ void mainLoop(){
 
 bool lastLoopPowerEnabled = false;
 void balance(float desiredAngle, float spin){
-	float output = 0.0;
+	float balancePower = 0.0, lSpin = 0, rSpin = 0;;
 	float error = desiredAngle - angleCalc->angle;
 	
 	
@@ -181,25 +213,46 @@ void balance(float desiredAngle, float spin){
 	bool powerEnabled = riderPresent && abs(error) < limit;
 	
 	if (powerEnabled){
-		output = balancePid.update(angleCalc->angle, desiredAngle, angleCalc->gyro->getRate());
+		balancePower = balancePid.update(angleCalc->angle, desiredAngle, angleCalc->gyro->getRate());
+		
+		spin = deadBand(spin, SPIN_DEADBAND, 1);
+
+		float absBalancePower = balancePower > 0 ? balancePower : -balancePower;
+
+		float spinFactor = SPIN_FACTOR;
+		spinFactor *= 1-absBalancePower;
+
+		spin *= spinFactor;
 		
 		#ifdef ENABLE_UDP
 		spin = tuningData.spin;
 		#endif
+		
+		if (spin > 0){
+			//lSpin = spin + spin * absBalancePower;
+			//rSpin = spin * 1-absBalancePower;
+
+			lSpin = 2 * spin;
+		}
+		else if (spin < 0){
+			//lSpin = spin * 1-absBalancePower;
+			//rSpin = spin + spin * absBalancePower;
+			
+			rSpin = 2 * spin;
+		}
 	}
 	else{
-		output = 0;
+		balancePower = 0;
 		balancePid.iTotal = 0.0;
-		spin = 0;
+		rSpin = lSpin = 0;
 	}
-	setDrive(output + spin, output - spin);
+
+	setDrive(balancePower + lSpin, balancePower - rSpin);
 	lastLoopPowerEnabled = powerEnabled;
 }
 
 bool checkSafties(){
-	Serial.println(digitalRead(3) == HIGH);
-	Serial.println(digitalRead(4) == HIGH);
-	return true; //digitalRead(3) == HIGH && digitalRead(4) == HIGH;
+	return digitalRead(3) == LOW && digitalRead(12) == LOW;
 }
 void setDrive(float leftPow, float rightPow){
 	left.setOutput(leftPow);
@@ -274,4 +327,20 @@ void testDrive(){
 	left.setOutput(drive);
 	Serial.println(drive);
 	delay(100);
+}
+float deadBand(float val, float deadband, float range){
+	float center = 0;
+	float scale = (range - deadband)/range;
+	
+	float out;
+	if (val > center - deadband && val < center + deadband){
+		return 0;
+	}
+	
+	if (val < center){
+		deadband *= -1;
+	}
+	
+	out = (val - deadband) * scale;
+	return out;
 }
