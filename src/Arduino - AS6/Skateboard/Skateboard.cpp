@@ -39,7 +39,7 @@ SimpleAngleThing *angleCalc;
 
 unsigned long lastPrint;
 
-float balancePoint = 1;
+float balancePoint = 3.5;
 float p = 0.08;
 float i = 0.003;
 float d = -0.0007;
@@ -140,10 +140,15 @@ void setup(){
 int loopCount = 0;
 void loop(){
 	mainLoop();
-	printTurn();
+	//printTurn();
+	/*accel->update();
+	gyro->update();
+	angleCalc->update();
+	printAngle();*/
 	//printSafties();
 	//testDrive();
 	//printDigitalImuCsv();
+	//delay(100);
 }
 
 void printSafties(){
