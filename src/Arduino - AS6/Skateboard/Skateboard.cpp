@@ -65,6 +65,11 @@ IPAddress mask(255, 255, 255 ,0);
 void setup(){
 	Serial.begin(115200);
 	
+	while(1){
+		Serial.println(analogRead(3));
+	Serial.println(analogRead(4));
+	Serial.println(analogRead(5));
+	}	
 	#ifdef ENABLE_UDP
 	Serial.println("Starting up...");
 	Serial.println("Starting ethernet...");
@@ -99,6 +104,7 @@ void setup(){
 
 	accel = new ADXL345();
 
+	Serial.println("Accel initialized!");
 
 	vertAccel = accel->getZ();
 	vertAccel->setInvert(false);

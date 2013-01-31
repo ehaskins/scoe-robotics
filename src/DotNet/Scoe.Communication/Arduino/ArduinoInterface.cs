@@ -10,6 +10,7 @@ using System.IO;
 
 namespace Scoe.Communication.Arduino
 {
+    [Obsolete()]
     public class ArduinoInterface : CardInterfaceBase, IDisposable, IInterface
     {
         private uint _packetCrc;
